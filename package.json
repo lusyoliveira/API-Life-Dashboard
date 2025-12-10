@@ -3,17 +3,31 @@
   "version": "1.0.0",
   "type": "module",
   "description": "",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lusyoliveira/API-Life-Dashboard.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lusyoliveira/API-Life-Dashboard/issues"
+  },
+  "homepage": "https://github.com/lusyoliveira/API-Life-Dashboard#readme",
   "dependencies": {
+    "@prisma/client": "6.19",
+    "dotenv": "^17.2.3",
     "express": "^5.2.1"
   },
   "devDependencies": {
-    "prisma": "^7.1.0"
+    "@types/node": "^24.10.2",
+    "prisma": "6.19",
+    "tsx": "^4.21.0",
+    "typescript": "^5.9.3"
   }
 }
