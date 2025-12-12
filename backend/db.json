@@ -1,0 +1,22 @@
+{
+  "tarefas": [
+    {
+      "id": 1,
+      "Tarefa": "Estudando",
+      "Adicionado": "2025-08-01T12:57:00.000Z",
+      "Feito": true
+    },
+    {
+      "id": 2,
+      "Tarefa": "Limpar Casa",
+      "Adicionado": "2025-08-01T12:57:00.000Z",
+      "Feito": true
+    },
+    {
+      "id": 3,
+      "Tarefa": "Fazer Carne de Soja",
+      "Adicionado": "2025-08-21T16:32:48.987Z",
+      "Feito": false
+    }
+  ]
+}

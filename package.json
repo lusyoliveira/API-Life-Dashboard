@@ -1,12 +1,13 @@
 {
   "name": "api",
   "version": "1.0.0",
-  "type": "module",
   "description": "",
   "main": "server.js",
+  "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "start": "node server.js",
+    "dev": "nodemon server.js"
   },
   "repository": {
     "type": "git",
@@ -20,14 +21,10 @@
   },
   "homepage": "https://github.com/lusyoliveira/API-Life-Dashboard#readme",
   "dependencies": {
-    "@prisma/client": "6.19",
     "dotenv": "^17.2.3",
-    "express": "^5.2.1"
-  },
-  "devDependencies": {
-    "@types/node": "^24.10.2",
-    "prisma": "6.19",
-    "tsx": "^4.21.0",
-    "typescript": "^5.9.3"
+    "express": "^5.2.1",
+    "mongodb": "^7.0.0",
+    "mongoose": "^9.0.1",
+    "nodemon": "^3.1.11"
   }
 }
