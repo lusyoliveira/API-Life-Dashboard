@@ -13,14 +13,13 @@ conexao.once("open", () => {
 });
 
 const app = express();
-rotas(app)
 
+app.use(cors({
+    origin: "http://127.0.0.1:5500"
+}));
 
-app.delete("/tarefas/:id", (req, res) => {
-    const inddex = buscarTaresfa(req.params.id);
-    tarefas.splice(inddex, 1);
+app.use(express.json());
 
-    res.status(200).send("Removido com sucesso");
-});
+rotas(app);
 
 export default app;
