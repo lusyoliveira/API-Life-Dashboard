@@ -12,8 +12,8 @@ class TarefaController {
 
     static async listarTarefaPorID(req, res) {
         try {
-                const codigo = req.params.codigo;
-                const tarefaEncontrada = await tarefa.findOne( { codigo } );
+                const id = req.params._id;
+                const tarefaEncontrada = await tarefa.findById( { id } );
                 res.status(200).json(tarefaEncontrada);
         } catch (error) {
             res.status(500).json({ message: `${error.message} - Falha na requisição do livro.`});
@@ -31,8 +31,8 @@ class TarefaController {
 
     static async atualizarTarefa(req, res) {
         try {
-                const codigo = req.params.codigo;
-                await tarefa.findOneAndUpdate( { codigo } , req.body);
+                const id = req.params._id;
+                await tarefa.findByIdAndUpdate( { id } , req.body);
                 res.status(200).json( { message: "Tarefa atualizada com sucesso!"});
         } catch (error) {
             res.status(500).json({ message: `${error.message} - Falha na requisição do livro.`});
@@ -41,8 +41,8 @@ class TarefaController {
 
     static async excluirTarefa(req, res) {
         try {
-                const codigo = req.params.codigo;
-                await tarefa.findOneAndDelete( { codigo } );
+                const id = req.params._id;
+                await tarefa.findByIdAndDelete( { id } );
                 res.status(200).json( { message: "Tarefa excluída com sucesso!"});
         } catch (error) {
             res.status(500).json({ message: `${error.message} - Falha na requisição do livro.`});

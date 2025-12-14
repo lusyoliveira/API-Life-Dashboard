@@ -1,4 +1,5 @@
 import express from "express";
+import cors from "cors";
 import conectar from "./config/dbConexao.js";
 import rotas from "./rotas/index.js"
 
