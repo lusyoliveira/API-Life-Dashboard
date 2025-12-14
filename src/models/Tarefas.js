@@ -1,7 +1,8 @@
 import mongoose from "mongoose";
  
 const tarefasSchema = new mongoose.Schema({
-    codigo: { type: Number, required: true},
+    _id: { type: mongoose.Schema.Types.ObjectID },
+    codigo: { type: Number, unique: true },
     Tarefa: { type: String},
     Adicionado: { type: String},
     Feito: { type: Boolean}
