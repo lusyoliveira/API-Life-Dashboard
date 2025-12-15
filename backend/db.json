@@ -1,19 +1,208 @@
 {
-  "tarefas": [
+  
+  "agenda": [
     {
-      "Tarefa": "Estudando",
-      "Adicionado": "2025-08-01T12:57:00.000Z",
-      "Feito": true
+      "Titulo": "Dia da Pizza",
+      "Status": "Indeterminado",
+      "Categoria": "Data Importante",
+      "Tipo": "Evento",
+      "Data": "2026-07-10T00:00:00.000Z"
     },
     {
-      "Tarefa": "Limpar Casa",
-      "Adicionado": "2025-08-01T12:57:00.000Z",
-      "Feito": true
+      "Titulo": "Pintar Cabelo",
+      "Status": "Indeterminado",
+      "Categoria": "Pessoal",
+      "Tipo": "Evento",
+      "Data": "2025-11-12T00:00:00.000Z"
     },
     {
-      "Tarefa": "Fazer Carne de Soja",
-      "Adicionado": "2025-08-21T16:32:48.987Z",
-      "Feito": false
+      "Titulo": "Cronograma Capilar",
+      "Status": "Indeterminado",
+      "Categoria": "Pessoal",
+      "Tipo": "Evento",
+      "Data": "2025-11-15T17:00:00.000Z"
+    },
+    {
+      "Titulo": "Dia do Rock",
+      "Status": "Indeterminado",
+      "Categoria": "Data Importante",
+      "Tipo": "Evento",
+      "Data": "2026-07-13T00:00:00.000Z"
+    },
+    {
+      "Titulo": "Conta de Luz",
+      "Status": "Indeterminado",
+      "Categoria": "Casa",
+      "Tipo": "Evento",
+      "Data": "2025-11-17T00:00:00.000Z"
+    },
+    {
+      "Titulo": "Alistamento",
+      "Status": "Indeterminado",
+      "Categoria": "Pessoal",
+      "Tipo": "Evento",
+      "Data": "2025-11-08T00:00:00.000Z"
+    },
+    {
+      "Titulo": "Dia do Amigo",
+      "Status": "Indeterminado",
+      "Categoria": "Data Importante",
+      "Tipo": "Evento",
+      "Data": "2026-07-20T00:00:00.000Z"
+    },
+    {
+      "Titulo": "Viajem a Lua",
+      "Status": "Indeterminado",
+      "Categoria": "Data Importante",
+      "Tipo": "Evento",
+      "Data": "2026-07-20T00:00:00.000Z"
+    },
+    {
+      "Titulo": "Acerto Financeiro",
+      "Status": "Indeterminado",
+      "Categoria": "Pessoal",
+      "Tipo": "Evento",
+      "Data": "2025-12-01T00:00:00.000Z"
+    },
+    {
+      "Titulo": "Banho na Lisa",
+      "Status": "Indeterminado",
+      "Categoria": "Casa",
+      "Tipo": "Evento",
+      "Data": "2025-11-27T00:00:00.000Z"
+    },
+    {
+      "Titulo": "Assoprar Canela",
+      "Status": "Indeterminado",
+      "Categoria": "Pessoal",
+      "Tipo": "Compromisso",
+      "Data": "2025-12-01T00:00:00.000Z"
+    },
+    {
+      "Titulo": "Conta de Água",
+      "Status": "Indeterminado",
+      "Categoria": "Casa",
+      "Tipo": "Evento",
+      "Data": "2025-12-01T00:00:00.000Z"
+    },
+    {
+      "Titulo": "Dia dos Pais",
+      "Status": "Indeterminado",
+      "Categoria": "Data Importante",
+      "Tipo": "Evento",
+      "Data": "2026-08-09T00:00:00.000Z"
+    },
+    {
+      "Titulo": "Conta de Internet",
+      "Status": "Indeterminado",
+      "Categoria": "Casa",
+      "Tipo": "Evento",
+      "Data": "2025-12-11T00:00:00.000Z"
+    },
+    {
+      "Titulo": "Cartão de Crédito",
+      "Status": "Indeterminado",
+      "Categoria": "Casa",
+      "Tipo": "Evento",
+      "Data": "2025-12-11T00:00:00.000Z"
+    },
+    {
+      "Titulo": "Investir",
+      "Status": "Indeterminado",
+      "Categoria": "Pessoal",
+      "Tipo": "Evento",
+      "Data": "2025-12-11T13:30:00.000Z"
+    },
+    {
+      "Titulo": "Remédio de Verme Lisa",
+      "Status": "Indeterminado",
+      "Categoria": "Casa",
+      "Tipo": "Evento",
+      "Data": "2025-09-22T12:00:00.000Z"
+    },
+    {
+      "Titulo": "Aniversário Assinatura Heavy Talk",
+      "Status": "Indeterminado",
+      "Categoria": "Pessoal",
+      "Tipo": "Evento",
+      "Data": "2026-09-09T00:00:00.000Z"
+    },
+    {
+      "Titulo": "Dia do Cliente",
+      "Status": "Indeterminado",
+      "Categoria": "Loja",
+      "Tipo": "Evento",
+      "Data": "2026-09-15T00:00:00.000Z"
+    },
+    {
+      "Titulo": "Lançamento do Planner 2026",
+      "Status": "Feito",
+      "Categoria": "Loja",
+      "Tipo": "Evento",
+      "Data": "2026-09-15T14:00:00.000Z"
+    },
+    {
+      "Titulo": "Dia da Árvore",
+      "Status": "Indeterminado",
+      "Categoria": "Data Importante",
+      "Tipo": "Evento",
+      "Data": "2026-09-21T00:00:00.000Z"
+    },
+    {
+      "Titulo": "Halloween",
+      "Status": "Indeterminado",
+      "Categoria": "Data Importante",
+      "Tipo": "Evento",
+      "Data": "2026-10-31T00:00:00.000Z"
+    },
+    {
+      "Titulo": "Expiração Token Mercado Envio",
+      "Status": "Indeterminado",
+      "Categoria": "Loja",
+      "Tipo": "Evento",
+      "Data": "2025-11-18T00:00:00.000Z"
+    },
+    {
+      "Titulo": "Renovação de Domínio",
+      "Status": "Indeterminado",
+      "Categoria": "Loja",
+      "Tipo": "Evento",
+      "Data": "2025-11-22T10:00:00.000Z"
+    },
+    {
+      "Titulo": "Renovar Alura",
+      "Status": "Em Espera",
+      "Categoria": "Educação",
+      "Tipo": "Compromissos",
+      "Data": "2026-03-11T15:00:00.000Z"
+    },
+    {
+      "Titulo": "Iniciar Implante Dentário",
+      "Status": "Em Espera",
+      "Categoria": "Pessoal",
+      "Tipo": "Compromissos",
+      "Data": "2026-04-01T00:00:00.000Z"
+    },
+    {
+      "Titulo": "Dia da Terra",
+      "Status": "Indeterminado",
+      "Categoria": "Data Importante",
+      "Tipo": "Evento",
+      "Data": "2026-04-22T00:00:00.000Z"
+    },
+    {
+      "Titulo": "Dia da Ecologia",
+      "Status": "Indeterminado",
+      "Categoria": "Data Importante",
+      "Tipo": "Evento",
+      "Data": "2026-06-05T00:00:00.000Z"
+    },
+    {
+      "Titulo": "Médico",
+      "Status": "Feito",
+      "Categoria": "Pessoal",
+      "Tipo": "Compromisso",
+      "Data": "2025-09-08T16:00:00.000Z"
     }
   ]
 }
