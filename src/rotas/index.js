@@ -3,6 +3,7 @@ import agenda from "./agendaRotas.js";
 import cursos from "./cursosRotas.js";
 import contas from "./contasRotas.js";
 import configuracoes from "./configuracoesRotas.js";
+import catalogo from "./catalogoRotas.js";
 
 const rotas = (app) => {
     app.route("/").get((req, res) =>
@@ -14,6 +15,7 @@ const rotas = (app) => {
     app.use(cursos);
     app.use(contas);
     app.use(configuracoes);
+    app.use(catalogo);
 };
 
 export default rotas;

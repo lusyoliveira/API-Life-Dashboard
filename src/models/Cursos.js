@@ -3,16 +3,16 @@ import mongoose from "mongoose";
 const cursoSchema = new mongoose.Schema({
     _id: { type: mongoose.Schema.Types.ObjectID },
     Capa: { type: String },
-    Escola: { type: String },
-    Aulas: { type: Number },
+    Escola: { type: String, required: true },
+    Aulas: { type: Number, required: true },
     Assistido: { type: Number },
     Horas: { type: Number },
-    Name: { type: String },
-    Professor:{ type: String },
-    Assunto: { type: String },
+    Name: { type: String, required: true },
+    Professor:{ type: String, required: true },
+    Assunto: { type: String, required: true },
     Comprado: { type: String },
-    Valor: { type: Number },
-    Status: { type: String },
+    Valor: { type: Number, required: true },
+    Status: { type: String, required: true },
     Certificado: { type: Boolean },
     Progresso: { type: Number }
 }, { versionKey: false });
