@@ -3,10 +3,10 @@ import ContasController from "../controllers/contasController.js";
 
 const rotas = express.Router();
 
-rotas.get("/contas", ContasController.listarCursos);
-rotas.get("/contas/:id", ContasController.listarCursosPorID);
-rotas.post("/contas", ContasController.cadastrarCurso);
-rotas.put("/contas/:id", ContasController.atualizarCurso);
-rotas.delete("/contas/:id", ContasController.excluirCurso);
+rotas.get("/contas", ContasController.listarContas);
+rotas.get("/contas/:id", ContasController.listarContasPorID);
+rotas.post("/contas", ContasController.cadastrarConta);
+rotas.put("/contas/:id", ContasController.atualizarConta);
+rotas.delete("/contas/:id", ContasController.excluirConta);
 
 export default rotas;

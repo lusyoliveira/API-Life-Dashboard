@@ -16,6 +16,6 @@ const configuracaoSchema = new mongoose.Schema({
     DescricaoContagem: { type: String }
 }, { versionKey: false });
 
-const configuracao = mongoose.model("configuracao", configuracaoSchema);
+const configuracao = mongoose.model("configuracoes", configuracaoSchema);
 
 export default configuracao;
