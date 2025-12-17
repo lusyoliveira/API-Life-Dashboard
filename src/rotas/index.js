@@ -10,6 +10,8 @@ const rotas = (app) => {
     app.use(tarefas);
     app.use(agenda);
     app.use(cursos);
+    app.use(contas);
+    app.use(configuracoes);
 };
 
 export default rotas;

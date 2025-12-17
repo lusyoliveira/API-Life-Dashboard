@@ -10,7 +10,7 @@ const cursoSchema = new mongoose.Schema({
     Name: { type: String },
     Professor:{ type: String },
     Assunto: { type: String },
-    Comprado: { type: Number },
+    Comprado: { type: String },
     Valor: { type: Number },
     Status: { type: String },
     Certificado: { type: Boolean },

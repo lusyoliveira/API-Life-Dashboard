@@ -8,9 +8,8 @@ app.listen(PORT, () =>{
     
 });
 
-//subir servidor node server.js
+//subir servidor npm run dev
 //localhost:3000/usuarios
 //instalar extensão thunderclient
 //para servidor crtl+c
 //node --watch server.js reiniciar servidor
-//npm run dev
