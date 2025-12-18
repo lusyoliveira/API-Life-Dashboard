@@ -4,6 +4,8 @@ import cursos from "./cursosRotas.js";
 import contas from "./contasRotas.js";
 import configuracoes from "./configuracoesRotas.js";
 import catalogo from "./catalogoRotas.js";
+import clima from "./climaRotas.js"
+import transacoes from "./transacoesRotas.js"
 
 const rotas = (app) => {
     app.route("/").get((req, res) =>
@@ -16,6 +18,8 @@ const rotas = (app) => {
     app.use(contas);
     app.use(configuracoes);
     app.use(catalogo);
+    app.use(clima);
+    app.use(transacoes);
 };
 
 export default rotas;

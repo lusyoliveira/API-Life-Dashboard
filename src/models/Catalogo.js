@@ -1,7 +1,6 @@
 import mongoose from "mongoose";
  
 const catalogoSchema = new mongoose.Schema({
-    _id: { type: mongoose.Schema.Types.ObjectID },
     Titulo:{ type: String, required: true },
     Capa: { type: String },
     Tipo: { type: String, required: true },

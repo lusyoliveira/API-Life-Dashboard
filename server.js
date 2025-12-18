@@ -12,3 +12,4 @@ app.listen(PORT, () =>{
 //instalar extensão thunderclient
 //para servidor crtl+c
 //node --watch server.js reiniciar servidor
+//_id: { type: mongoose.Schema.Types.ObjectID },

@@ -1,7 +1,6 @@
 import mongoose from "mongoose";
  
 const configuracaoSchema = new mongoose.Schema({
-    _id: { type: mongoose.Schema.Types.ObjectID },
     AtivaMAL: { type: Boolean },
     AtivaOutlook: { type: Boolean },
     ChaveOutlook: { type: String },
