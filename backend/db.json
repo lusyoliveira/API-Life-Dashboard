@@ -1,0 +1,241 @@
+{
+    "agendas": [
+    {
+      "id": "1",
+      "Titulo": "Dia da Pizza",
+      "Status": "6949929f857187924b64ab53",
+      "Categoria": "6949931a857187924b64ab58",
+      "Tipo": "694975074acedb0e9d601924",
+      "Data": "2026-07-10T00:00:00.000Z"
+    },
+    {
+      "id": "2",
+      "Titulo": "Pintar Cabelo",
+      "Status": "6949929f857187924b64ab53",
+      "Categoria": "694992d6857187924b64ab55",
+      "Tipo": "694975074acedb0e9d601924",
+      "Data": "2025-11-12T00:00:00.000Z"
+    },
+    {
+      "id": "3",
+      "Titulo": "Cronograma Capilar",
+      "Status": "6949929f857187924b64ab53",
+      "Categoria": "694992d6857187924b64ab55",
+      "Tipo": "694975074acedb0e9d601924",
+      "Data": "2025-11-15T17:00:00.000Z"
+    },
+    {
+      "id": "4",
+      "Titulo": "Dia do Rock",
+      "Status": "6949929f857187924b64ab53",
+      "Categoria": "6949931a857187924b64ab58",
+      "Tipo": "694975074acedb0e9d601924",
+      "Data": "2026-07-13T00:00:00.000Z"
+    },
+    {
+      "id": "5",
+      "Titulo": "Conta de Luz",
+      "Status": "6949929f857187924b64ab53",
+      "Categoria": "694a80737d901d9684f770ab",
+      "Tipo": "694975074acedb0e9d601924",
+      "Data": "2025-11-17T00:00:00.000Z"
+    },
+    {
+      "id": "6",
+      "Titulo": "Alistamento",
+      "Status": "6949929f857187924b64ab53",
+      "Categoria": "694992d6857187924b64ab55",
+      "Tipo": "694975074acedb0e9d601924",
+      "Data": "2025-11-08T00:00:00.000Z"
+    },
+    {
+      "id": "7",
+      "Titulo": "Dia do Amigo",
+      "Status": "6949929f857187924b64ab53",
+      "Categoria": "6949931a857187924b64ab58",
+      "Tipo": "694975074acedb0e9d601924",
+      "Data": "2026-07-20T00:00:00.000Z"
+    },
+    {
+      "id": "8",
+      "Titulo": "Viajem a Lua",
+      "Status": "6949929f857187924b64ab53",
+      "Categoria": "6949931a857187924b64ab58",
+      "Tipo": "694975074acedb0e9d601924",
+      "Data": "2026-07-20T00:00:00.000Z"
+    },
+    {
+      "id": "9",
+      "Titulo": "Acerto 69499301857187924b64ab57",
+      "Status": "6949929f857187924b64ab53",
+      "Categoria": "694992d6857187924b64ab55",
+      "Tipo": "694975074acedb0e9d601924",
+      "Data": "2025-12-01T00:00:00.000Z"
+    },
+    {
+      "id": "10",
+      "Titulo": "Banho na Lisa",
+      "Status": "6949929f857187924b64ab53",
+      "Categoria": "694a80737d901d9684f770ab",
+      "Tipo": "694975074acedb0e9d601924",
+      "Data": "2025-11-27T00:00:00.000Z"
+    },
+    {
+      "id": "11",
+      "Titulo": "Assoprar Canela",
+      "Status": "6949929f857187924b64ab53",
+      "Categoria": "694992d6857187924b64ab55",
+      "Tipo": "6949753f4acedb0e9d601925",
+      "Data": "2025-12-01T00:00:00.000Z"
+    },
+    {
+      "id": "12",
+      "Titulo": "Conta de Água",
+      "Status": "6949929f857187924b64ab53",
+      "Categoria": "694a80737d901d9684f770ab",
+      "Tipo": "694975074acedb0e9d601924",
+      "Data": "2025-12-01T00:00:00.000Z"
+    },
+    {
+      "id": "13",
+      "Titulo": "Dia dos Pais",
+      "Status": "6949929f857187924b64ab53",
+      "Categoria": "6949931a857187924b64ab58",
+      "Tipo": "694975074acedb0e9d601924",
+      "Data": "2026-08-09T00:00:00.000Z"
+    },
+    {
+      "id": "14",
+      "Titulo": "Conta de Internet",
+      "Status": "6949929f857187924b64ab53",
+      "Categoria": "694a80737d901d9684f770ab",
+      "Tipo": "694975074acedb0e9d601924",
+      "Data": "2025-12-11T00:00:00.000Z"
+    },
+    {
+      "id": "15",
+      "Titulo": "Cartão de Crédito",
+      "Status": "6949929f857187924b64ab53",
+      "Categoria": "694a80737d901d9684f770ab",
+      "Tipo": "694975074acedb0e9d601924",
+      "Data": "2025-12-11T00:00:00.000Z"
+    },
+    {
+      "id": "16",
+      "Titulo": "Investir",
+      "Status": "6949929f857187924b64ab53",
+      "Categoria": "694992d6857187924b64ab55",
+      "Tipo": "694975074acedb0e9d601924",
+      "Data": "2025-12-11T13:30:00.000Z"
+    },
+    {
+      "id": "17",
+      "Titulo": "Remédio de Verme Lisa",
+      "Status": "6949929f857187924b64ab53",
+      "Categoria": "694a80737d901d9684f770ab",
+      "Tipo": "694975074acedb0e9d601924",
+      "Data": "2025-09-22T12:00:00.000Z"
+    },
+    {
+      "id": "18",
+      "Titulo": "Aniversário Assinatura Heavy Talk",
+      "Status": "6949929f857187924b64ab53",
+      "Categoria": "694992d6857187924b64ab55",
+      "Tipo": "694975074acedb0e9d601924",
+      "Data": "2026-09-09T00:00:00.000Z"
+    },
+    {
+      "id": "19",
+      "Titulo": "Dia do Cliente",
+      "Status": "6949929f857187924b64ab53",
+      "Categoria": "694a80897d901d9684f770ac",
+      "Tipo": "694975074acedb0e9d601924",
+      "Data": "2026-09-15T00:00:00.000Z"
+    },
+    {
+      "id": "20",
+      "Titulo": "Lançamento do Planner 2026",
+      "Status": "69499256857187924b64ab50",
+      "Categoria": "694a80897d901d9684f770ac",
+      "Tipo": "694975074acedb0e9d601924",
+      "Data": "2026-09-15T14:00:00.000Z"
+    },
+    {
+      "id": "21",
+      "Titulo": "Dia da Árvore",
+      "Status": "6949929f857187924b64ab53",
+      "Categoria": "6949931a857187924b64ab58",
+      "Tipo": "694975074acedb0e9d601924",
+      "Data": "2026-09-21T00:00:00.000Z"
+    },
+    {
+      "id": "22",
+      "Titulo": "Halloween",
+      "Status": "6949929f857187924b64ab53",
+      "Categoria": "6949931a857187924b64ab58",
+      "Tipo": "694975074acedb0e9d601924",
+      "Data": "2026-10-31T00:00:00.000Z"
+    },
+    {
+      "id": "23",
+      "Titulo": "Expiração Token Mercado Envio",
+      "Status": "6949929f857187924b64ab53",
+      "Categoria": "694a80897d901d9684f770ac",
+      "Tipo": "694975074acedb0e9d601924",
+      "Data": "2025-11-18T00:00:00.000Z"
+    },
+    {
+      "id": "24",
+      "Capa": "",
+      "Titulo": "Renovação de Domínio",
+      "Status": "6949929f857187924b64ab53",
+      "Categoria": "694a80897d901d9684f770ac",
+      "Tipo": "694975074acedb0e9d601924",
+      "Data": "2025-11-22T10:00:00.000Z"
+    },
+    {
+      "id": "25",
+      "Capa": "",
+      "Titulo": "Renovar Alura",
+      "Status": "69499211857187924b64ab4e",
+      "Categoria": "694992ec857187924b64ab56",
+      "Tipo": "6949753f4acedb0e9d601925s",
+      "Data": "2026-03-11T15:00:00.000Z"
+    },
+    {
+      "id": "26",
+      "Capa": "",
+      "Titulo": "Iniciar Implante Dentário",
+      "Status": "69499211857187924b64ab4e",
+      "Categoria": "694992d6857187924b64ab55",
+      "Tipo": "6949753f4acedb0e9d601925s",
+      "Data": "2026-04-01T00:00:00.000Z"
+    },
+    {
+      "id": "27",
+      "Capa": "",
+      "Titulo": "Dia da Terra",
+      "Status": "6949929f857187924b64ab53",
+      "Categoria": "6949931a857187924b64ab58",
+      "Tipo": "694975074acedb0e9d601924",
+      "Data": "2026-04-22T00:00:00.000Z"
+    },
+    {
+      "id": "28",
+      "Capa": "",
+      "Titulo": "Dia da Ecologia",
+      "Status": "6949929f857187924b64ab53",
+      "Categoria": "6949931a857187924b64ab58",
+      "Tipo": "694975074acedb0e9d601924",
+      "Data": "2026-06-05T00:00:00.000Z"
+    },
+    {
+      "id": "29",
+      "Titulo": "Médico",
+      "Status": "69499256857187924b64ab50",
+      "Categoria": "694992d6857187924b64ab55",
+      "Tipo": "6949753f4acedb0e9d601925",
+      "Data": "2025-09-08T16:00:00.000Z"
+    }
+  ]
+}

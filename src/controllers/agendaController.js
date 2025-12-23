@@ -3,8 +3,11 @@ import agenda from "../models/Agenda.js"
 class AgendaController {
     static async listarCompromissos(req, res) {
         try {
-                const listaCompromissos = await agenda.find({}).populate("Tipo").exec();
-;
+                const listaCompromissos = await agenda.find({}).populate([
+                                                                    { path: "Tipo" },
+                                                                    { path: "Categoria" },
+                                                                    { path: "Status" }
+                                                                    ]);
                 res.status(200).json(listaCompromissos);
         } catch (error) {
             res.status(500).json({ message: `${error.message} - Falha ao consultar a agenda.`});

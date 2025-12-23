@@ -7,6 +7,8 @@ import catalogo from "./catalogoRotas.js";
 import clima from "./climaRotas.js"
 import transacoes from "./transacoesRotas.js"
 import agendaTipos from "./agendaTiposRotas.js";
+import agendaStatus from "./agendaStatusRotas.js";
+import agendaCategoria from "./agendaCategoriaRotas.js";
 
 const rotas = (app) => {
     app.route("/").get((req, res) =>
@@ -14,6 +16,8 @@ const rotas = (app) => {
     );
 
     app.use(tarefas);
+    app.use("/agenda", agendaCategoria);
+    app.use("/agenda", agendaStatus);
     app.use("/agenda", agendaTipos);
     app.use("/agenda", agenda);
     app.use(cursos);

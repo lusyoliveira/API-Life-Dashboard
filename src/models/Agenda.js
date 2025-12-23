@@ -2,8 +2,8 @@ import mongoose from "mongoose";
  
 const agendaSchema = new mongoose.Schema({
     Titulo: { type: String, required: true },
-    Status: { type: String, required: true },
-    Categoria: { type: String, required: true },
+    Status: {type: mongoose.Schema.Types.ObjectId, ref: 'agendastatus', required: true},
+    Categoria: {type: mongoose.Schema.Types.ObjectId, ref: 'agendacategorias', required: true},
     Tipo: {type: mongoose.Schema.Types.ObjectId, ref: 'agendatipos', required: true},
     Data: { type: String, required: true }
 }, { versionKey: false });
