@@ -1,7 +1,6 @@
 import tarefas from "./tarefasRotas.js";
 import agenda from "./agendaRotas.js";
 import agendaTipos from "./agendaTiposRotas.js";
-import agendaStatus from "./agendaStatusRotas.js";
 import status from "./StatusRotas.js";
 import agendaCategoria from "./agendaCategoriaRotas.js";
 import cursos from "./cursosRotas.js";
@@ -19,7 +18,6 @@ const rotas = (app) => {
 
     app.use(tarefas);
     app.use("/agenda", agendaCategoria);
-    app.use("/agenda", agendaStatus);
     app.use("/agenda", agendaTipos);
     app.use("/agenda", agenda);
     app.use("/cursos", cursosAreas);
