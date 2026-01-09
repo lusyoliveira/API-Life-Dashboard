@@ -1,6 +1,6 @@
-import areas from "../models/CursosAreas.js"
+import areas from "../models/Areas.js"
 
-class CursoAreasController {
+class AreasController {
     static async listarAreas(req, res) {
         try {
                 const listaAreas = await areas.find({});
@@ -50,4 +50,4 @@ class CursoAreasController {
     };
 };
 
-export default CursoAreasController
+export default AreasController
