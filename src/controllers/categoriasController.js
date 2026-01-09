@@ -1,6 +1,6 @@
-import categoria from "../models/AgendaCategoria.js"
+import categoria from "../models/Categoria.js"
 
-class AgendaCategoriasController {
+class CategoriasController {
     static async listarCategorias(req, res) {
         try {
                 const listaCategorias = await categoria.find({});
@@ -50,4 +50,4 @@ class AgendaCategoriasController {
     };
 };
 
-export default AgendaCategoriasController
+export default CategoriasController

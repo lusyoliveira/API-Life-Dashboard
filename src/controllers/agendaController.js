@@ -17,7 +17,11 @@ class AgendaController {
     static async listarCompromissoPorID(req, res) {
         try {
                 const id = req.params.id;
-                const agendaEncontrada = await agenda.findById(id);
+                const agendaEncontrada = await agenda.findById(id).populate([
+                                                                    { path: "Tipo" },
+                                                                    { path: "Categoria" },
+                                                                    { path: "Status" }
+                                                                    ]);
                 res.status(200).json(agendaEncontrada);
         } catch (error) {
             res.status(500).json({ message: `${error.message} - Falha ao consulta compromisso.`});

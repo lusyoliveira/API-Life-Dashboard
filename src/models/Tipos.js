@@ -1,10 +1,10 @@
 import mongoose from "mongoose";
  
-const statusSchema = new mongoose.Schema({
+const tipoSchema = new mongoose.Schema({
     descricao: { type: String, required: true },
     Tipo: { type: String, required: true }
 }, { versionKey: false });
 
-const status = mongoose.model("status", statusSchema);
+const Tipo = mongoose.model("tipos", tipoSchema);
 
-export default status;
+export default Tipo;

@@ -1,5 +1,5 @@
 import express from "express";
-import AgendaCategoriasController from "../controllers/agendaCategoriasController.js";
+import AgendaCategoriasController from "../controllers/categoriasController.js";
 
 const rotas = express.Router();
 

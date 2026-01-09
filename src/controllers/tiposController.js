@@ -1,6 +1,6 @@
-import tipo from "../models/AgendaTipos.js"
+import tipo from "../models/Tipos.js"
 
-class AgendaTiposController {
+class TiposController {
     static async listarTipos(req, res) {
         try {
                 const listaTipos = await tipo.find({});
@@ -50,4 +50,4 @@ class AgendaTiposController {
     };
 };
 
-export default AgendaTiposController
+export default TiposController
