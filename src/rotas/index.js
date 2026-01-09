@@ -10,6 +10,7 @@ import configuracoes from "./configuracoesRotas.js";
 import catalogo from "./catalogoRotas.js";
 import clima from "./climaRotas.js"
 import transacoes from "./transacoesRotas.js"
+import plataformas from "./plataformaRotas.js"
 
 const rotas = (app) => {
     app.route("/").get((req, res) =>
@@ -24,6 +25,7 @@ const rotas = (app) => {
     app.use(contas);
     app.use(configuracoes);
     app.use(clima);
+    app.use(plataformas);
     app.use(status);
     app.use(tarefas);
     app.use(transacoes);

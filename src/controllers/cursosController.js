@@ -3,7 +3,11 @@ import curso from "../models/Cursos.js"
 class CursosController {
     static async listarCursos(req, res) {
         try {
-                const listaCursos = await curso.find({});
+                const listaCursos = await curso.find({}).populate([
+                                                                    { path: "Escola" },
+                                                                    { path: "Assunto" },
+                                                                    { path: "Status" }
+                                                                    ]);
                 res.status(200).json(listaCursos);
         } catch (error) {
             res.status(500).json({ message: `${error.message} - Falha ao consultar os cursos.`});
@@ -13,7 +17,11 @@ class CursosController {
     static async listarCursosPorID(req, res) {
         try {
                 const id = req.params.id;
-                const cursoEncontrado = await curso.findById(id);
+                const cursoEncontrado = await curso.findById(id).populate([
+                                                                    { path: "Escola" },
+                                                                    { path: "Assunto" },
+                                                                    { path: "Status" }
+                                                                    ]);
                 res.status(200).json(cursoEncontrado);
         } catch (error) {
             res.status(500).json({ message: `${error.message} - Falha ao consulta o curso.`});

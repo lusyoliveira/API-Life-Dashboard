@@ -22,8 +22,8 @@ class CategoriasController {
 
     static async cadastrarCategoria(req,res) {
         try {
-            const novaAgendaCategorias = await categoria.create(req.body);
-            res.status(201).json({ message: "Categoria criado com sucesso", categoria: novaAgendaCategorias });
+            const novaCategorias = await categoria.create(req.body);
+            res.status(201).json({ message: "Categoria criado com sucesso", categoria: novaCategorias });
         } catch (error) {
             res.status(500).json({ message: `${error.message} - Falha ao criar um categoria.`});
         }

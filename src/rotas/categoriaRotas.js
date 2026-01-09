@@ -1,12 +1,12 @@
 import express from "express";
-import AgendaCategoriasController from "../controllers/categoriasController.js";
+import CategoriasController from "../controllers/categoriasController.js";
 
 const rotas = express.Router();
 
-rotas.get("/categorias", AgendaCategoriasController.listarCategorias);
-rotas.get("/categorias/:id", AgendaCategoriasController.listarCategoriasPorID);
-rotas.post("/categorias/", AgendaCategoriasController.cadastrarCategoria);
-rotas.put("/categorias/:id", AgendaCategoriasController.atualizarCategoria);
-rotas.delete("/categorias/:id", AgendaCategoriasController.excluirCategoria);
+rotas.get("/categorias", CategoriasController.listarCategorias);
+rotas.get("/categorias/:id", CategoriasController.listarCategoriasPorID);
+rotas.post("/categorias/", CategoriasController.cadastrarCategoria);
+rotas.put("/categorias/:id", CategoriasController.atualizarCategoria);
+rotas.delete("/categorias/:id", CategoriasController.excluirCategoria);
 
 export default rotas;
