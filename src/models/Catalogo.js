@@ -3,9 +3,9 @@ import mongoose from "mongoose";
 const catalogoSchema = new mongoose.Schema({
     Titulo:{ type: String, required: true },
     Capa: { type: String },
-    Tipo: { type: String, required: true },
-    Status: { type: String, required: true },
-    Onde: { type: String, required: true },
+    Tipo: {type: mongoose.Schema.Types.ObjectId, ref: 'tipos', required: true},
+    Status: {type: mongoose.Schema.Types.ObjectId, ref: 'status', required: true},
+    Onde: { type: mongoose.Schema.Types.ObjectId, ref: 'plataformas', required: true },
     Inicio: { type: String, required: true },
     Fim: { type: String },
     Episodios: { type: Number, required: true },

@@ -3,7 +3,9 @@ import transacoes from "../models/Transacao.js"
 class TransacoesController {
     static async listarTransacoes(req, res) {
         try {
-                const listaTransacoes = await transacoes.find({});
+                const listaTransacoes = await transacoes.find({}).populate([
+                                                                    { path: "Categoria" }
+                                                                    ]);
                 res.status(200).json(listaTransacoes);
         } catch (error) {
             res.status(500).json({ message: `${error.message} - Falha ao consultar as transacoes.`});
@@ -13,7 +15,9 @@ class TransacoesController {
     static async listarTransacoesPorID(req, res) {
         try {
                 const id = req.params.id;
-                const transacoesEncontrado = await transacoes.findById(id);
+                const transacoesEncontrado = await transacoes.findById(id).populate([
+                                                                    { path: "Categoria" }
+                                                                    ]);
                 res.status(200).json(transacoesEncontrado);
         } catch (error) {
             res.status(500).json({ message: `${error.message} - Falha ao consulta a transação.`});

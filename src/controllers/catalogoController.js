@@ -3,7 +3,11 @@ import catalogo from "../models/Catalogo.js"
 class CatalogoController {
     static async listarCatalogo(req, res) {
         try {
-                const listaCatalogo = await catalogo.find({});
+                const listaCatalogo = await catalogo.find({}).populate([
+                                                                    { path: "Tipo" },
+                                                                    { path: "Onde" },
+                                                                    { path: "Status" }
+                                                                    ]);
                 res.status(200).json(listaCatalogo);
         } catch (error) {
             res.status(500).json({ message: `${error.message} - Falha ao consultar o catalogo.`});
@@ -13,7 +17,11 @@ class CatalogoController {
     static async listarCatalogoPorID(req, res) {
         try {
                 const id = req.params.id;
-                const catalogoEncontrado = await catalogo.findById(id);
+                const catalogoEncontrado = await catalogo.findById(id).populate([
+                                                                    { path: "Tipo" },
+                                                                    { path: "Onde" },
+                                                                    { path: "Status" }
+                                                                    ]);
                 res.status(200).json(catalogoEncontrado);
         } catch (error) {
             res.status(500).json({ message: `${error.message} - Falha ao consultar um item do catalogo.`});
