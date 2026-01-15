@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import conectar from "./config/dbConexao.js";
 import rotas from "./rotas/index.js"
+import ManipularErros from "./middlewares/manipuladorErros.js";
 
 const conexao = await conectar();
 
@@ -22,5 +23,8 @@ app.use(cors({
 app.use(express.json());
 
 rotas(app);
+
+// eslint-disable-next-line no-unused-vars
+app.use(ManipularErros);
 
 export default app;
