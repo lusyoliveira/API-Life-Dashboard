@@ -3,6 +3,7 @@ import cors from "cors";
 import conectar from "./config/dbConexao.js";
 import rotas from "./rotas/index.js"
 import ManipularErros from "./middlewares/manipuladorErros.js";
+import manipulador404 from "./middlewares/manipulador404.js";
 
 const conexao = await conectar();
 
@@ -24,7 +25,7 @@ app.use(express.json());
 
 rotas(app);
 
-// eslint-disable-next-line no-unused-vars
+app.use(manipulador404);
 app.use(ManipularErros);
 
 export default app;

@@ -1,3 +1,4 @@
+import NaoEncontrado from "../erros/NaoEncontrado.js";
 import agenda from "../models/Agenda.js"
 
 class AgendaController {
@@ -25,7 +26,7 @@ class AgendaController {
             if (agendaEncontrada !== null) {
                 res.status(200).send(agendaEncontrada);
             } else {
-                res.status(404).send({ message: "Compromisso não encontrado."});    
+                next( new NaoEncontrado("Compromisso não encontrado"));    
             }
         } catch (error) {
            next(error);
