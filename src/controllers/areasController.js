@@ -48,9 +48,14 @@ class AreasController {
     static atualizarAreas = async (req, res, next) => {
         try {
                 const id = req.params.id;
-                
-                await areas.findByIdAndUpdate(id, req.body);
+
+                const areasResultado = await areas.findByIdAndUpdate(id, {$set: req.body});
+
+                if (areasResultado !== null) {
                 res.status(200).json( { message: "Area atualizada com sucesso!"});
+                } else {
+                next( new NaoEncontrado("Id da area não encontrado"));
+                }
         } catch (error) {
             next(error);
         }
@@ -59,8 +64,12 @@ class AreasController {
     static excluirAreas = async (req, res, next) => {
         try {
                 const id = req.params.id;
-                await areas.findByIdAndDelete(id);
-                res.status(200).json( { message: "Area excluída com sucesso!"});
+                const areasResultado = await areas.findByIdAndDelete(id);
+                if (areasResultado !== null) {
+                    res.status(200).json( { message: "Area excluída com sucesso!"});
+                } else {
+                    next( new NaoEncontrado("Id da area não encontrado"));
+                }
         } catch (error) {
             next(error);
         }

@@ -47,8 +47,12 @@ class TiposController {
     static atualizarTipo = async (req, res, next) => {
         try {
                 const id = req.params.id;
-                await tipo.findByIdAndUpdate(id, req.body);
-                res.status(200).json( { message: "Tipo atualizado com sucesso!"});
+                const tipoResultado = await tipo.findByIdAndUpdate(id, {$set: req.body});
+                if (tipoResultado !== null) {
+                    res.status(200).json( { message: "Tipo atualizado com sucesso!"});
+                } else {
+                    next( new NaoEncontrado("Id do tipo não encontrado"));
+                }
         } catch (error) {
             next(error);
         }
@@ -57,8 +61,12 @@ class TiposController {
     static excluirTipo = async (req, res, next) => {
         try {
                 const id = req.params.id;
-                await tipo.findByIdAndDelete(id);
-                res.status(200).json( { message: "Tipo excluído com sucesso!"});
+                const tipoResultado = await tipo.findByIdAndDelete(id);
+                if (tipoResultado !== null) {
+                    res.status(200).json( { message: "Tipo excluído com sucesso!"});
+                } else {
+                    next( new NaoEncontrado("Id do tipo não encontrado"));
+                }
         } catch (error) {
             next(error);
         }

@@ -51,8 +51,12 @@ class TransacoesController {
     static atualizarTransacao = async (req, res, next) => {
         try {
                 const id = req.params.id;
-                await transacoes.findByIdAndUpdate(id, req.body);
-                res.status(200).json( { message: "Transação atualizada com sucesso!"});
+                const transacaoResultado = await transacoes.findByIdAndUpdate(id, {$set: req.body});
+                if (transacaoResultado !== null) {
+                    res.status(200).json( { message: "Transação atualizada com sucesso!"});
+                } else {
+                    next( new NaoEncontrado("Id da transação não encontrado"));
+                }
         } catch (error) {
             next(error);
         }
@@ -61,8 +65,12 @@ class TransacoesController {
     static excluirTransacao = async (req, res, next) => {
         try {
                 const id = req.params.id;
-                await transacoes.findByIdAndDelete(id);
-                res.status(200).json( { message: "Transação excluída com sucesso!"});
+                const transacaoResultado = await transacoes.findByIdAndDelete(id);
+                if (transacaoResultado !== null) {
+                    res.status(200).json( { message: "Transação excluída com sucesso!"});
+                } else {
+                    next( new NaoEncontrado("Id da transação não encontrado"));
+                }
         } catch (error) {
             next(error);
         }

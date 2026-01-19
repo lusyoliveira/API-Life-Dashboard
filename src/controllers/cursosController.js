@@ -54,8 +54,12 @@ class CursosController {
     static atualizarCurso = async (req, res, next) => {
         try {
                 const id = req.params.id;
-                await curso.findByIdAndUpdate(id, req.body);
+                const cursoResultado = await curso.findByIdAndUpdate(id, {$set: req.body});
+                if (cursoResultado !== null) {
                 res.status(200).json( { message: "Curso atualizado com sucesso!"});
+                } else {
+                next( new NaoEncontrado("Id do curso não encontrado"));
+                }
         } catch (error) {
             next(error);
         }
@@ -64,8 +68,12 @@ class CursosController {
     static excluirCurso = async (req, res, next) => {
         try {
                 const id = req.params.id;
-                await curso.findByIdAndDelete(id);
-                res.status(200).json( { message: "Curso excluído com sucesso!"});
+                const cursoResultado = await curso.findByIdAndDelete(id);
+                if (cursoResultado !== null) {
+                    res.status(200).json( { message: "Curso excluído com sucesso!"});
+                } else {
+                    next( new NaoEncontrado("Id do curso não encontrado"));
+                }
         } catch (error) {
             next(error);
         }

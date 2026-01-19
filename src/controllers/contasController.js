@@ -48,8 +48,12 @@ class ContasController {
     static atualizarConta = async (req, res, next) => {
         try {
                 const id = req.params.id;
-                await contas.findByIdAndUpdate(id, req.body);
+                const contasResultado = await contas.findByIdAndUpdate(id, {$set: req.body});
+                if (contasResultado !== null) {
                 res.status(200).json( { message: "Conta atualizada com sucesso!"});
+                } else {
+                next( new NaoEncontrado("Id da conta não encontrado"));
+                }
         } catch (error) {
             next(error);
         }
@@ -58,8 +62,12 @@ class ContasController {
     static excluirConta = async (req, res, next) => {
         try {
                 const id = req.params.id;
-                await contas.findByIdAndDelete(id);
-                res.status(200).json( { message: "Conta excluída com sucesso!"});
+                const contasResultado = await contas.findByIdAndDelete(id);
+                if (contasResultado !== null) {
+                    res.status(200).json( { message: "Conta excluída com sucesso!"});
+                } else {
+                    next( new NaoEncontrado("Id da conta não encontrado"));
+                }
         } catch (error) {
             next(error);
         }

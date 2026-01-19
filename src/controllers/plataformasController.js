@@ -47,8 +47,12 @@ class PlataformaController {
     static atualizarPlataforma = async (req, res, next) => {
         try {
                 const id = req.params.id;
-                await plataforma.findByIdAndUpdate(id, req.body);
-                res.status(200).json( { message: "Plataforma atualizado com sucesso!"});
+                const plataformaResultado = await plataforma.findByIdAndUpdate(id, {$set: req.body});
+                if (plataformaResultado !== null) {
+                    res.status(200).json( { message: "Plataforma atualizado com sucesso!"});
+                } else {
+                    next( new NaoEncontrado("Id da plataforma não encontrado"));
+                }
         } catch (error) {
             next(error);
         }
@@ -57,8 +61,12 @@ class PlataformaController {
     static excluirPlataforma = async (req, res, next) => {
         try {
                 const id = req.params.id;
-                await plataforma.findByIdAndDelete(id);
-                res.status(200).json( { message: "Plataforma excluído com sucesso!"});
+                const plataformaResultado = await plataforma.findByIdAndDelete(id);
+                if (plataformaResultado !== null) {
+                    res.status(200).json( { message: "Plataforma excluído com sucesso!"});
+                } else {
+                    next( new NaoEncontrado("Id da plataforma não encontrado"));
+                }
         } catch (error) {
             next(error);
         }

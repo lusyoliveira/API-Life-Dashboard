@@ -6,12 +6,12 @@ const cursoSchema = new mongoose.Schema({
     Aulas: { type: Number, required: true },
     Assistido: { type: Number },
     Horas: { type: Number },
-    Name: { type: String, required: true },
-    Professor:{ type: String, required: true },
-    Assunto: { type: mongoose.Schema.Types.ObjectId, ref: 'areas', required: true },
+    Name: { type: String, required: [true, "Nome é obrigatório"] },
+    Professor:{ type: String, required: [true, "Professor é obrigatório"] },
+    Assunto: { type: mongoose.Schema.Types.ObjectId, ref: 'areas', required: [true, "Assunto é obrigatório"] },
     Comprado: { type: String },
-    Valor: { type: Number, required: true },
-    Status: {type: mongoose.Schema.Types.ObjectId, ref: 'status', required: true},
+    Valor: { type: Number, required: [true, "Valor é obrigatório"] },
+    Status: {type: mongoose.Schema.Types.ObjectId, ref: 'status', required: [true, "Status é obrigatório"]},
     Certificado: { type: Boolean },
     Progresso: { type: Number }
 }, { versionKey: false });

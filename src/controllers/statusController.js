@@ -47,8 +47,12 @@ class StatusController {
     static atualizarStatus = async (req, res, next) => {
         try {
                 const id = req.params.id;
-                await estado.findByIdAndUpdate(id, req.body);
-                res.status(200).json( { message: "Status atualizado com sucesso!"});
+                const statusResultado = await estado.findByIdAndUpdate(id, {$set: req.body});
+                if (statusResultado !== null) {
+                    res.status(200).json( { message: "Status atualizado com sucesso!"});
+                } else {
+                    next( new NaoEncontrado("Id do status não encontrado"));
+                }
         } catch (error) {
             next(error);
         }
@@ -57,8 +61,12 @@ class StatusController {
     static excluirStatus = async (req, res, next) => {
         try {
                 const id = req.params.id;
-                await estado.findByIdAndDelete(id);
-                res.status(200).json( { message: "Status excluído com sucesso!"});
+                const statusResultado = await estado.findByIdAndDelete(id);
+                if (statusResultado !== null) {
+                    res.status(200).json( { message: "Status excluído com sucesso!"});
+                } else {
+                    next( new NaoEncontrado("Id do status não encontrado"));
+                }
         } catch (error) {
             next(error);
         }

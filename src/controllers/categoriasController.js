@@ -49,8 +49,12 @@ class CategoriasController {
     static async atualizarCategoria(req, res, next) {
         try {
                 const id = req.params.id;
-                await categoria.findByIdAndUpdate(id, req.body);
-                res.status(200).json( { message: "Categoria atualizado com sucesso!"});
+                const categoriaResultado = await categoria.findByIdAndUpdate(id, {$set: req.body});
+                if (categoriaResultado !== null) {
+                res.status(200).json( { message: "Categoria atualizada com sucesso!"});
+                } else {
+                next( new NaoEncontrado("Id da categoria não encontrado"));
+                }
         } catch (error) {
             next(error);
         }
@@ -59,8 +63,12 @@ class CategoriasController {
     static async excluirCategoria(req, res, next) {
         try {
                 const id = req.params.id;
-                await categoria.findByIdAndDelete(id);
-                res.status(200).json( { message: "Categoria excluído com sucesso!"});
+                const categoriaResultado = await categoria.findByIdAndDelete(id);
+                if (categoriaResultado !== null) {
+                    res.status(200).json( { message: "Categoria excluída com sucesso!"});
+                } else {
+                    next( new NaoEncontrado("Id da categoria não encontrado"));
+                }
         } catch (error) {
             next(error);
         }

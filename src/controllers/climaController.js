@@ -48,8 +48,12 @@ class ClimaController {
     static atualizarClima = async (req, res, next) => {
         try {
                 const id = req.params.id;
-                await clima.findByIdAndUpdate(id, req.body);
+                const climaResultado = await clima.findByIdAndUpdate(id, {$set: req.body});
+                if (climaResultado !== null) {
                 res.status(200).json( { message: "Clima atualizado com sucesso!"});
+                } else {
+                next( new NaoEncontrado("Id do clima não encontrado"));
+                }
         } catch (error) {
             next(error);
         }
@@ -58,8 +62,12 @@ class ClimaController {
     static excluirClima = async (req, res, next) => {
         try {
                 const id = req.params.id;
-                await clima.findByIdAndDelete(id);
-                res.status(200).json( { message: "Clima excluída com sucesso!"});
+                const climaResultado = await clima.findByIdAndDelete(id);
+                if (climaResultado !== null) {
+                    res.status(200).json( { message: "Clima excluída com sucesso!"});
+                } else {
+                    next( new NaoEncontrado("Id do clima não encontrado"));
+                }
         } catch (error) {
             next(error);}
     };

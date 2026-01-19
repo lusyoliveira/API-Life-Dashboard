@@ -54,8 +54,12 @@ class CatalogoController {
     static atualizarCatalogo = async (req, res, next) => {
         try {
                 const id = req.params.id;
-                await catalogo.findByIdAndUpdate(id, req.body);
-                res.status(200).json( { message: "Item atualizada com sucesso!"});
+                const catalogoResultado = await catalogo.findByIdAndUpdate(id, {$set: req.body});
+                if (catalogoResultado !== null) {
+                res.status(200).json( { message: "Item atualizado com sucesso!"});
+                } else {
+                next( new NaoEncontrado("Id do item não encontrado"));
+                }
         } catch (error) {
             next(error);
         }
@@ -64,8 +68,12 @@ class CatalogoController {
     static excluirCatalogo = async (req, res, next) => {
         try {
                 const id = req.params.id;
-                await catalogo.findByIdAndDelete(id);
-                res.status(200).json( { message: "Item excluído com sucesso!"});
+                const catalogoResultado = await catalogo.findByIdAndDelete(id);
+                if (catalogoResultado !== null) {
+                    res.status(200).json( { message: "Item excluído com sucesso!"});
+                } else {
+                    next( new NaoEncontrado("Id do item não encontrado"));
+                }
         } catch (error) {
             next(error);
         }

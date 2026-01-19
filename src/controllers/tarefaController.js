@@ -47,8 +47,12 @@ class TarefaController {
     static atualizarTarefa = async (req, res, next) => {
         try {
                 const id = req.params.id;
-                await tarefa.findByIdAndUpdate(id, req.body);
-                res.status(200).json( { message: "Tarefa atualizada com sucesso!"});
+                const tarefaResultado = await tarefa.findByIdAndUpdate(id, {$set: req.body});
+                if (tarefaResultado !== null) {
+                    res.status(200).json( { message: "Tarefa atualizada com sucesso!"});
+                } else {
+                    next( new NaoEncontrado("Id da tarefa não encontrado"));
+                }
         } catch (error) {
             next(error);
         }
@@ -57,8 +61,12 @@ class TarefaController {
     static excluirTarefa = async (req, res, next) => {
         try {
                 const id = req.params.id;
-                await tarefa.findByIdAndDelete(id);
-                res.status(200).json( { message: "Tarefa excluída com sucesso!"});
+                const tarefaResultado = await tarefa.findByIdAndDelete(id);
+                if (tarefaResultado !== null) {
+                    res.status(200).json( { message: "Tarefa excluída com sucesso!"});
+                } else {
+                    next( new NaoEncontrado("Id da tarefa não encontrado"));
+                }
         } catch (error) {
             next(error);
         }

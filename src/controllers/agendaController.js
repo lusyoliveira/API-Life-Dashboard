@@ -35,7 +35,27 @@ class AgendaController {
         } catch (error) {
            next(error);
         }
-    }
+    };
+
+    static listarAgendaporFiltro = async (req, res, next) => {
+        try {
+            const { titulo } = req.query;
+            const agendaFiltrada = await agenda.find({
+                titulo: titulo
+            }).populate([
+                { path: "Tipo" },
+                { path: "Categoria" },
+                { path: "Status" }
+            ]);
+            if (agendaFiltrada !== null) {
+                res.status(200).json(agendaFiltrada);
+            } else {
+                next(new NaoEncontrado("Nenhum compromisso encontrado"));
+            }
+        } catch (error) {
+            next(error);
+        }
+    };
 
     static cadastrarCompromisso = async (req,res,next) => {
         try {
@@ -54,8 +74,14 @@ class AgendaController {
     static atualizarCompromisso = async (req, res, next) => {
         try {
                 const id = req.params.id;
-                await agenda.findByIdAndUpdate(id, req.body);
+
+                const agendaResultado = await agenda.findByIdAndUpdate(id, {$set: req.body});
+                    
+                if (agendaResultado !== null) {
                 res.status(200).json( { message: "Compromisso atualizado com sucesso!"});
+                } else {
+                next( new NaoEncontrado("Id do compromisso não encontrado"));
+                }
         } catch (error) {
             next(error);
         }
@@ -64,8 +90,12 @@ class AgendaController {
     static excluirCompromisso = async (req, res, next) => {
         try {
                 const id = req.params.id;
-                await agenda.findByIdAndDelete(id);
-                res.status(200).json( { message: "Compromisso excluído com sucesso!"});
+                const agendaResultado = await agenda.findByIdAndDelete(id);
+                if (agendaResultado !== null) {
+                    res.status(200).json( { message: "Compromisso excluído com sucesso!"});
+                } else {
+                    next( new NaoEncontrado("Id do compromisso não encontrado"));
+                }
         } catch (error) {
             next(error);
         }

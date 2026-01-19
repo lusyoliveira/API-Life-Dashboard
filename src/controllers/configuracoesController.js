@@ -48,8 +48,12 @@ class ConfiguracoesController {
     static atualizarConfiguracoes = async (req, res, next) => {
         try {
                 const id = req.params.id;
-                await configuracoes.findByIdAndUpdate(id, req.body);
+                const configuracoesResultado = await configuracoes.findByIdAndUpdate(id, {$set: req.body});
+                if (configuracoesResultado !== null) {
                 res.status(200).json( { message: "Configurações atualizado com sucesso!"});
+                } else {
+                next( new NaoEncontrado("Id do Configurações não encontrado"));
+                }
         } catch (error) {
             next(error);
         }
@@ -58,8 +62,12 @@ class ConfiguracoesController {
     static excluirConfiguracoes = async (req, res, next) => {
         try {
                 const id = req.params.id;
-                await configuracoes.findByIdAndDelete(id);
-                res.status(200).json( { message: "Configurações excluído com sucesso!"});
+                const configuracoesResultado = await configuracoes.findByIdAndDelete(id);
+                if (configuracoesResultado !== null) {
+                    res.status(200).json( { message: "Configurações excluído com sucesso!"});
+                } else {
+                    next( new NaoEncontrado("Id do Configurações não encontrado"));
+                }
         } catch (error) {
             next(error);
         }
