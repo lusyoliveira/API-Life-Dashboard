@@ -1,51 +1,67 @@
+import NaoEncontrado from "../erros/NaoEncontrado.js";
 import configuracoes from "../models/Configuracoes.js"
 
 class ConfiguracoesController {
-    static async listarConfiguracoes(req, res) {
+    static listarConfiguracoes = async (req, res, next) => {
         try {
                 const listaConfiguracoes = await configuracoes.find({});
+                
+                if (listaConfiguracoes !== null) {
                 res.status(200).json(listaConfiguracoes);
+                } else {
+                next( new NaoEncontrado("Nenhum Configurações encontrado"));
+                }
         } catch (error) {
-            res.status(500).json({ message: `${error.message} - Falha ao consultar os Configuração.`});
+            next(error);
         }
     };
 
-    static async listarConfiguracoesPorID(req, res) {
+    static listarConfiguracoesPorID = async (req, res, next) => {
         try {
                 const id = req.params.id;
                 const ConfiguracoesEncontrado = await configuracoes.findById(id);
-                res.status(200).json(ConfiguracoesEncontrado);
+               
+                if (ConfiguracoesEncontrado !== null) {
+                    res.status(200).json(ConfiguracoesEncontrado);
+                } else {
+                    next( new NaoEncontrado("Configurações não encontrado"));
+                }
         } catch (error) {
-            res.status(500).json({ message: `${error.message} - Falha ao consulta o Configurações.`});
+            next(error);
         }
     };
 
-    static async cadastrarConfiguracoes(req,res) {
+    static cadastrarConfiguracoes = async (req,res,next) => {
         try {
             const novaConfiguracoes = await configuracoes.create(req.body);
-            res.status(201).json({ message: "Configurações criado com sucesso", configuracoes: novaConfiguracoes });
+
+            if (novaConfiguracoes !== null) {
+                res.status(201).json({ message: "Configurações criado com sucesso", configuracoes: novaConfiguracoes });
+            } else {
+                next( new NaoEncontrado("Erro ao criar o Configurações"));
+            }
         } catch (error) {
-            res.status(500).json({ message: `${error.message} - Falha ao criar um Configurações.`});
+            next(error);
         }
     };
 
-    static async atualizarConfiguracoes(req, res) {
+    static atualizarConfiguracoes = async (req, res, next) => {
         try {
                 const id = req.params.id;
                 await configuracoes.findByIdAndUpdate(id, req.body);
                 res.status(200).json( { message: "Configurações atualizado com sucesso!"});
         } catch (error) {
-            res.status(500).json({ message: `${error.message} - Falha ao atualizar o Configurações.`});
+            next(error);
         }
     };
 
-    static async excluirConfiguracoes(req, res) {
+    static excluirConfiguracoes = async (req, res, next) => {
         try {
                 const id = req.params.id;
                 await configuracoes.findByIdAndDelete(id);
                 res.status(200).json( { message: "Configurações excluído com sucesso!"});
         } catch (error) {
-            res.status(500).json({ message: `${error.message} - Falha ao excluir o Configurações.`});
+            next(error);
         }
     };
 };

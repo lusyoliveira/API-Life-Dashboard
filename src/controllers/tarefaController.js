@@ -1,51 +1,66 @@
+import NaoEncontrado from "../erros/NaoEncontrado.js";
 import tarefa from "../models/Tarefas.js"
 
 class TarefaController {
-    static async listarTarefas(req, res) {
+    static  listarTarefas = async(req, res, next) => {
         try {
                 const listaTarefas = await tarefa.find({});
+                
+                if (listaTarefas !== null) {
                 res.status(200).json(listaTarefas);
+                } else {
+                next( new NaoEncontrado("Nenhuma tarefa encontrada"));
+                }
         } catch (error) {
-            res.status(500).json({ message: `${error.message} - Falha ao consultar as tarefas.`});
+            next(error);
         }
     };
 
-    static async listarTarefaPorID(req, res) {
+    static listarTarefaPorID = async (req, res, next) => {
         try {
                 const id = req.params.id;
                 const tarefaEncontrada = await tarefa.findById(id);
-                res.status(200).json(tarefaEncontrada);
+                if (tarefaEncontrada !== null) {
+                    res.status(200).json(tarefaEncontrada);
+                } else {
+                    next( new NaoEncontrado("Tarefa não encontrada"));
+                }
         } catch (error) {
-            res.status(500).json({ message: `${error.message} - Falha ao consultar a tarefa.`});
+            next(error);
         }
     };
 
-    static async cadastrarTarefa(req,res) {
+    static cadastrarTarefa = async (req,res, next) => {
         try {
             const novaTarefa = await tarefa.create(req.body);
-            res.status(201).json({ message: "Tarefa criado com sucesso", tarefa: novaTarefa });
+
+            if (novaTarefa !== null) {
+                res.status(201).json({ message: "Tarefa criada com sucesso", tarefa: novaTarefa });
+            } else {
+            next( new NaoEncontrado("Erro ao criar tarefa"));
+            }   
         } catch (error) {
-            res.status(500).json({ message: `${error.message} - Falha ao criar a tarefa.`});
+            next(error);
         }
     };
 
-    static async atualizarTarefa(req, res) {
+    static atualizarTarefa = async (req, res, next) => {
         try {
                 const id = req.params.id;
                 await tarefa.findByIdAndUpdate(id, req.body);
                 res.status(200).json( { message: "Tarefa atualizada com sucesso!"});
         } catch (error) {
-            res.status(500).json({ message: `${error.message} - Falha ao atualizar a tarefa.`});
+            next(error);
         }
     };
 
-    static async excluirTarefa(req, res) {
+    static excluirTarefa = async (req, res, next) => {
         try {
                 const id = req.params.id;
                 await tarefa.findByIdAndDelete(id);
                 res.status(200).json( { message: "Tarefa excluída com sucesso!"});
         } catch (error) {
-            res.status(500).json({ message: `${error.message} - Falha ao excluir a tarefa.`});
+            next(error);
         }
     };
 };

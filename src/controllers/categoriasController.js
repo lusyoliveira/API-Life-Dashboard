@@ -1,51 +1,68 @@
+import NaoEncontrado from "../erros/NaoEncontrado.js";
 import categoria from "../models/Categoria.js"
 
 class CategoriasController {
-    static async listarCategorias(req, res) {
+    static listarCategorias = async (req, res, next) => {
         try {
                 const listaCategorias = await categoria.find({});
-                res.status(200).json(listaCategorias);
+
+                if (listaCategorias !== null) {
+                    res.status(200).json(listaCategorias);
+                } else {
+                    next( new NaoEncontrado("Nenhum categoria encontrado"));
+                }               
+                    
         } catch (error) {
-            res.status(500).json({ message: `${error.message} - Falha ao consultar os categorias.`});
+            next(error);
         }
     };
 
-    static async listarCategoriasPorID(req, res) {
+    static listarCategoriasPorID = async (req, res, next) => {
         try {
                 const id = req.params.id;
                 const categoriaEncontrada = await categoria.findById(id);
-                res.status(200).json(categoriaEncontrada);
+                
+                if (categoriaEncontrada !== null) {
+                    res.status(200).json(categoriaEncontrada);
+                } else {
+                    next( new NaoEncontrado("Categoria não encontrada"));
+                }
         } catch (error) {
             res.status(500).json({ message: `${error.message} - Falha ao consultar categoria.`});
         }
     };
 
-    static async cadastrarCategoria(req,res) {
+    static cadastrarCategoria = async (req,res,next) => {
         try {
-            const novaCategorias = await categoria.create(req.body);
-            res.status(201).json({ message: "Categoria criado com sucesso", categoria: novaCategorias });
+            const novaCategoria = await categoria.create(req.body);
+           
+            if (novaCategoria !== null) {
+                res.status(201).json({ message: "Categoria criada com sucesso", categoria: novaCategoria });
+            } else {
+                next( new NaoEncontrado("Erro ao criar categoria"));
+            }
         } catch (error) {
-            res.status(500).json({ message: `${error.message} - Falha ao criar um categoria.`});
+            next(error);
         }
     };
 
-    static async atualizarCategoria(req, res) {
+    static async atualizarCategoria(req, res, next) {
         try {
                 const id = req.params.id;
                 await categoria.findByIdAndUpdate(id, req.body);
                 res.status(200).json( { message: "Categoria atualizado com sucesso!"});
         } catch (error) {
-            res.status(500).json({ message: `${error.message} - Falha ao atualizar o categoria.`});
+            next(error);
         }
     };
 
-    static async excluirCategoria(req, res) {
+    static async excluirCategoria(req, res, next) {
         try {
                 const id = req.params.id;
                 await categoria.findByIdAndDelete(id);
                 res.status(200).json( { message: "Categoria excluído com sucesso!"});
         } catch (error) {
-            res.status(500).json({ message: `${error.message} - Falha ao excluir o categoria.`});
+            next(error);
         }
     };
 };

@@ -1,52 +1,67 @@
+import NaoEncontrado from "../erros/NaoEncontrado.js";
 import clima from "../models/Clima.js"
 
 class ClimaController {
-    static async listarClima(req, res) {
+    static  listarClima = async (req, res, next) => {
         try {
                 const listaclima = await clima.find({});
-                res.status(200).json(listaclima);
+
+                if (listaclima !== null) {
+                    res.status(200).json(listaclima);
+                } else {
+                    next( new NaoEncontrado("Nenhum clima encontrado"));
+                }
         } catch (error) {
-            res.status(500).json({ message: `${error.message} - Falha ao consultar as clima.`});
+            next(error);
         }
     };
 
-    static async listarClimaPorID(req, res) {
+    static listarClimaPorID = async (req, res, next) => {
         try {
                 const id = req.params.id;
                 const climaEncontrado = await clima.findById(id);
-                res.status(200).json(climaEncontrado);
+
+                if (climaEncontrado !== null) {
+                    res.status(200).json(climaEncontrado);
+                } else {
+                    next( new NaoEncontrado("Clima não encontrado"));
+                }
         } catch (error) {
-            res.status(500).json({ message: `${error.message} - Falha ao consulta o clima.`});
+            next(error);
         }
     };
 
-    static async cadastrarClima(req,res) {
+    static cadastrarClima = async (req,res,next) => {
         try {
-            const novaclima = await clima.create(req.body);
-            res.status(201).json({ message: "Clima criado com sucesso", clima: novaclima });
+            const novoclima = await clima.create(req.body);
+
+            if (novoclima !== null) {
+                res.status(201).json({ message: "Clima criado com sucesso", clima: novoclima });
+            } else {
+                next( new NaoEncontrado("Erro ao criar clima"));
+            }
         } catch (error) {
-            res.status(500).json({ message: `${error.message} - Falha ao criar um clima.`});
+            next(error);
         }
     };
 
-    static async atualizarClima(req, res) {
+    static atualizarClima = async (req, res, next) => {
         try {
                 const id = req.params.id;
                 await clima.findByIdAndUpdate(id, req.body);
                 res.status(200).json( { message: "Clima atualizado com sucesso!"});
         } catch (error) {
-            res.status(500).json({ message: `${error.message} - Falha ao atualizar o clima.`});
+            next(error);
         }
     };
 
-    static async excluirClima(req, res) {
+    static excluirClima = async (req, res, next) => {
         try {
                 const id = req.params.id;
                 await clima.findByIdAndDelete(id);
                 res.status(200).json( { message: "Clima excluída com sucesso!"});
         } catch (error) {
-            res.status(500).json({ message: `${error.message} - Falha ao excluir o clima.`});
-        }
+            next(error);}
     };
 };
 

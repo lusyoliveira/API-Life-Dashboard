@@ -1,51 +1,66 @@
+import NaoEncontrado from "../erros/NaoEncontrado.js";
 import tipo from "../models/Tipos.js"
 
 class TiposController {
-    static async listarTipos(req, res) {
+    static  listarTipos = async(req, res, next) => {
         try {
                 const listaTipos = await tipo.find({});
+                
+                if (listaTipos !== null) {
                 res.status(200).json(listaTipos);
+                } else {
+                next( new NaoEncontrado("Nenhum tipo encontrado"));
+                }   
         } catch (error) {
-            res.status(500).json({ message: `${error.message} - Falha ao consultar os tipos.`});
+            next(error);
         }
     };
 
-    static async listarTiposPorID(req, res) {
+    static listarTiposPorID = async (req, res, next) => {
         try {
                 const id = req.params.id;
                 const tipoEncontrado = await tipo.findById(id);
-                res.status(200).json(tipoEncontrado);
+                if (tipoEncontrado !== null) {
+                    res.status(200).json(tipoEncontrado);
+                } else {
+                    next( new NaoEncontrado("Tipo não encontrado"));
+                }
         } catch (error) {
-            res.status(500).json({ message: `${error.message} - Falha ao consultar tipo.`});
+            next(error);
         }
     };
 
-    static async cadastrarTipo(req,res) {
+    static cadastrarTipo = async (req,res, next) => {
         try {
             const novaAgendaTipos = await tipo.create(req.body);
-            res.status(201).json({ message: "Tipo criado com sucesso", tipo: novaAgendaTipos });
+            
+            if (novaAgendaTipos !== null) {
+                res.status(201).json({ message: "Tipo criado com sucesso", tipo: novaAgendaTipos });
+            } else {
+            next( new NaoEncontrado("Erro ao criar tipo"));
+            }
         } catch (error) {
-            res.status(500).json({ message: `${error.message} - Falha ao criar um tipo.`});
+            next(error);
         }
     };
 
-    static async atualizarTipo(req, res) {
+    static atualizarTipo = async (req, res, next) => {
         try {
                 const id = req.params.id;
                 await tipo.findByIdAndUpdate(id, req.body);
                 res.status(200).json( { message: "Tipo atualizado com sucesso!"});
         } catch (error) {
-            res.status(500).json({ message: `${error.message} - Falha ao atualizar o tipo.`});
+            next(error);
         }
     };
 
-    static async excluirTipo(req, res) {
+    static excluirTipo = async (req, res, next) => {
         try {
                 const id = req.params.id;
                 await tipo.findByIdAndDelete(id);
                 res.status(200).json( { message: "Tipo excluído com sucesso!"});
         } catch (error) {
-            res.status(500).json({ message: `${error.message} - Falha ao excluir o tipo.`});
+            next(error);
         }
     };
 };

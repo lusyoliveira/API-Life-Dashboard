@@ -1,55 +1,70 @@
+import NaoEncontrado from "../erros/NaoEncontrado.js";
 import transacoes from "../models/Transacao.js"
 
 class TransacoesController {
-    static async listarTransacoes(req, res) {
+    static  listarTransacoes = async(req, res, next)  =>  {
         try {
                 const listaTransacoes = await transacoes.find({}).populate([
                                                                     { path: "Categoria" }
                                                                     ]);
-                res.status(200).json(listaTransacoes);
+                if (listaTransacoes !== null) {                                                    
+                    res.status(200).json(listaTransacoes);
+                } else {
+                    res.status(404).json({ message: "Nenhuma transação encontrada"});
+                }
         } catch (error) {
-            res.status(500).json({ message: `${error.message} - Falha ao consultar as transacoes.`});
+            next(error);
         }
     };
 
-    static async listarTransacoesPorID(req, res) {
+    static listarTransacoesPorID = async (req, res, next) => {
         try {
                 const id = req.params.id;
                 const transacoesEncontrado = await transacoes.findById(id).populate([
                                                                     { path: "Categoria" }
                                                                     ]);
-                res.status(200).json(transacoesEncontrado);
+
+                if (transacoesEncontrado !== null) {
+                    res.status(200).json(transacoesEncontrado);
+                } else {
+                    res.status(404).json({ message: "Transação não encontrada"});
+                }
         } catch (error) {
-            res.status(500).json({ message: `${error.message} - Falha ao consulta a transação.`});
+            next(error);
         }
     };
 
-    static async cadastrarTransacao(req,res) {
+    static cadastrarTransacao = async (req,res, next) => {
         try {
             const novaTransacao = await transacoes.create(req.body);
-            res.status(201).json({ message: "Transação criado com sucesso", transacoes: novaTransacao });
+            
+            if (novaTransacao !== null) {
+                res.status(201).json({ message: "Transação criada com sucesso", transacao: novaTransacao });
+            } else {
+                next( new NaoEncontrado("Erro ao criar transação"));
+            }
         } catch (error) {
-            res.status(500).json({ message: `${error.message} - Falha ao criar uma transação.`});
+            next(error);
         }
     };
 
-    static async atualizarTransacao(req, res) {
+    static atualizarTransacao = async (req, res, next) => {
         try {
                 const id = req.params.id;
                 await transacoes.findByIdAndUpdate(id, req.body);
                 res.status(200).json( { message: "Transação atualizada com sucesso!"});
         } catch (error) {
-            res.status(500).json({ message: `${error.message} - Falha ao atualizar a transação.`});
+            next(error);
         }
     };
 
-    static async excluirTransacao(req, res) {
+    static excluirTransacao = async (req, res, next) => {
         try {
                 const id = req.params.id;
                 await transacoes.findByIdAndDelete(id);
                 res.status(200).json( { message: "Transação excluída com sucesso!"});
         } catch (error) {
-            res.status(500).json({ message: `${error.message} - Falha ao excluir a transação.`});
+            next(error);
         }
     };
 };

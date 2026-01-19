@@ -9,7 +9,11 @@ class AgendaController {
                                                                     { path: "Categoria" },
                                                                     { path: "Status" }
                                                                     ]);
-                res.status(200).json(listaCompromissos);
+                if (listaCompromissos !== null) {                                                    
+                    res.status(200).json(listaCompromissos);
+                } else {
+                    next( new NaoEncontrado("Nenhum compromisso encontrado"));
+                }
         } catch (error) {
             next(error);
         }
@@ -36,7 +40,12 @@ class AgendaController {
     static cadastrarCompromisso = async (req,res,next) => {
         try {
             const novaAgenda = await agenda.create(req.body);
+
+            if (novaAgenda !== null) {
             res.status(201).json({ message: "Compromisso criado com sucesso", agenda: novaAgenda });
+            } else {
+            next( new NaoEncontrado("Erro ao criar compromisso"));
+            }
         } catch (error) {
             next(error);
         }

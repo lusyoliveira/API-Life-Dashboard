@@ -1,51 +1,67 @@
+import NaoEncontrado from "../erros/NaoEncontrado.js";
 import contas from "../models/Contas.js"
 
 class ContasController {
-    static async listarContas(req, res) {
+    static listarContas = async(req, res, next) => {
         try {
                 const listaContas = await contas.find({});
+                
+                if (listaContas !== null) {
                 res.status(200).json(listaContas);
+                } else {
+                next( new NaoEncontrado("Nenhuma conta encontrada"));
+                }
         } catch (error) {
-            res.status(500).json({ message: `${error.message} - Falha ao consultar as contas.`});
+            next(error);
         }
     };
 
-    static async listarContasPorID(req, res) {
+    static listarContasPorID = async (req, res, next) => {
         try {
                 const id = req.params.id;
                 const contasEncontrado = await contas.findById(id);
+                
+                if (contasEncontrado !== null) {
                 res.status(200).json(contasEncontrado);
+                } else {
+                next( new NaoEncontrado("Conta não encontrada"));
+                }
         } catch (error) {
-            res.status(500).json({ message: `${error.message} - Falha ao consulta a conta.`});
+            next(error);
         }
     };
 
-    static async cadastrarConta(req,res) {
+    static cadastrarConta = async (req,res,next) => {
         try {
             const novacontas = await contas.create(req.body);
-            res.status(201).json({ message: "Conta criado com sucesso", contas: novacontas });
+
+            if (novacontas !== null) {
+                res.status(201).json({ message: "Conta criada com sucesso", conta: novacontas });
+            } else {
+            next( new NaoEncontrado("Erro ao criar conta"));
+            }
         } catch (error) {
-            res.status(500).json({ message: `${error.message} - Falha ao criar um contas.`});
+            next(error);
         }
     };
 
-    static async atualizarConta(req, res) {
+    static atualizarConta = async (req, res, next) => {
         try {
                 const id = req.params.id;
                 await contas.findByIdAndUpdate(id, req.body);
                 res.status(200).json( { message: "Conta atualizada com sucesso!"});
         } catch (error) {
-            res.status(500).json({ message: `${error.message} - Falha ao atualizar o Conta.`});
+            next(error);
         }
     };
 
-    static async excluirConta(req, res) {
+    static excluirConta = async (req, res, next) => {
         try {
                 const id = req.params.id;
                 await contas.findByIdAndDelete(id);
                 res.status(200).json( { message: "Conta excluída com sucesso!"});
         } catch (error) {
-            res.status(500).json({ message: `${error.message} - Falha ao excluir o Conta.`});
+            next(error);
         }
     };
 };

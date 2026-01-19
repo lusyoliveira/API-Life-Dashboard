@@ -1,20 +1,25 @@
+import NaoEncontrado from "../erros/NaoEncontrado.js";
 import catalogo from "../models/Catalogo.js"
 
 class CatalogoController {
-    static async listarCatalogo(req, res) {
+    static listarCatalogo = async (req, res, next) => {
         try {
                 const listaCatalogo = await catalogo.find({}).populate([
                                                                     { path: "Tipo" },
                                                                     { path: "Onde" },
                                                                     { path: "Status" }
                                                                     ]);
-                res.status(200).json(listaCatalogo);
+                if (listaCatalogo !== null) {                                                    
+                    res.status(200).json(listaCatalogo);
+                } else {
+                    next( new NaoEncontrado("Nenhum item encontrado"));
+                }
         } catch (error) {
-            res.status(500).json({ message: `${error.message} - Falha ao consultar o catalogo.`});
+            next(error);
         }
     };
 
-    static async listarCatalogoPorID(req, res) {
+    static listarCatalogoPorID = async (req, res, next) => {
         try {
                 const id = req.params.id;
                 const catalogoEncontrado = await catalogo.findById(id).populate([
@@ -22,38 +27,47 @@ class CatalogoController {
                                                                     { path: "Onde" },
                                                                     { path: "Status" }
                                                                     ]);
-                res.status(200).json(catalogoEncontrado);
+                if (catalogoEncontrado !== null) {                                                   
+                 res.status(200).json(catalogoEncontrado);
+                } else {
+                 next( new NaoEncontrado("Item não encontrado"));
+                }
         } catch (error) {
-            res.status(500).json({ message: `${error.message} - Falha ao consultar um item do catalogo.`});
+            next(error);
         }
     };
 
-    static async cadastrarCatalogo(req,res) {
+    static cadastrarCatalogo = async (req,res,next) => {
         try {
             const novacatalogo = await catalogo.create(req.body);
-            res.status(201).json({ message: "Item criado com sucesso", catalogo: novacatalogo });
+            
+            if (novacatalogo !== null) {
+                res.status(201).json({ message: "Item criado com sucesso", catalogo: novacatalogo });
+            } else {
+                next( new NaoEncontrado("Erro ao criar item"));
+            }
         } catch (error) {
-            res.status(500).json({ message: `${error.message} - Falha ao criar um item no catalogo.`});
+            next(error);
         }
     };
 
-    static async atualizarCatalogo(req, res) {
+    static atualizarCatalogo = async (req, res, next) => {
         try {
                 const id = req.params.id;
                 await catalogo.findByIdAndUpdate(id, req.body);
                 res.status(200).json( { message: "Item atualizada com sucesso!"});
         } catch (error) {
-            res.status(500).json({ message: `${error.message} - Falha ao atualizar o item no catalogo.`});
+            next(error);
         }
     };
 
-    static async excluirCatalogo(req, res) {
+    static excluirCatalogo = async (req, res, next) => {
         try {
                 const id = req.params.id;
                 await catalogo.findByIdAndDelete(id);
                 res.status(200).json( { message: "Item excluído com sucesso!"});
         } catch (error) {
-            res.status(500).json({ message: `${error.message} - Falha ao excluir o item no catalogo.`});
+            next(error);
         }
     };
 };
