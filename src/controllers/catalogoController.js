@@ -1,5 +1,6 @@
 import NaoEncontrado from "../erros/NaoEncontrado.js";
 import catalogo from "../models/Catalogo.js"
+import RequisicaoIncorreta from "../erros/RequisicaoIncorreta.js";
 
 class CatalogoController {
     static listarCatalogo = async (req, res, next) => {
@@ -13,6 +14,35 @@ class CatalogoController {
                     res.status(200).json(listaCatalogo);
                 } else {
                     next( new NaoEncontrado("Nenhum item encontrado"));
+                }
+        } catch (error) {
+            next(error);
+        }
+    };
+
+    static listarCatalogoPaginado = async (req, res, next) => {
+        try {
+                let { pagina = 1, limite = 10 } = req.query;
+
+                limite = parseInt(limite);
+                pagina = parseInt(pagina);
+
+                if (limite > 0 && pagina > 0) {
+                    const listaCatalogo = await catalogo.find({})
+                    .skip((pagina - 1) * limite)
+                    .limit(parseInt(limite))
+                    .populate([
+                        { path: "Tipo" },
+                        { path: "Onde" },
+                        { path: "Status" }
+                        ]);
+                    if (listaCatalogo !== null) {                                                    
+                        res.status(200).json(listaCatalogo);
+                    } else {
+                        next( new NaoEncontrado("Nenhum item encontrado"));
+                    }
+                } else {
+                    next( new RequisicaoIncorreta());
                 }
         } catch (error) {
             next(error);

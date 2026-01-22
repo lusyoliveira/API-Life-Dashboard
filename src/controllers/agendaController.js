@@ -1,5 +1,6 @@
 import NaoEncontrado from "../erros/NaoEncontrado.js";
 import agenda from "../models/Agenda.js"
+//import Categoria from "../models/Categoria.js";
 
 class AgendaController {
     static listarCompromissos = async (req, res, next) => {
@@ -34,26 +35,6 @@ class AgendaController {
             }
         } catch (error) {
            next(error);
-        }
-    };
-
-    static listarAgendaporFiltro = async (req, res, next) => {
-        try {
-            const { titulo } = req.query;
-            const agendaFiltrada = await agenda.find({
-                titulo: titulo
-            }).populate([
-                { path: "Tipo" },
-                { path: "Categoria" },
-                { path: "Status" }
-            ]);
-            if (agendaFiltrada !== null) {
-                res.status(200).json(agendaFiltrada);
-            } else {
-                next(new NaoEncontrado("Nenhum compromisso encontrado"));
-            }
-        } catch (error) {
-            next(error);
         }
     };
 
@@ -100,6 +81,45 @@ class AgendaController {
             next(error);
         }
     };
-};
+
+    static listarAgendaporFiltro = async (req, res, next) => {
+        try {
+            const busca = await processaBusca(req.query);
+
+            if (busca !== null) {
+                const agendaFiltrada = await agenda
+                    .find(busca)
+                    .populate([
+                    { path: "Tipo" },
+                    { path: "Categoria" },
+                    { path: "Status" }
+                ]); 
+                res.status(200).json(agendaFiltrada);
+            } else {
+                res.status(200).json([]); 
+            }
+        } catch (error) {
+            next(error);
+        }
+    };
+    
+}
+async function processaBusca(parametros){
+    const { Titulo, nomeCategoria } = parametros;
+    let busca = {};
+
+    if (Titulo)  busca.Titulo = { $regex: Titulo, $options: "i" };
+
+    if (nomeCategoria) {
+        const Categoria = await Categoria.findOne({ Nome: nomeCategoria });
+        
+        if (Categoria !== null) {                
+            busca.Categoria = Categoria._id;
+        } else {
+            busca = null;
+        }
+    }
+    return busca;
+}
 
 export default AgendaController
