@@ -5,7 +5,8 @@ class TransacoesController {
     static  listarTransacoes = async(req, res, next)  =>  {
         try {
                 const listaTransacoes = await transacoes.find({}).populate([
-                                                                    { path: "Categoria" }
+                                                                    { path: "Categoria" },
+                                                                    { path: "Conta" }
                                                                     ]);
                 if (listaTransacoes !== null) {                                                    
                     res.status(200).json(listaTransacoes);
@@ -21,7 +22,8 @@ class TransacoesController {
         try {
                 const id = req.params.id;
                 const transacoesEncontrado = await transacoes.findById(id).populate([
-                                                                    { path: "Categoria" }
+                                                                    { path: "Categoria" },
+                                                                    { path: "Conta" }
                                                                     ]);
 
                 if (transacoesEncontrado !== null) {
