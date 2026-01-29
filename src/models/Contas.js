@@ -6,7 +6,7 @@ const contaSchema = new mongoose.Schema({
     Banco: { type: String, required: [true, "Banco é obrigatório"] },
     Descricao:{ type: String },
     Tipo: { type: String, required: [true, "Tipo é obrigatório"] },
-    Saldo: { type: String }
+    Saldo: { type: Number }
 }, { versionKey: false });
 
 const conta = mongoose.model("conta", contaSchema);
