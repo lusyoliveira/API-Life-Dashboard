@@ -6,7 +6,7 @@ const transacaoSchema = new mongoose.Schema({
     Data: { type: String, required: [true, "Data é obrigatória"] },
     Categoria: {type: mongoose.Schema.Types.ObjectId, ref: 'categorias', required: [true, "Categoria é obrigatória"]},
     ContaOrigem: { type:  mongoose.Schema.Types.ObjectId, ref: 'conta', required: [true, "Conta origem é obrigatória"] },
-    Conta: { type:  mongoose.Schema.Types.ObjectId, ref: 'conta', required: [true, "Conta é obrigatória"] },
+    ContaDestino: { type:  mongoose.Schema.Types.ObjectId, ref: 'conta' },
     Valor: { type: Number, required: [true, "Valor é obrigatório"] },
     ParcelaInicio: { type: Number},
     ParcelaFim: { type: Number },

@@ -6,7 +6,7 @@ class TransacoesController {
         try {
                 const listaTransacoes = await transacoes.find({}).populate([
                                                                     { path: "Categoria" },
-                                                                    { path: "Conta" },
+                                                                    { path: "ContaDestino" },
                                                                     { path: "ContaOrigem" }
                                                                     ]);
                 if (listaTransacoes !== null) {                                                    
@@ -24,7 +24,7 @@ class TransacoesController {
                 const id = req.params.id;
                 const transacoesEncontrado = await transacoes.findById(id).populate([
                                                                     { path: "Categoria" },
-                                                                    { path: "Conta" },
+                                                                    { path: "ContaDestino" },
                                                                     { path: "ContaOrigem" }
                                                                     ]);
 
