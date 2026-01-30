@@ -4,7 +4,7 @@ const transacaoSchema = new mongoose.Schema({
    
     Descricao: { type: String, required: [true, "Descrição é obrigatória"] },
     Data: { type: String, required: [true, "Data é obrigatória"] },
-    Categoria: {type: mongoose.Schema.Types.ObjectId, ref: 'categorias', required: [true, "Categoria é obrigatória"]},
+    Categoria: {type: mongoose.Schema.Types.ObjectId, ref: 'categorias'},
     ContaOrigem: { type:  mongoose.Schema.Types.ObjectId, ref: 'conta', required: [true, "Conta origem é obrigatória"] },
     ContaDestino: { type:  mongoose.Schema.Types.ObjectId, ref: 'conta' },
     Valor: { type: Number, required: [true, "Valor é obrigatório"] },
