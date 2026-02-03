@@ -1,6 +1,8 @@
 import NaoEncontrado from "../erros/NaoEncontrado.js";
 import agenda from "../models/Agenda.js"
-//import Categoria from "../models/Categoria.js";
+import Categoria from "../models/Categoria.js";
+import Status from "../models/Status.js";
+import Tipo from "../models/Tipos.js";
 
 class AgendaController {
     static listarCompromissos = async (req, res, next) => {
@@ -83,43 +85,74 @@ class AgendaController {
     };
 
     static listarAgendaporFiltro = async (req, res, next) => {
-        try {
-            const busca = await processaBusca(req.query);
+    try {
+      const busca = await processaBusca(req.query);
 
-            if (busca !== null) {
-                const agendaFiltrada = await agenda
-                    .find(busca)
-                    .populate([
-                    { path: "Tipo" },
-                    { path: "Categoria" },
-                    { path: "Status" }
-                ]); 
-                res.status(200).json(agendaFiltrada);
-            } else {
-                res.status(200).json([]); 
-            }
-        } catch (error) {
-            next(error);
-        }
-    };
-    
-}
-async function processaBusca(parametros){
-    const { Titulo, nomeCategoria } = parametros;
-    let busca = {};
+      if (busca !== null) {
+        const livrosResultado = agenda
+          .find(busca)
+          .populate("Categoria")
+          .populate("Status")
+          .populate("Tipo");
 
-    if (Titulo)  busca.Titulo = { $regex: Titulo, $options: "i" };
+        req.resultado = livrosResultado;
 
-    if (nomeCategoria) {
-        const Categoria = await Categoria.findOne({ Nome: nomeCategoria });
-        
-        if (Categoria !== null) {                
-            busca.Categoria = Categoria._id;
-        } else {
-            busca = null;
-        }
+        next();
+      } else {
+        res.status(200).send([]);
+      }
+    } catch (erro) {
+      next(erro);
     }
-    return busca;
+  };
+}
+
+async function processaBusca(parametros) {
+  const { titulo, categoria, status, tipo } = parametros;
+
+  let busca = {};
+
+  if (titulo) {
+    busca.Titulo = { $regex: titulo, $options: "i" };
+  }
+
+  if (categoria) {
+    const categoriaEncontrada = await Categoria.findOne({
+        descricao: categoria
+    });
+
+    if (!categoriaEncontrada) {
+      return null;
+    }
+
+    busca.Categoria = categoriaEncontrada._id;
+  }
+
+  if (status) {
+    const statusEncontrado = await Status.findOne({
+        descricao: status
+    });
+
+    if (!statusEncontrado) {
+      return null;
+    }
+
+    busca.Status = statusEncontrado._id;
+  }
+
+  if (tipo) {
+    const tipoEncontrado = await Tipo.findOne({
+        descricao: tipo
+    });
+
+    if (!tipoEncontrado) {
+      return null;
+    }
+
+    busca.Tipo = tipoEncontrado._id;
+  }
+
+  return busca;
 }
 
 export default AgendaController
