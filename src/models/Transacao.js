@@ -12,6 +12,11 @@ const transacaoSchema = new mongoose.Schema({
     ParcelaFim: { type: Number },
     Parcelamento: { type: Boolean},
     Tipo: {type: String, required: [true, "Tipo é obrigatório"] },
+    Recorrente: { type: Boolean },
+    Periodicidade: { type: String },
+    RecorrenciaInicio: { type: String },
+    RecorrenciaFim: { type: String },
+    UltimaGeracao: { type: String },
 }, { versionKey: false });
 
 const transacao = mongoose.model("transacoes", transacaoSchema);
