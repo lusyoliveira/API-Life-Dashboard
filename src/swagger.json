@@ -1,0 +1,241 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Life Dashboard API",
+    "description": "API para gerenciamento do sistema Life Dashboard",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/agenda": {
+      "post": {
+        "summary": "Criar um compromisso na agenda.",
+        "tags": [
+          "Agenda"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/Agenda"
+                }
+              },
+              "example": {
+                "message": "Compromisso criado com sucesso",
+                "agenda": {
+                  "_id": "6957f43a65aa48c941df873d",
+                  "Titulo": "Dia da Pizza",
+                  "Status": {
+                    "_id": "6949929f857187924b64ab53",
+                    "descricao": "Indeterminado",
+                    "Tipo": "Geral"
+                  },
+                  "Categoria": {
+                    "_id": "694a80737d901d9684f770ab",
+                    "descricao": "Casa",
+                    "Tipo": "Agenda"
+                  },
+                  "Tipo": {
+                    "_id": "694975074acedb0e9d601924",
+                    "descricao": "Evento",
+                    "Tipo": "Agenda"
+                  },
+                  "Data": "2026-01-22T12:00:00.000Z"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Compromisso criado com sucesso"
+          },
+          "400": {
+            "description": "Um ou mais dados estão incorretos"
+          },
+          "404": {
+            "description": "Recurso não encontrado"
+          },
+          "500": {
+            "description": "Erro interno do servidor"
+          }
+        }
+      },
+      "get": {
+        "summary": "Listar todos os compromissos da agenda.",
+        "tags": [
+          "Agenda"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Lista de compromissos retornada com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Agenda"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro interno do servidor"
+          }
+        }
+      }
+    },
+    "/agenda/busca?{campo}={palavrachave}": {
+      "get": {
+        "summary": "Buscar um compromisso específico na agenda pelo título, status, categoria ou tipo.",
+        "tags": [
+          "Agenda"
+        ],
+        "parameters": [
+          {
+            "name": "title",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Compromisso encontrado com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Agenda"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Compromisso não encontrado"
+          },
+          "500": {
+            "description": "Erro interno do servidor"
+          }
+        }
+      }
+    },
+    "/agenda/{id}": {
+      "put": {
+        "summary": "Atualizar um compromisso na agenda.",
+        "tags": [
+          "Agenda"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Agenda"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "compromisso atualizado com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Agenda"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Id do compromisso não encontrado"
+          },
+          "400": {
+            "description": "Um ou mais dados estão incorretos"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Excluir um compromisso da agenda.",
+        "tags": [
+          "Agenda"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "compromisso excluído com sucesso"
+          },
+          "404": {
+            "description": "Id do compromisso não encontrado"
+          },
+          "500": {
+            "description": "Erro interno do servidor"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Agenda": {
+        "type": "object",
+        "properties": {
+          "Titulo": {
+            "type": "string"
+          },
+          "Status": {
+            "_id": "string",
+            "descricao": "string",
+            "Tipo": "string"
+          },
+          "Categoria": {
+            "_id": "string",
+            "descricao": "string",
+            "Tipo": "string"
+          },
+          "Tipo": {
+            "_id": "string",
+            "descricao": "string",
+            "Tipo": "string"
+          },
+          "Data": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  }
+}

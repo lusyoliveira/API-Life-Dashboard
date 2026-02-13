@@ -11,12 +11,15 @@ import catalogo from "./catalogoRotas.js";
 import clima from "./climaRotas.js"
 import transacoes from "./transacoesRotas.js"
 import plataformas from "./plataformaRotas.js"
+import swaggerUi from "swagger-ui-express";
+import fs from "fs";
+const swaggerJson = JSON.parse(fs.readFileSync("./src/swagger.json", "utf8"));
 
 const rotas = (app) => {
     app.route("/").get((req, res) =>
         res.status(200).send("Life Dashboard")
     );
- 
+    app.use("/life-dashboard-docs", swaggerUi.serve, swaggerUi.setup(swaggerJson));
     app.use(agenda);
     app.use(areas);
     app.use(catalogo);
