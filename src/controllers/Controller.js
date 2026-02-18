@@ -5,23 +5,24 @@ class Controller {
         this.entidadeservice = entidadeservice;
     }
 
-    static  listarTodosRegistros = async(req, res, next)  =>  {
-            try {
-                const lista = await this.entidadeservice.buscarTodos();
-                if (lista !== null) {                                                    
-                    res.status(200).json(lista);
-                } else {
-                    res.status(404).json({ message: "Nenhuma registro encontrado"});
-                }
-            } catch (error) {
-                next(error);
+    listarTodosRegistros = async(req, res, next)  =>  {
+        try {
+            const lista = await this.entidadeservice.buscarTodos(this.populate);
+            if (lista !== null) {                                                    
+                res.status(200).json(lista);
+            } else {
+                res.status(404).json({ message: "Nenhuma registro encontrado"});
             }
-        };
+        } catch (error) {
+            console.error(error);
+            next(error);
+        }
+    };
     
-    static listarRegistrosPorID = async (req, res, next) => {
+    listarRegistrosPorID = async (req, res, next) => {
         try {
                 const id = req.params.id;
-                const transacoesEncontrado = await this.entidadeservice.buscarPorId(id);
+                const transacoesEncontrado = await this.entidadeservice.buscarPorId(id,this.populate);
 
                 if (transacoesEncontrado !== null) {
                     res.status(200).json(transacoesEncontrado);
@@ -29,11 +30,12 @@ class Controller {
                     res.status(404).json({ message: "Registro não encontrado"});
                 }
         } catch (error) {
+            console.error(error);
             next(error);
         }
     };
 
-    static cadastrarRegistro = async (req,res, next) => {
+    cadastrarRegistro = async (req,res, next) => {
         try {
             const novaTransacao = await this.entidadeservice.criar(req.body);
             
@@ -43,11 +45,12 @@ class Controller {
                 next( new NaoEncontrado("Erro ao criar registro"));
             }
         } catch (error) {
+            console.error(error);
             next(error);
         }
     };
 
-    static atualizarRegistro = async (req, res, next) => {
+    atualizarRegistro = async (req, res, next) => {
         try {
                 const id = req.params.id;
                 const transacaoResultado = await this.entidadeservice.atualizar(id, req.body);
@@ -57,11 +60,12 @@ class Controller {
                     next( new NaoEncontrado("Id do registro não encontrado"));
                 }
         } catch (error) {
+            console.error(error);
             next(error);
         }
     };
 
-    static excluirRegistro = async (req, res, next) => {
+    excluirRegistro = async (req, res, next) => {
         try {
                 const id = req.params.id;
                 const transacaoResultado = await this.entidadeservice.deletar(id);
@@ -71,6 +75,7 @@ class Controller {
                     next( new NaoEncontrado("Id do registro não encontrado"));
                 }
         } catch (error) {
+            console.error(error);
             next(error);
         }
     };

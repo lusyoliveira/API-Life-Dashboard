@@ -4,11 +4,11 @@ import paginar from "../middlewares/paginar.js";
 
 const rotas = express.Router();
 
-rotas.get("/agenda", AgendaController.listarCompromissos);
+rotas.get("/agenda", AgendaController.listarTodosRegistros);
 rotas.get("/agenda/busca", AgendaController.listarAgendaporFiltro, paginar);
-rotas.get("/agenda/:id", AgendaController.listarCompromissoPorID);
-rotas.post("/agenda", AgendaController.cadastrarCompromisso);
-rotas.put("/agenda/:id", AgendaController.atualizarCompromisso);
-rotas.delete("/agenda/:id", AgendaController.excluirCompromisso);
+rotas.get("/agenda/:id", AgendaController.listarRegistrosPorID);
+rotas.post("/agenda", AgendaController.cadastrarRegistro);
+rotas.put("/agenda/:id", AgendaController.atualizarRegistro);
+rotas.delete("/agenda/:id", AgendaController.excluirRegistro);
 
 export default rotas;
