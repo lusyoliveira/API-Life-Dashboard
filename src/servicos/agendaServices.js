@@ -19,7 +19,7 @@ class AgendaServices extends Service {
         }
 
         if (categoria) {
-            const categoriaEncontrada = await Categoria.buscarUm({
+            const categoriaEncontrada = await Categoria.findOne({
                 descricao: categoria
             });
 
@@ -31,7 +31,7 @@ class AgendaServices extends Service {
         }
 
         if (status) {
-            const statusEncontrado = await Status.buscarUm({
+            const statusEncontrado = await Status.findOne({
                 descricao: status
             });
 
@@ -43,7 +43,7 @@ class AgendaServices extends Service {
         }
 
         if (tipo) {
-            const tipoEncontrado = await Tipo.buscarUm({
+            const tipoEncontrado = await Tipo.findOne({
                 descricao: tipo
             });
 
