@@ -1,76 +1,12 @@
-import NaoEncontrado from "../erros/NaoEncontrado.js";
-import tarefa from "../models/Tarefas.js"
+import Controller from "./Controller.js";
+import TarefaServices  from "../servicos/tarefaService.js";
 
-class TarefaController {
-    static  listarTarefas = async(req, res, next) => {
-        try {
-                const listaTarefas = await tarefa.find({});
-                
-                if (listaTarefas !== null) {
-                res.status(200).json(listaTarefas);
-                } else {
-                next( new NaoEncontrado("Nenhuma tarefa encontrada"));
-                }
-        } catch (error) {
-            next(error);
-        }
-    };
+const tarefa = new TarefaServices();
 
-    static listarTarefaPorID = async (req, res, next) => {
-        try {
-                const id = req.params.id;
-                const tarefaEncontrada = await tarefa.findById(id);
-                if (tarefaEncontrada !== null) {
-                    res.status(200).json(tarefaEncontrada);
-                } else {
-                    next( new NaoEncontrado("Tarefa não encontrada"));
-                }
-        } catch (error) {
-            next(error);
-        }
-    };
-
-    static cadastrarTarefa = async (req,res, next) => {
-        try {
-            const novaTarefa = await tarefa.create(req.body);
-
-            if (novaTarefa !== null) {
-                res.status(201).json({ message: "Tarefa criada com sucesso", tarefa: novaTarefa });
-            } else {
-            next( new NaoEncontrado("Erro ao criar tarefa"));
-            }   
-        } catch (error) {
-            next(error);
-        }
-    };
-
-    static atualizarTarefa = async (req, res, next) => {
-        try {
-                const id = req.params.id;
-                const tarefaResultado = await tarefa.findByIdAndUpdate(id, {$set: req.body});
-                if (tarefaResultado !== null) {
-                    res.status(200).json( { message: "Tarefa atualizada com sucesso!"});
-                } else {
-                    next( new NaoEncontrado("Id da tarefa não encontrado"));
-                }
-        } catch (error) {
-            next(error);
-        }
-    };
-
-    static excluirTarefa = async (req, res, next) => {
-        try {
-                const id = req.params.id;
-                const tarefaResultado = await tarefa.findByIdAndDelete(id);
-                if (tarefaResultado !== null) {
-                    res.status(200).json( { message: "Tarefa excluída com sucesso!"});
-                } else {
-                    next( new NaoEncontrado("Id da tarefa não encontrado"));
-                }
-        } catch (error) {
-            next(error);
-        }
-    };
+class TarefaController extends Controller {
+    constructor() {
+        super(tarefa);
+    }
 };
 
-export default TarefaController
+export default new TarefaController();

@@ -3,10 +3,10 @@ import PlataformaController from "../controllers/plataformasController.js";
 
 const rotas = express.Router();
 
-rotas.get("/plataformas", PlataformaController.listarPlataformas);
-rotas.get("/plataformas/:id", PlataformaController.listarPlataformasPorID);
-rotas.post("/plataformas/", PlataformaController.cadastrarPlataforma);
-rotas.put("/plataformas/:id", PlataformaController.atualizarPlataforma);
-rotas.delete("/plataformas/:id", PlataformaController.excluirPlataforma);
+rotas.get("/plataformas", PlataformaController.listarTodosRegistros);
+rotas.get("/plataformas/:id", PlataformaController.listarRegistrosPorID);
+rotas.post("/plataformas/", PlataformaController.cadastrarRegistro);
+rotas.put("/plataformas/:id", PlataformaController.atualizarRegistro);
+rotas.delete("/plataformas/:id", PlataformaController.excluirRegistro);
 
 export default rotas;

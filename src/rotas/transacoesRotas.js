@@ -3,10 +3,10 @@ import TransacoesController from "../controllers/transacoesController.js";
 
 const rotas = express.Router();
 
-rotas.get("/transacoes", TransacoesController.listarTransacoes);
-rotas.get("/transacoes/:id", TransacoesController.listarTransacoesPorID);
-rotas.post("/transacoes", TransacoesController.cadastrarTransacao);
-rotas.put("/transacoes/:id", TransacoesController.atualizarTransacao);
-rotas.delete("/transacoes/:id", TransacoesController.excluirTransacao);
+rotas.get("/transacoes", TransacoesController.listarTodosRegistros);
+rotas.get("/transacoes/:id", TransacoesController.listarRegistrosPorID);
+rotas.post("/transacoes", TransacoesController.cadastrarRegistro);
+rotas.put("/transacoes/:id", TransacoesController.atualizarRegistro);
+rotas.delete("/transacoes/:id", TransacoesController.excluirRegistro);
 
 export default rotas;

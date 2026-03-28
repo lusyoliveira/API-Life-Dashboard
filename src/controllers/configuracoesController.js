@@ -1,77 +1,12 @@
-import NaoEncontrado from "../erros/NaoEncontrado.js";
-import configuracoes from "../models/Configuracoes.js"
+import Controller from "./Controller.js";
+import ConfiguracoesServices from "../servicos/configuracoesService.js";
 
-class ConfiguracoesController {
-    static listarConfiguracoes = async (req, res, next) => {
-        try {
-                const listaConfiguracoes = await configuracoes.find({});
-                
-                if (listaConfiguracoes !== null) {
-                res.status(200).json(listaConfiguracoes);
-                } else {
-                next( new NaoEncontrado("Nenhum Configurações encontrado"));
-                }
-        } catch (error) {
-            next(error);
-        }
-    };
+const configuracoes = new ConfiguracoesServices();
 
-    static listarConfiguracoesPorID = async (req, res, next) => {
-        try {
-                const id = req.params.id;
-                const ConfiguracoesEncontrado = await configuracoes.findById(id);
-               
-                if (ConfiguracoesEncontrado !== null) {
-                    res.status(200).json(ConfiguracoesEncontrado);
-                } else {
-                    next( new NaoEncontrado("Configurações não encontrado"));
-                }
-        } catch (error) {
-            next(error);
-        }
-    };
-
-    static cadastrarConfiguracoes = async (req,res,next) => {
-        try {
-            const novaConfiguracoes = await configuracoes.create(req.body);
-
-            if (novaConfiguracoes !== null) {
-                res.status(201).json({ message: "Configurações criado com sucesso", configuracoes: novaConfiguracoes });
-            } else {
-                next( new NaoEncontrado("Erro ao criar o Configurações"));
-            }
-        } catch (error) {
-            next(error);
-        }
-    };
-
-    static atualizarConfiguracoes = async (req, res, next) => {
-        try {
-                const id = req.params.id;
-                const configuracoesResultado = await configuracoes.findByIdAndUpdate(id, {$set: req.body});
-                if (configuracoesResultado !== null) {
-                res.status(200).json( { message: "Configurações atualizado com sucesso!"});
-                } else {
-                next( new NaoEncontrado("Id do Configurações não encontrado"));
-                }
-        } catch (error) {
-            next(error);
-        }
-    };
-
-    static excluirConfiguracoes = async (req, res, next) => {
-        try {
-                const id = req.params.id;
-                const configuracoesResultado = await configuracoes.findByIdAndDelete(id);
-                if (configuracoesResultado !== null) {
-                    res.status(200).json( { message: "Configurações excluído com sucesso!"});
-                } else {
-                    next( new NaoEncontrado("Id do Configurações não encontrado"));
-                }
-        } catch (error) {
-            next(error);
-        }
-    };
+class ConfiguracoesController extends Controller {
+    constructor() {
+        super(configuracoes);
+    }
 };
 
-export default ConfiguracoesController
+export default new ConfiguracoesController();

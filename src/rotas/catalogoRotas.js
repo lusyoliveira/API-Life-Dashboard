@@ -3,10 +3,10 @@ import CatalogoController from "../controllers/catalogoController.js";
 
 const rotas = express.Router();
 
-rotas.get("/catalogo", CatalogoController.listarCatalogo);
-rotas.get("/catalogo/:id", CatalogoController.listarCatalogoPorID);
-rotas.post("/catalogo", CatalogoController.cadastrarCatalogo);
-rotas.put("/catalogo/:id", CatalogoController.atualizarCatalogo);
-rotas.delete("/catalogo/:id", CatalogoController.excluirCatalogo);
+rotas.get("/catalogo", CatalogoController.listarTodosRegistros);
+rotas.get("/catalogo/:id", CatalogoController.listarRegistrosPorID);
+rotas.post("/catalogo", CatalogoController.cadastrarRegistro);
+rotas.put("/catalogo/:id", CatalogoController.atualizarRegistro);
+rotas.delete("/catalogo/:id", CatalogoController.excluirRegistro);
 
 export default rotas;

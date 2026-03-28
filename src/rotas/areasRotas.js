@@ -3,10 +3,10 @@ import AreasController from "../controllers/areasController.js";
 
 const rotas = express.Router();
 
-rotas.get("/areas", AreasController.listarAreas);
-rotas.get("/areas/:id", AreasController.listarAreasPorID);
-rotas.post("/areas", AreasController.cadastrarAreas);
-rotas.put("/areas/:id", AreasController.atualizarAreas);
-rotas.delete("/areas/:id", AreasController.excluirAreas);
+rotas.get("/areas", AreasController.listarTodosRegistros);
+rotas.get("/areas/:id", AreasController.listarRegistrosPorID);
+rotas.post("/areas", AreasController.cadastrarRegistro);
+rotas.put("/areas/:id", AreasController.atualizarRegistro);
+rotas.delete("/areas/:id", AreasController.excluirRegistro);
 
 export default rotas;
