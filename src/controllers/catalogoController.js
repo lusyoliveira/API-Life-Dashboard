@@ -6,6 +6,11 @@ const catalogo = new CatalogoServices();
 class CatalogoController extends Controller {
     constructor() {
         super(catalogo);
+        this.populate = [
+            { path: "Tipo" },
+            { path: "Onde" },
+            { path: "Status" }
+        ];
     }
 };
 
