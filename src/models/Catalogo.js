@@ -1,26 +1,26 @@
-import mongoose from "mongoose";
+import { DataTypes } from "sequelize";
+import sequelize from "../config/dbConexao.js";
  
-const catalogoSchema = new mongoose.Schema({
-    Titulo:{ type: String, 
-        required: [true, "Título é obrigatório"] },
-    Capa: { type: String },
-    Tipo: {type: mongoose.Schema.Types.ObjectId, 
-        ref: 'tipos', 
-        required: [true, "Tipo é obrigatório"]},
-    Status: {type: mongoose.Schema.Types.ObjectId, ref: 'status', required: [true, "Status é obrigatório"]},
-    Onde: { type: mongoose.Schema.Types.ObjectId, ref: 'plataformas', required: [true, "Onde é obrigatório"] },
-    Inicio: { type: String, required: [true, "Início é obrigatório"] },
-    Fim: { type: String },
-    Episodios: { type: Number, required: [true, "Episódios é obrigatório"] },
-    Assistidos: { type: Number },
-    Temporadas: { type: Number, required: [true, "Temporadas é obrigatório"] },
-    Score: { type: Number },
-    Vezes: { type: Number },
-    Adicao: { type: String, required: [true, "Adição é obrigatória"] },
-    Dias: { type: Number },
-    Progresso: { type: Number },
-}, { versionKey: false });
+const Catalogo = sequelize.define("Catalogo", {
+    id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+    titulo:{ type: DataTypes.STRING, allowNull: false },
+    capa: { type: DataTypes.STRING, allowNull: true },
+    tipoId: {type: DataTypes.STRING, allowNull: false },
+    statusId: {type: DataTypes.STRING, ref: 'status', allowNull: false},
+    plataformaId: { type: DataTypes.STRING, ref: 'plataformas', allowNull: false },
+    inicio: { type: DataTypes.DATE, allowNull: false },
+    fim: { type: DataTypes.DATE, allowNull: true },
+    episodios: { type: DataTypes.INTEGER, allowNull: false },
+    assistidos: { type: DataTypes.INTEGER, allowNull: true },
+    temporadas: { type: DataTypes.INTEGER, allowNull: false },
+    score: { type: DataTypes.FLOAT, allowNull: true },
+    vezes: { type: DataTypes.INTEGER, allowNull: true },
+    adicao: { type: DataTypes.DATE, allowNull: false },
+    dias: { type: DataTypes.INTEGER, allowNull: true },
+    progresso: { type: DataTypes.INTEGER, allowNull: true },
+}, { 
+    tableName: "catalogos",
+    timestamps: false
+});
 
-const catalogo = mongoose.model("catalogos", catalogoSchema);
-
-export default catalogo;
+export default Catalogo;

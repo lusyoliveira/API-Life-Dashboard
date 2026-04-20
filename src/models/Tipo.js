@@ -1,13 +1,13 @@
 import { DataTypes } from "sequelize";
 import sequelize from "../config/dbConexao.js";
 
-const Status = sequelize.define("Status", {
+const Tipo = sequelize.define("Tipo", {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
   descricao: { type: DataTypes.STRING, allowNull: false },
   tipo: { type: DataTypes.STRING, allowNull: false }
 }, {
-  tableName: "status",
+  tableName: "tipos",
   timestamps: false
 });
 
-export default Status;
+export default Tipo;

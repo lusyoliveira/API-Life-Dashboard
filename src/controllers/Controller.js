@@ -8,10 +8,10 @@ class Controller {
     listarTodosRegistros = async(req, res, next)  =>  {
         try {
             const lista = await this.entidadeservice.buscarTodos(this.populate);
-            if (lista !== null) {                                                    
+            if (lista && lista.length > 0) {                                                    
                 res.status(200).json(lista);
             } else {
-                res.status(404).json({ message: "Nenhuma registro encontrado"});
+                res.status(200).json([]); 
             }
         } catch (error) {
             console.error(error);
@@ -22,10 +22,10 @@ class Controller {
     listarRegistrosPorID = async (req, res, next) => {
         try {
                 const id = req.params.id;
-                const transacoesEncontrado = await this.entidadeservice.buscarPorId(id,this.populate);
+                const registro = await this.entidadeservice.buscarPorId(id,this.populate);
 
-                if (transacoesEncontrado !== null) {
-                    res.status(200).json(transacoesEncontrado);
+                if (registro) {
+                    res.status(200).json(registro);
                 } else {
                     res.status(404).json({ message: "Registro não encontrado"});
                 }
@@ -37,10 +37,10 @@ class Controller {
 
     cadastrarRegistro = async (req,res, next) => {
         try {
-            const novaTransacao = await this.entidadeservice.criar(req.body);
+            const novoRegistro = await this.entidadeservice.criar(req.body);
             
-            if (novaTransacao !== null) {
-                res.status(201).json({ message: "Registro criado com sucesso", transacao: novaTransacao });
+            if (novoRegistro !== null) {
+                res.status(201).json({ message: "Registro criado com sucesso", registro: novoRegistro });
             } else {
                 next( new NaoEncontrado("Erro ao criar registro"));
             }
@@ -53,8 +53,8 @@ class Controller {
     atualizarRegistro = async (req, res, next) => {
         try {
                 const id = req.params.id;
-                const transacaoResultado = await this.entidadeservice.atualizar(id, req.body);
-                if (transacaoResultado !== null) {
+                const registroAtualizado = await this.entidadeservice.atualizar(id, req.body);
+                if (registroAtualizado) {
                     res.status(200).json( { message: "Registro atualizado com sucesso!"});
                 } else {
                     next( new NaoEncontrado("Id do registro não encontrado"));
@@ -68,8 +68,8 @@ class Controller {
     excluirRegistro = async (req, res, next) => {
         try {
                 const id = req.params.id;
-                const transacaoResultado = await this.entidadeservice.deletar(id);
-                if (transacaoResultado !== null) {
+                const registroExcluido = await this.entidadeservice.deletar(id);
+                if (registroExcluido) {
                     res.status(200).json( { message: "Registro excluído com sucesso!"});
                 } else {
                     next( new NaoEncontrado("Id do registro não encontrado"));

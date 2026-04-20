@@ -1,10 +1,8 @@
-import mongoose from "mongoose";
+import { Sequelize } from "sequelize";
 
-async function conectar() {
-    mongoose.connect(process.env.DATABASE_URL)
+const sequelize = new Sequelize({
+  dialect: "sqlite",
+  storage: "./backend/lifedashboard.sqlite"
+});
 
-    return mongoose.connection;
-};
-
-export default conectar;
-
+export default sequelize;

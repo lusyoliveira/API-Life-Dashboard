@@ -1,5 +1,5 @@
 import Service from './Services.js';
-import Tarefa from "../models/Tarefas.js";
+import Tarefa from "../models/Tarefa.js";
 
 class TarefaServices extends Service {
     constructor() {

@@ -24,9 +24,9 @@
     "cors": "^2.8.5",
     "dotenv": "^17.2.3",
     "express": "^5.2.1",
-    "mongodb": "^7.1.1",
-    "mongoose": "^9.0.1",
     "nodemon": "^3.1.11",
+    "sequelize": "^6.37.8",
+    "sqlite3": "^6.0.1",
     "swagger-ui-express": "^5.0.1"
   },
   "devDependencies": {

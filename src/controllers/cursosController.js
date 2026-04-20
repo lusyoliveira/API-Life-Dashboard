@@ -7,9 +7,9 @@ class CursosController extends Controller {
     constructor() {
         super(curso);
         this.populate = [
-            {path: "Assunto"},
-            {path: "Escola"},
-            {path: "Status"}
+            {association: "Assunto"},
+            {association: "Escola"},
+            {association: "Status"}
         ]
     }
 };

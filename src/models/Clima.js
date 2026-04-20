@@ -1,29 +1,32 @@
-import mongoose from "mongoose";
+import { DataTypes } from "sequelize";
+import sequelize from "../config/dbConexao.js";
  
-const climaSchema = new mongoose.Schema({
-    name: { type: String },
-    latitude: { type: Number },
-    longitude: { type: Number },
-    elevation: { type: Number },
-    feature_code: { type: String },
-    country_code: { type: String },
-    admin1_id: { type: Number },
-    admin2_id: { type: Number },
-    timezone:{ type: String },
-    population: { type: Number },
-    country_id: { type: Number },
-    country: { type: String },
-    admin1: { type: String },
-    admin2: { type: String },
-    current_units: { type: Object },
-    current: { type: Object },
-    daily_units: { type: Object },
-    daily: { type: Object },
-    weather_code: { type: Object },
-    temperature_2m_max: { type: Object },
-    temperature_2m_min: { type: Object }
-}, { versionKey: false });
+const Clima = sequelize.define("Clima", {
+    id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+    name: { type: DataTypes.STRING },
+    latitude: { type: DataTypes.NUMBER },
+    longitude: { type: DataTypes.NUMBER },
+    elevation: { type: DataTypes.NUMBER },
+    feature_code: { type: DataTypes.STRING },
+    country_code: { type: DataTypes.STRING },
+    admin1_id: { type: DataTypes.NUMBER },
+    admin2_id: { type: DataTypes.NUMBER },
+    timezone:{ type: DataTypes.STRING },
+    population: { type: DataTypes.NUMBER },
+    country_id: { type: DataTypes.NUMBER },
+    country: { type: DataTypes.STRING },
+    admin1: { type: DataTypes.STRING },
+    admin2: { type: DataTypes.STRING }
+    // current_units: { type: DataTypes.OBJECT },
+    // current: { type: DataTypes.OBJECT },
+    // daily_units: { type: DataTypes.OBJECT },
+    // daily: { type: DataTypes.OBJECT },
+    // weather_code: { type: DataTypes.OBJECT },
+    // temperature_2m_max: { type: DataTypes.OBJECT },
+    // temperature_2m_min: { type: DataTypes.OBJECT }
+}, { 
+    tableName: "climas",
+    timestamps: false
+});
 
-const clima = mongoose.model("clima", climaSchema);
-
-export default clima;
+export default Clima;

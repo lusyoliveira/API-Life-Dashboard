@@ -1,24 +1,26 @@
-import mongoose from "mongoose";
+import { DataTypes } from "sequelize";
+import sequelize from "../config/dbConexao.js";
  
-const transacaoSchema = new mongoose.Schema({
-   
-    Descricao: { type: String, required: [true, "Descrição é obrigatória"] },
-    Data: { type: String, required: [true, "Data é obrigatória"] },
-    Categoria: {type: mongoose.Schema.Types.ObjectId, ref: 'categorias'},
-    ContaOrigem: { type:  mongoose.Schema.Types.ObjectId, ref: 'conta', required: [true, "Conta origem é obrigatória"] },
-    ContaDestino: { type:  mongoose.Schema.Types.ObjectId, ref: 'conta' },
-    Valor: { type: Number, required: [true, "Valor é obrigatório"] },
-    ParcelaInicio: { type: Number},
-    ParcelaFim: { type: Number },
-    Parcelamento: { type: Boolean},
-    Tipo: {type: String, required: [true, "Tipo é obrigatório"] },
-    Recorrente: { type: Boolean },
-    Periodicidade: { type: String },
-    RecorrenciaInicio: { type: String },
-    RecorrenciaFim: { type: String },
-    UltimaGeracao: { type: String },
-}, { versionKey: false });
+const Transacao = sequelize.define("Transacao", {
+    id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+    descricao: { type: DataTypes.STRING, allowNull: false },
+    data: { type: DataTypes.DATE, allowNull: false },
+    categoriaId: { type: DataTypes.INTEGER, allowNull: false },
+    contaOrigemId: { type: DataTypes.INTEGER, allowNull: false },
+    contaDestinoId: { type: DataTypes.INTEGER, allowNull: false },
+    valor: { type: DataTypes.DECIMAL(10, 2), allowNull: false },
+    parcelaInicio: { type: DataTypes.NUMBER },
+    parcelaFim: { type: DataTypes.NUMBER },
+    parcelamento: { type: DataTypes.BOOLEAN },
+    tipo: { type: DataTypes.STRING, allowNull: false },
+    recorrente: { type: DataTypes.BOOLEAN },
+    periodicidade: { type: DataTypes.STRING },
+    recorrenciaInicio: { type: DataTypes.DATE },
+    recorrenciaFim: { type: DataTypes.DATE },
+    UltimaGeracao: { type: DataTypes.DATE },
+}, { 
+    tableName: "transacoes",
+    timestamps: false
+});
 
-const transacao = mongoose.model("transacoes", transacaoSchema);
-
-export default transacao;
+export default Transacao;

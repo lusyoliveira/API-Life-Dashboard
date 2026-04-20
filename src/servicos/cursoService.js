@@ -1,5 +1,5 @@
 import Service from './Services.js';
-import Curso from "../models/Cursos.js";
+import Curso from "../models/Curso.js";
 
 class CursoServices extends Service {
     constructor() {

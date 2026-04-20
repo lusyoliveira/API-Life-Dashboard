@@ -1,10 +1,13 @@
-import mongoose from "mongoose";
- 
-const categoriaSchema = new mongoose.Schema({
-    descricao: { type: String, required: [true, "Descrição da categoria é obrigatória"] },
-    Tipo: { type: String, required: [true, "Tipo da categoria é obrigatório"] }
-}, { versionKey: false });
+import { DataTypes } from "sequelize";
+import sequelize from "../config/dbConexao.js";
 
-const Categoria = mongoose.model("categorias", categoriaSchema);
+const Categoria = sequelize.define("Categoria", {
+  id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+  descricao: { type: DataTypes.STRING, allowNull: false },
+  tipo: { type: DataTypes.STRING, allowNull: false }
+}, {
+  tableName: "categorias",
+  timestamps: false
+});
 
 export default Categoria;
