@@ -1,5 +1,5 @@
 import Service from './Services.js';
-import Tipo from "../models/Tipos.js";
+import Tipo from "../models/Tipo.js";
 
 class TipoServices extends Service {
     constructor() {

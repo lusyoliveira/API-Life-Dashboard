@@ -1,10 +1,13 @@
-import mongoose from "mongoose";
+import { DataTypes } from "sequelize";
+import sequelize from "../config/dbConexao.js";
  
-const plataformaSchema = new mongoose.Schema({
-    descricao: { type: String, required: [true, "Descrição da plataforma é obrigatória"] },
-    Tipo: { type: String, required: [true, "Tipo da plataforma é obrigatório"] }
-}, { versionKey: false });
-
-const Plataforma = mongoose.model("plataformas", plataformaSchema);
+const Plataforma = sequelize.define("Plataforma", {
+    id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+    descricao: { type: DataTypes.STRING, allowNull: false },
+    tipo: { type: DataTypes.STRING, allowNull: false }
+}, { 
+    tableName: "plataformas",
+    timestamps: false
+});
 
 export default Plataforma;

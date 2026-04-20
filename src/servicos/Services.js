@@ -1,30 +1,45 @@
+import { Op } from "sequelize";
+
 class Services {
     constructor(model) {
         this.model = model;
     }
-    async buscarTodos(populate = []) {
-        return await this.model.find({}).populate(populate);
-    };
-    
-    async buscarPorId(id, populate = [] ){
-        return await this.model.findById(id).populate(populate);
-    };
 
-    async buscarUm(busca, populate = []) {
-        return await this.model.findOne(busca).populate(populate);
-    };
+    async buscarTodos(include = []) {
+        return await this.model.findAll({ include });
+    }
+
+    async buscarPorId(id, include = []) {
+        return await this.model.findByPk(id, { include });
+    }
+
+    async buscarUm(where, include = []) {
+        return await this.model.findOne({ where, include });
+    }
 
     async criar(data) {
         return await this.model.create(data);
-    };
+    }
 
     async atualizar(id, data) {
-        return await this.model.findByIdAndUpdate(id, data, { new: true });
-    };
+        const [updated] = await this.model.update(data, {
+            where: { id }
+        });
+
+        if (updated) {
+            return await this.buscarPorId(id);
+        }
+
+        return null;
+    }
 
     async deletar(id) {
-        return await this.model.findByIdAndDelete(id);
-    };
+        const deleted = await this.model.destroy({
+            where: { id }
+        });
+
+        return deleted ? true : null;
+    }
 }
 
 export default Services;

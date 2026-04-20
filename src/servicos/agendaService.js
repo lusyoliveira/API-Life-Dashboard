@@ -1,8 +1,9 @@
 import Service from './Services.js';
 import Categoria from "../models/Categoria.js";
 import Status from "../models/Status.js";
-import Tipo from "../models/Tipos.js";
+import Tipo from "../models/Tipo.js";
 import Agenda from "../models/Agenda.js";
+import { Op } from "sequelize";
 
 class AgendaServices extends Service {
     constructor() {
@@ -12,51 +13,50 @@ class AgendaServices extends Service {
     async buscarporFiltro(parametros) {
         const { titulo, categoria, status, tipo } = parametros;
 
-        let busca = {};
+        let where = {};
 
+        // 🔍 LIKE (substitui regex)
         if (titulo) {
-            busca.Titulo = { $regex: titulo, $options: "i" };
+            where.Titulo = {
+                [Op.like]: `%${titulo}%`
+            };
         }
 
+        // 🔗 Categoria
         if (categoria) {
             const categoriaEncontrada = await Categoria.findOne({
-                descricao: categoria
+                where: { descricao: categoria }
             });
 
-            if (!categoriaEncontrada) {
-            return null;
-            }
+            if (!categoriaEncontrada) return null;
 
-            busca.Categoria = categoriaEncontrada._id;
+            where.CategoriaId = categoriaEncontrada.id;
         }
 
+        // 🔗 Status
         if (status) {
             const statusEncontrado = await Status.findOne({
-                descricao: status
+                where: { descricao: status }
             });
 
-            if (!statusEncontrado) {
-            return null;
-            }
+            if (!statusEncontrado) return null;
 
-            busca.Status = statusEncontrado._id;
+            where.StatusId = statusEncontrado.id;
         }
 
+        // 🔗 Tipo
         if (tipo) {
             const tipoEncontrado = await Tipo.findOne({
-                descricao: tipo
+                where: { descricao: tipo }
             });
 
-            if (!tipoEncontrado) {
-            return null;
-            }
+            if (!tipoEncontrado) return null;
 
-            busca.Tipo = tipoEncontrado._id;
+            where.TipoId = tipoEncontrado.id;
         }
 
-        return busca;
-    };
-
+        return where;
+    }
 }
 
 export default AgendaServices;

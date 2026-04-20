@@ -7,9 +7,9 @@ class CatalogoController extends Controller {
     constructor() {
         super(catalogo);
         this.populate = [
-            { path: "Tipo" },
-            { path: "Onde" },
-            { path: "Status" }
+            { association: "Tipo" },
+            { association: "Onde" },
+            { association: "Status" }
         ];
     }
 };

@@ -1,5 +1,5 @@
 import Service from './Services.js';
-import Conta from "../models/Contas.js";
+import Conta from "../models/Conta.js";
 
 class ContaServices extends Service {
     constructor() {

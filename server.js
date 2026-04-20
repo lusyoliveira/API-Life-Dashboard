@@ -1,17 +1,12 @@
-import dns from 'node:dns';
 import "dotenv/config";
-
-// Configura o DNS primeiro!
-dns.setServers(['8.8.8.8', '1.1.1.1']);
 
 const PORT = 3000;
 
-// Agora importa o app somente após o DNS estar pronto
 async function start() {
     const { default: app } = await import("./src/app.js");
     
     app.listen(PORT, () => {
-        console.log("Servidor Iniciado com DNS customizado");
+        console.log("🚀 Servidor iniciado na porta 3000");
     });
 }
 

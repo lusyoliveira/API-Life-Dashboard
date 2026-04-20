@@ -7,10 +7,9 @@ class TransacoesController extends Controller {
     constructor() {
         super(transacao);
         this.populate = [
-            {path: "Categoria"},
-            {path: "ContaOrigem"},
-            {path: "ContaDestino"},
-            {path: "Tipo"}
+            {association: "Categoria"},
+            {association: "ContaOrigem"},
+            {association: "ContaDestino"}
         ]
     }
 };
