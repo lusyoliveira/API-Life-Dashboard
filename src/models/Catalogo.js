@@ -8,7 +8,7 @@ const Catalogo = sequelize.define("Catalogo", {
     tipoId: {type: DataTypes.STRING, allowNull: false },
     statusId: {type: DataTypes.STRING, ref: 'status', allowNull: false},
     plataformaId: { type: DataTypes.STRING, ref: 'plataformas', allowNull: false },
-    inicio: { type: DataTypes.DATE, allowNull: false },
+    inicio: { type: DataTypes.DATE, allowNull: true },
     fim: { type: DataTypes.DATE, allowNull: true },
     episodios: { type: DataTypes.INTEGER, allowNull: false },
     assistidos: { type: DataTypes.INTEGER, allowNull: true },
