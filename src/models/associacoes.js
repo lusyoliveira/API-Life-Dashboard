@@ -23,17 +23,17 @@ Transacao.belongsTo(Conta, { foreignKey: "contaOrigemId", as: "ContaOrigem" });
 Transacao.belongsTo(Conta, { foreignKey: "contaDestinoId", as: "ContaDestino" });
 Transacao.belongsTo(Categoria, { foreignKey: "categoriaId", as: "Categoria" });
 
-Categoria.hasMany(Agenda, { foreignKey: "categoriaId" });
-Status.hasMany(Agenda, { foreignKey: "statusId" });
 Tipo.hasMany(Agenda, { foreignKey: "tipoId" });
 Tipo.hasMany(Catalogo, { foreignKey: "tipoId" });
+Status.hasMany(Agenda, { foreignKey: "statusId" });
 Status.hasMany(Catalogo, { foreignKey: "statusId" });
+Status.hasMany(Curso, { foreignKey: "statusId" });
 Plataforma.hasMany(Catalogo, { foreignKey: "plataformaId" });
 Plataforma.hasMany(Curso, { foreignKey: "plataformaId" });
 Area.hasMany(Curso, { foreignKey: "areaId" });
-Status.hasMany(Curso, { foreignKey: "statusId" });
 Conta.hasMany(Transacao, { foreignKey: "contaOrigemId", as: "ContaOrigem" });
 Conta.hasMany(Transacao, { foreignKey: "contaDestinoId", as: "ContaDestino" });
+Categoria.hasMany(Agenda, { foreignKey: "categoriaId" });
 Categoria.hasMany(Transacao, { foreignKey: "categoriaId" });
 
 export {

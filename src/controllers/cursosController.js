@@ -7,8 +7,8 @@ class CursosController extends Controller {
     constructor() {
         super(curso);
         this.populate = [
-            {association: "Assunto"},
-            {association: "Escola"},
+            {association: "Area"},
+            {association: "Plataforma"},
             {association: "Status"}
         ]
     }

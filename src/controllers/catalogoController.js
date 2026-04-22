@@ -8,7 +8,7 @@ class CatalogoController extends Controller {
         super(catalogo);
         this.populate = [
             { association: "Tipo" },
-            { association: "Onde" },
+            { association: "Plataforma" },
             { association: "Status" }
         ];
     }
