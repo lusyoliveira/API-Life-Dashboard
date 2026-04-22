@@ -16,14 +16,11 @@ const Clima = sequelize.define("Clima", {
     country_id: { type: DataTypes.NUMBER },
     country: { type: DataTypes.STRING },
     admin1: { type: DataTypes.STRING },
-    admin2: { type: DataTypes.STRING }
-    // current_units: { type: DataTypes.OBJECT },
-    // current: { type: DataTypes.OBJECT },
-    // daily_units: { type: DataTypes.OBJECT },
-    // daily: { type: DataTypes.OBJECT },
-    // weather_code: { type: DataTypes.OBJECT },
-    // temperature_2m_max: { type: DataTypes.OBJECT },
-    // temperature_2m_min: { type: DataTypes.OBJECT }
+    admin2: { type: DataTypes.STRING },
+    climaCurrentId: { type: DataTypes.INTEGER },
+    climaCurrentUnitsId: { type: DataTypes.INTEGER },
+    climaDailyId: { type: DataTypes.INTEGER },
+    climaDailyUnitsId: { type: DataTypes.INTEGER }
 }, { 
     tableName: "climas",
     timestamps: false
