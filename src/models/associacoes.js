@@ -8,6 +8,11 @@ import Status from "./Status.js";
 import Tipo from "./Tipo.js";
 import Plataforma from "./Plataforma.js";
 import Area from "./Area.js";
+import Clima from "./Clima.js";
+import ClimaDaily from "./ClimaDaily.js";
+import ClimaDailyUnits from "./ClimaDailyUnits.js";
+import ClimaCurrent from "./ClimaCurrent.js";
+import ClimaCurrentUnits from "./ClimaCurrentUnits.js";
 
 // Relacionamentos
 Agenda.belongsTo(Categoria, { foreignKey: "categoriaId", as: "Categoria" });
@@ -22,6 +27,10 @@ Curso.belongsTo(Status, { foreignKey: "statusId", as: "Status" });
 Transacao.belongsTo(Conta, { foreignKey: "contaOrigemId", as: "ContaOrigem" });
 Transacao.belongsTo(Conta, { foreignKey: "contaDestinoId", as: "ContaDestino" });
 Transacao.belongsTo(Categoria, { foreignKey: "categoriaId", as: "Categoria" });
+Clima.belongsTo(ClimaCurrent, { foreignKey: "climaCurrentId", as: "ClimaCurrent" });
+Clima.belongsTo(ClimaCurrentUnits, { foreignKey: "climaCurrentUnitsId", as: "ClimaCurrentUnits" });
+Clima.belongsTo(ClimaDaily, { foreignKey: "climaDailyId", as: "ClimaDaily" });
+Clima.belongsTo(ClimaDailyUnits, { foreignKey: "climaDailyUnitsId", as: "ClimaDailyUnits" });
 
 Tipo.hasMany(Agenda, { foreignKey: "tipoId" });
 Tipo.hasMany(Catalogo, { foreignKey: "tipoId" });
@@ -35,6 +44,10 @@ Conta.hasMany(Transacao, { foreignKey: "contaOrigemId", as: "ContaOrigem" });
 Conta.hasMany(Transacao, { foreignKey: "contaDestinoId", as: "ContaDestino" });
 Categoria.hasMany(Agenda, { foreignKey: "categoriaId" });
 Categoria.hasMany(Transacao, { foreignKey: "categoriaId" });
+Clima.hasMany(ClimaCurrent, { foreignKey: "climaId" });
+Clima.hasMany(ClimaCurrentUnits, { foreignKey: "climaId" });
+Clima.hasMany(ClimaDaily, { foreignKey: "climaId" });
+Clima.hasMany(ClimaDailyUnits, { foreignKey: "climaId" });
 
 export {
   Agenda,
