@@ -27,10 +27,10 @@ Curso.belongsTo(Status, { foreignKey: "statusId", as: "Status" });
 Transacao.belongsTo(Conta, { foreignKey: "contaOrigemId", as: "ContaOrigem" });
 Transacao.belongsTo(Conta, { foreignKey: "contaDestinoId", as: "ContaDestino" });
 Transacao.belongsTo(Categoria, { foreignKey: "categoriaId", as: "Categoria" });
-Clima.belongsTo(ClimaCurrent, { foreignKey: "climaCurrentId", as: "ClimaCurrent" });
-Clima.belongsTo(ClimaCurrentUnits, { foreignKey: "climaCurrentUnitsId", as: "ClimaCurrentUnits" });
-Clima.belongsTo(ClimaDaily, { foreignKey: "climaDailyId", as: "ClimaDaily" });
-Clima.belongsTo(ClimaDailyUnits, { foreignKey: "climaDailyUnitsId", as: "ClimaDailyUnits" });
+ClimaDaily.belongsTo(Clima, { foreignKey: "climaId" });
+ClimaDailyUnits.belongsTo(Clima, { foreignKey: "climaId" });  
+ClimaCurrent.belongsTo(Clima, { foreignKey: "climaId" });
+ClimaCurrentUnits.belongsTo(Clima, { foreignKey: "climaId" });
 
 Tipo.hasMany(Agenda, { foreignKey: "tipoId" });
 Tipo.hasMany(Catalogo, { foreignKey: "tipoId" });
@@ -44,14 +44,19 @@ Conta.hasMany(Transacao, { foreignKey: "contaOrigemId", as: "ContaOrigem" });
 Conta.hasMany(Transacao, { foreignKey: "contaDestinoId", as: "ContaDestino" });
 Categoria.hasMany(Agenda, { foreignKey: "categoriaId" });
 Categoria.hasMany(Transacao, { foreignKey: "categoriaId" });
-Clima.hasMany(ClimaCurrent, { foreignKey: "climaId" });
-Clima.hasMany(ClimaCurrentUnits, { foreignKey: "climaId" });
-Clima.hasMany(ClimaDaily, { foreignKey: "climaId" });
-Clima.hasMany(ClimaDailyUnits, { foreignKey: "climaId" });
+Clima.hasOne(ClimaCurrent, { foreignKey: "climaId", as: "ClimaCurrent" });
+Clima.hasOne(ClimaCurrentUnits, { foreignKey: "climaId", as: "ClimaCurrentUnits" });
+Clima.hasMany(ClimaDaily, { foreignKey: "climaId", as: "ClimaDaily" });
+Clima.hasOne(ClimaDailyUnits, { foreignKey: "climaId", as: "ClimaDailyUnits" });
 
 export {
   Agenda,
   Catalogo,
+  Clima,
+  ClimaCurrent,
+  ClimaCurrentUnits,
+  ClimaDaily,
+  ClimaDailyUnits,
   Curso,
   Transacao,
   Categoria,

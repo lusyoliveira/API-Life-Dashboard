@@ -16,11 +16,7 @@ const Clima = sequelize.define("Clima", {
     country_id: { type: DataTypes.NUMBER },
     country: { type: DataTypes.STRING },
     admin1: { type: DataTypes.STRING },
-    admin2: { type: DataTypes.STRING },
-    climaCurrentId: { type: DataTypes.INTEGER },
-    climaCurrentUnitsId: { type: DataTypes.INTEGER },
-    climaDailyId: { type: DataTypes.INTEGER },
-    climaDailyUnitsId: { type: DataTypes.INTEGER }
+    admin2: { type: DataTypes.STRING }
 }, { 
     tableName: "climas",
     timestamps: false
