@@ -7,7 +7,7 @@ const Transacao = sequelize.define("Transacao", {
     data: { type: DataTypes.DATE, allowNull: false },
     categoriaId: { type: DataTypes.INTEGER, allowNull: false },
     contaOrigemId: { type: DataTypes.INTEGER, allowNull: false },
-    contaDestinoId: { type: DataTypes.INTEGER, allowNull: false },
+    contaDestinoId: { type: DataTypes.INTEGER, allowNull: true },
     valor: { type: DataTypes.DECIMAL(10, 2), allowNull: false },
     parcelaInicio: { type: DataTypes.NUMBER },
     parcelaFim: { type: DataTypes.NUMBER },
