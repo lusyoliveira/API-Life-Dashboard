@@ -18,6 +18,7 @@ const Transacao = sequelize.define("Transacao", {
     recorrenciaInicio: { type: DataTypes.DATE },
     recorrenciaFim: { type: DataTypes.DATE },
     UltimaGeracao: { type: DataTypes.DATE },
+    recorrenciaId: { type: DataTypes.INTEGER },
 }, { 
     tableName: "transacoes",
     timestamps: false
