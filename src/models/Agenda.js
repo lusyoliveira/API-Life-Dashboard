@@ -7,7 +7,9 @@ const Agenda = sequelize.define("Agenda", {
   data: { type: DataTypes.DATE, allowNull: false },
   categoriaId: { type: DataTypes.INTEGER, allowNull: false },
   statusId: { type: DataTypes.INTEGER, allowNull: false },
-  tipoId: { type: DataTypes.INTEGER, allowNull: false }
+  tipoId: { type: DataTypes.INTEGER, allowNull: false },
+  recorrente: { type: DataTypes.BOOLEAN },
+  periodicidade: { type: DataTypes.STRING }
 
 }, {
   tableName: "agendas",
