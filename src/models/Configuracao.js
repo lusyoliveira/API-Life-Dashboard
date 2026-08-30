@@ -14,7 +14,9 @@ const Configuracao = sequelize.define("Configuracao", {
     ativaClima: { type: DataTypes.BOOLEAN },
     atualizaClima: { type: DataTypes.NUMBER },
     dataContagem: { type: DataTypes.DATE },
-    descricaoContagem: { type: DataTypes.STRING }
+    descricaoContagem: { type: DataTypes.STRING },
+    ativaTMDB: { type: DataTypes.BOOLEAN },
+    chaveTMDB: { type: DataTypes.STRING },
 }, { 
     tableName: "configuracoes",
     timestamps: false
