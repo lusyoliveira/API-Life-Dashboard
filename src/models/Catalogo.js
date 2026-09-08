@@ -10,7 +10,7 @@ const Catalogo = sequelize.define("Catalogo", {
     plataformaId: { type: DataTypes.STRING, ref: 'plataformas', allowNull: false },
     inicio: { type: DataTypes.DATE, allowNull: true },
     fim: { type: DataTypes.DATE, allowNull: true },
-    temporadas: { type: DataTypes.INTEGER, allowNull: false },
+    episodios: { type: DataTypes.INTEGER, allowNull: false },
     assistidos: { type: DataTypes.INTEGER, allowNull: true },
     temporadas: { type: DataTypes.INTEGER, allowNull: false },
     score: { type: DataTypes.FLOAT, allowNull: true },
