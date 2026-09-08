@@ -11,6 +11,7 @@ import catalogo from "./catalogoRotas.js";
 import clima from "./climaRotas.js"
 import transacoes from "./transacoesRotas.js"
 import plataformas from "./plataformaRotas.js"
+import temporada from "./temporadaRotas.js"
 import swaggerUi from "swagger-ui-express";
 import fs from "fs";
 const swaggerJson = JSON.parse(fs.readFileSync("./src/swagger.json", "utf8"));
@@ -31,6 +32,7 @@ const rotas = (app) => {
     app.use(plataformas);
     app.use(status);
     app.use(tarefas);
+    app.use(temporada);
     app.use(transacoes);
     app.use(tipos);
 };
