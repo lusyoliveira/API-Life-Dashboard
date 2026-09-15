@@ -17,6 +17,12 @@ class Services {
         return await this.model.findOne({ where, include });
     }
 
+    async buscarTodosPorCampo(campo, valor, include = []) {
+        const where = {};
+        where[campo] = { [Op.like]: `%${valor}%` };
+        return await this.model.findAll({ where, include });
+    }
+    
     async criar(data) {
         return await this.model.create(data);
     }

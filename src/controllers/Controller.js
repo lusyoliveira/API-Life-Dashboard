@@ -21,18 +21,35 @@ class Controller {
     
     listarRegistrosPorID = async (req, res, next) => {
         try {
-                const id = req.params.id;
-                const registro = await this.entidadeservice.buscarPorId(id,this.populate);
+            const id = req.params.id;
+            const registro = await this.entidadeservice.buscarPorId(id,this.populate);
 
-                if (registro) {
-                    res.status(200).json(registro);
-                } else {
-                    res.status(404).json({ message: "Registro não encontrado"});
-                }
+            if (registro) {
+                res.status(200).json(registro);
+            } else {
+                res.status(404).json({ message: "Registro não encontrado"});
+            }
         } catch (error) {
             console.error(error);
             next(error);
         }
+    };
+
+    listarRegistrosPorCampo = async (req, res, next) => {
+        try {
+            const campo = req.params.campo;
+            const valor = req.params.valor;
+            const registros = await this.entidadeservice.buscarTodosPorCampo(campo, valor, this.populate);
+
+            if(registros) {
+                res.status(200).json(registros);
+            } else {
+                res.status(404).json({ message: "Registro não encontrado"});
+            }
+        } catch (error) {
+            console.error(error);
+            next(error);
+        }   
     };
 
     cadastrarRegistro = async (req,res, next) => {
