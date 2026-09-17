@@ -8,9 +8,9 @@ const Catalogo = sequelize.define("Catalogo", {
     tipoId: { type: DataTypes.INTEGER, allowNull: false },
     statusId: { type: DataTypes.INTEGER, allowNull: false },
     plataformaId: { type: DataTypes.INTEGER, allowNull: false },
-    // tipoId: {type: DataTypes.STRING, allowNull: false },
-    // statusId: {type: DataTypes.STRING, ref: 'status', allowNull: false},
-    // plataformaId: { type: DataTypes.STRING, ref: 'plataformas', allowNull: false },
+    tipoId: {type: DataTypes.STRING, allowNull: false },
+    statusId: {type: DataTypes.STRING, ref: 'status', allowNull: false},
+    plataformaId: { type: DataTypes.STRING, ref: 'plataformas', allowNull: false },
     inicio: { type: DataTypes.DATE, allowNull: true },
     fim: { type: DataTypes.DATE, allowNull: true },
     episodios: { type: DataTypes.INTEGER, allowNull: false },
@@ -34,21 +34,6 @@ const Catalogo = sequelize.define("Catalogo", {
 }, { 
     tableName: "catalogos",
     timestamps: false
-});
-
-Catalogo.belongsTo(Tipo, {
-    foreignKey: "tipoId",
-    as: "Tipo"
-});
-
-Catalogo.belongsTo(Plataforma, {
-    foreignKey: "plataformaId",
-    as: "Plataforma"
-});
-
-Catalogo.belongsTo(Status, {
-    foreignKey: "statusId",
-    as: "Status"
 });
 
 export default Catalogo;
