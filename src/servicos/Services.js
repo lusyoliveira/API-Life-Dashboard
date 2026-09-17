@@ -17,10 +17,20 @@ class Services {
         return await this.model.findOne({ where, include });
     }
 
-    async buscarTodosPorCampo(campo, valor, include = []) {
+    async buscarTodosPorCampo(campo, valor, include = [], limite = 10, pagina = 1) {
         const where = {};
         where[campo] = { [Op.like]: `%${valor}%` };
-        return await this.model.findAll({ where, include });
+        
+        // Calcula quantos registros pular com base na página atual
+        const offset = (pagina - 1) * limite;
+
+        // findAndCountAll retorna o total de registros (count) e os dados da página (rows)
+        return await this.model.findAndCountAll({ 
+            where, 
+            include,
+            limit: parseInt(limite),
+            offset: parseInt(offset)
+        });
     }
     
     async criar(data) {
