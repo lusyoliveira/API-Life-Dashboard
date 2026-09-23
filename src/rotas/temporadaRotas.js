@@ -3,10 +3,10 @@ import TemporadaController from "../controllers/temporadaController.js";
 
 const rotas = express.Router();
 
-rotas.get("/temporada", TemporadaController.listarTodosRegistros);
-rotas.get("/temporada/:id", TemporadaController.listarRegistrosPorID);
-rotas.post("/temporada", TemporadaController.cadastrarRegistro);
-rotas.put("/temporada/:id", TemporadaController.atualizarRegistro);
-rotas.delete("/temporada/:id", TemporadaController.excluirRegistro);
+rotas.get("/catalogo/:tituloId/temporadas", TemporadaController.listarTodosRegistros);
+rotas.get("/catalogo/temporadas/:id", TemporadaController.listarRegistrosPorID);
+rotas.post("/catalogo/:tituloId/temporadas", TemporadaController.cadastrarRegistro);
+rotas.put("/catalogo/temporadas/:id", TemporadaController.atualizarRegistro);
+rotas.delete("/catalogo/temporadas/:id", TemporadaController.excluirRegistro);
 
 export default rotas;

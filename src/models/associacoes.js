@@ -13,6 +13,8 @@ import ClimaDaily from "./ClimaDaily.js";
 import ClimaDailyUnits from "./ClimaDailyUnits.js";
 import ClimaCurrent from "./ClimaCurrent.js";
 import ClimaCurrentUnits from "./ClimaCurrentUnits.js";
+import Temporada from "./Temporada.js"
+import Episodio from "./Episodio.js";
 
 // Relacionamentos
 Agenda.belongsTo(Categoria, { foreignKey: "categoriaId", as: "Categoria" });
@@ -31,6 +33,8 @@ ClimaDaily.belongsTo(Clima, { foreignKey: "climaId" });
 ClimaDailyUnits.belongsTo(Clima, { foreignKey: "climaId" });  
 ClimaCurrent.belongsTo(Clima, { foreignKey: "climaId" });
 ClimaCurrentUnits.belongsTo(Clima, { foreignKey: "climaId" });
+Temporada.belongsTo(Catalogo, { foreignKey: "tituloId" });
+Episodio.belongsTo(Temporada, { foreignKey: "temporadaId" });
 
 Tipo.hasMany(Agenda, { foreignKey: "tipoId" });
 Tipo.hasMany(Catalogo, { foreignKey: "tipoId" });
@@ -48,6 +52,8 @@ Clima.hasOne(ClimaCurrent, { foreignKey: "climaId", as: "ClimaCurrent" });
 Clima.hasOne(ClimaCurrentUnits, { foreignKey: "climaId", as: "ClimaCurrentUnits" });
 Clima.hasMany(ClimaDaily, { foreignKey: "climaId", as: "ClimaDaily" });
 Clima.hasOne(ClimaDailyUnits, { foreignKey: "climaId", as: "ClimaDailyUnits" });
+Temporada.hasMany(Catalogo, { foreignKey: "tituloId" });
+Episodio.hasOne(Temporada, { foreignKey: "temporadaId" });
 
 export {
   Agenda,
@@ -64,5 +70,7 @@ export {
   Tipo,
   Plataforma,
   Area,
-  Conta
+  Conta,
+  Temporada,
+  Episodio
 };
