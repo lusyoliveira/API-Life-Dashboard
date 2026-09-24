@@ -6,7 +6,7 @@ const Episodio = sequelize.define("Episodio", {
     temporadaId: {type: DataTypes.INTEGER, ref: 'catalogos', allowNull: false},
     id_tmdb_episodio: { type: DataTypes.INTEGER, allowNull: true },
     numero_epidosio: { type: DataTypes.INTEGER, allowNull: true },
-    assitido:{ type: DataTypes.BOOLEAN, allowNull: false },
+    assistido:{ type: DataTypes.BOOLEAN, allowNull: false },
     titulo_epidosio: { type: DataTypes.STRING, allowNull: true },
     sinopse: { type: DataTypes.TEXT, allowNull: true },
     duracao: { type: DataTypes.STRING, allowNull: true },
