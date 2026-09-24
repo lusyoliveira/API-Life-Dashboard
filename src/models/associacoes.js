@@ -52,7 +52,6 @@ Clima.hasOne(ClimaCurrent, { foreignKey: "climaId", as: "ClimaCurrent" });
 Clima.hasOne(ClimaCurrentUnits, { foreignKey: "climaId", as: "ClimaCurrentUnits" });
 Clima.hasMany(ClimaDaily, { foreignKey: "climaId", as: "ClimaDaily" });
 Clima.hasOne(ClimaDailyUnits, { foreignKey: "climaId", as: "ClimaDailyUnits" });
-Temporada.hasMany(Catalogo, { foreignKey: "tituloId" });
 Episodio.hasOne(Temporada, { foreignKey: "temporadaId" });
 
 export {
