@@ -1,9 +1,11 @@
 import { Sequelize } from "sequelize";
+import "dotenv/config";
+
+const dbPath = process.env.DB_STORAGE_PATH ;
 
 const sequelize = new Sequelize({
   dialect: "sqlite",
-  storage: "C:\\Program Files\\Microsoft SQL Server\\MSSQL16.SQLEXPRESS\\MSSQL\\DATA\\lifedashboard.sqlite"
- // storage: "C:\\Users\\Teste\\Documents\\lifedashboard.sqlite"
+  storage: dbPath
 });
 
 export default sequelize;
