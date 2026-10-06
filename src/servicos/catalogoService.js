@@ -1,6 +1,9 @@
 // Arquivo: servicos/catalogoService.js
 import Service from './Services.js';
-import Catalogo from "../models/Catalogo.js";
+//import Catalogo from "../models/Catalogo.js";
+import { Catalogo, Temporada, Episodio } from "../models/associacoes.js";
+// Adicione a importação da conexão com o banco de dados aqui:
+import sequelize from "../config/dbConexao.js";
 
 class CatalogoServices extends Service {
     constructor() {
