@@ -33,8 +33,8 @@ ClimaDaily.belongsTo(Clima, { foreignKey: "climaId" });
 ClimaDailyUnits.belongsTo(Clima, { foreignKey: "climaId" });  
 ClimaCurrent.belongsTo(Clima, { foreignKey: "climaId" });
 ClimaCurrentUnits.belongsTo(Clima, { foreignKey: "climaId" });
-Temporada.belongsTo(Catalogo, { foreignKey: "tituloId" });
-Episodio.belongsTo(Temporada, { foreignKey: "temporadaId" });
+Temporada.belongsTo(Catalogo, { foreignKey: "tituloId", as: "Catalogo" });
+Episodio.belongsTo(Temporada, { foreignKey: "temporadaId", as: "Temporada" });
 
 Tipo.hasMany(Agenda, { foreignKey: "tipoId" });
 Tipo.hasMany(Catalogo, { foreignKey: "tipoId" });
@@ -52,7 +52,9 @@ Clima.hasOne(ClimaCurrent, { foreignKey: "climaId", as: "ClimaCurrent" });
 Clima.hasOne(ClimaCurrentUnits, { foreignKey: "climaId", as: "ClimaCurrentUnits" });
 Clima.hasMany(ClimaDaily, { foreignKey: "climaId", as: "ClimaDaily" });
 Clima.hasOne(ClimaDailyUnits, { foreignKey: "climaId", as: "ClimaDailyUnits" });
-Episodio.hasOne(Temporada, { foreignKey: "temporadaId" });
+Catalogo.hasMany(Temporada, { foreignKey: "tituloId", as: "listaTemporadas", onDelete: "CASCADE" });
+Temporada.hasMany(Episodio, { foreignKey: "temporadaId", as: "listaEpisodios", onDelete: "CASCADE" });
+
 
 export {
   Agenda,

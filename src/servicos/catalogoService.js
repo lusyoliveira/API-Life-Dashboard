@@ -34,7 +34,72 @@ class CatalogoServices extends Service {
 
         // 4. Salva no banco reutilizando a lógica base
         return await this.atualizar(id, dadosAtualizados);
-    }
+    };
+
+    // Sobrescreve o método criar para aceitar incluir as temporadas e episódios
+    async criarCompleto(data) {
+        const transaction = await sequelize.transaction();
+        try {
+            const novoCatalogo = await this.model.create(data, {
+                include: [
+                    {
+                        model: Temporada,
+                        as: 'listaTemporadas',
+                        include: [
+                            {
+                                model: Episodio,
+                                as: 'listaEpisodios'
+                            }
+                        ]
+                    }
+                ],
+                transaction
+            });
+
+            await transaction.commit();
+            return novoCatalogo;
+        } catch (error) {
+            await transaction.rollback();
+            throw error;
+        }
+    };
+
+    async atualizarCompleto(id, data) {
+        const transaction = await sequelize.transaction();
+        try {
+            // 1. Atualiza dados do catálogo
+            await this.model.update(data, { where: { id }, transaction });
+
+            // 2. Se houver temporadas atualizadas no payload:
+            if (data.listaTemporadas && Array.isArray(data.listaTemporadas)) {
+                
+                // Exclui temporadas anteriores (o CASCADE do banco exclui os episódios atrelados a ela)
+                await Temporada.destroy({ where: { tituloId: id }, transaction });
+
+                for (const temp of data.listaTemporadas) {
+                    temp.tituloId = id; // FK vinculada ao Catálogo
+                    
+                    const novaTemp = await Temporada.create(temp, { transaction });
+
+                    // Insere os episódios vinculados apenas ao 'temporadaId'
+                    if (temp.listaEpisodios && temp.listaEpisodios.length > 0) {
+                        const episodiosComFk = temp.listaEpisodios.map(ep => ({
+                            ...ep,
+                            temporadaId: novaTemp.id // Apenas a FK da temporada é necessária
+                        }));
+                        
+                        await Episodio.bulkCreate(episodiosComFk, { transaction });
+                    }
+                }
+            }
+
+            await transaction.commit();
+            return await this.buscarPorId(id);
+        } catch (error) {
+            await transaction.rollback();
+            throw error;
+        }
+    };
 }
 
 export default CatalogoServices;

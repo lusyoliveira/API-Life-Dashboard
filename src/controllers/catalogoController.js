@@ -6,12 +6,43 @@ const catalogo = new CatalogoServices();
 class CatalogoController extends Controller {
     constructor() {
         super(catalogo);
+        // Populate Leve (Padrão para listagens/tabelas/cards)
         this.populate = [
             { association: "Tipo" },
             { association: "Plataforma" },
             { association: "Status" }
         ];
+
+        // Populate Completo (Apenas para buscar 1 registro por ID na Modal)
+        this.populateDetalhado = [
+            { association: "Tipo" },
+            { association: "Plataforma" },
+            { association: "Status" },
+            {
+                association: "listaTemporadas",
+                include: [
+                    { association: "listaEpisodios" }
+                ]
+            }
+        ];
     }
+    
+    // Sobrescreve a busca por ID para trazer a árvore completa (Título -> Temporadas -> Episódios)
+    listarRegistrosPorID = async (req, res, next) => {
+        try {
+            const { id } = req.params;
+            const registro = await this.entidadeservice.buscarPorId(id, this.populateDetalhado);
+
+            if (registro) {
+                res.status(200).json(registro);
+            } else {
+                res.status(404).json({ message: "Registro não encontrado" });
+            }
+        } catch (error) {
+            console.error(error);
+            next(error);
+        }
+    };
     
     buscarPorTitulo = async (req, res, next) => {
         try {
@@ -44,6 +75,33 @@ class CatalogoController extends Controller {
             console.error(error);
             next(error);
         }   
+    };
+
+    // Sobrescreve o cadastrarRegistro do Controller base
+    cadastrarRegistro = async (req, res, next) => {
+        try {
+            const novoRegistro = await this.entidadeservice.criarCompleto(req.body);
+            return res.status(201).json({ message: "Registro criado com sucesso", registro: novoRegistro });
+        } catch (error) {
+            console.error(error);
+            next(error);
+        }
+    };
+
+    // Sobrescreve o atualizarRegistro do Controller base
+    atualizarRegistro = async (req, res, next) => {
+        try {
+            const { id } = req.params;
+            const registroAtualizado = await this.entidadeservice.atualizarCompleto(id, req.body);
+            if (registroAtualizado) {
+                return res.status(200).json({ message: "Registro atualizado com sucesso!", registro: registroAtualizado });
+            } else {
+                return res.status(404).json({ message: "Id do registro não encontrado" });
+            }
+        } catch (error) {
+            console.error(error);
+            next(error);
+        }
     };
 
     atualizarProgresso = async (req, res, next) => {
