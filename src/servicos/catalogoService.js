@@ -70,36 +70,75 @@ class CatalogoServices extends Service {
     async atualizarCompleto(id, data) {
         const transaction = await sequelize.transaction();
         try {
-            // 1. Atualiza dados do catálogo
+            // 1. Atualiza os dados principais do catálogo
             await this.model.update(data, { where: { id }, transaction });
 
-            // 2. Se houver temporadas atualizadas no payload:
+            // 2. Se houver lista de temporadas atualizada no payload:
             if (data.listaTemporadas && Array.isArray(data.listaTemporadas)) {
                 
-                // Exclui temporadas anteriores (o CASCADE do banco exclui os episódios atrelados a ela)
-                await Temporada.destroy({ where: { tituloId: id }, transaction });
+                // Busca os IDs de todas as temporadas existentes deste título
+                const temporadasAntigas = await Temporada.findAll({
+                    where: { tituloId: id },
+                    attributes: ['id'],
+                    transaction
+                });
 
+                const idsTemporadasAntigas = temporadasAntigas.map(t => t.id);
+
+                if (idsTemporadasAntigas.length > 0) {
+                    // PASSO CRUCIAL: Apaga primeiro os episódios vinculados a essas temporadas
+                    await Episodio.destroy({
+                        where: { temporadaId: idsTemporadasAntigas },
+                        transaction
+                    });
+
+                    // Agora apaga as temporadas antigas sem violar a Foreign Key
+                    await Temporada.destroy({
+                        where: { tituloId: id },
+                        transaction
+                    });
+                }
+
+                // 3. Re-insere a nova estrutura de temporadas e episódios
                 for (const temp of data.listaTemporadas) {
-                    temp.tituloId = id; // FK vinculada ao Catálogo
-                    
-                    const novaTemp = await Temporada.create(temp, { transaction });
+                    const payloadTemporada = {
+                        tituloId: id,
+                        id_tmdb_temporada: temp.idTMDBTemporada || temp.id_tmdb_temporada,
+                        numero_temporada: temp.numeroTemporada || temp.numero_temporada,
+                        nome_temporada: temp.nomeTemporada || temp.nome_temporada,
+                        sinopse: temp.sinopse,
+                        estreia: temp.estreia ? new Date(temp.estreia) : null,
+                        votos: temp.votosTemporada || temp.votos,
+                        quantidade_episodios: temp.quantidadeEpisodios || temp.quantidade_episodios
+                    };
 
-                    // Insere os episódios vinculados apenas ao 'temporadaId'
+                    const novaTemp = await Temporada.create(payloadTemporada, { transaction });
+
+                    // Insere os episódios vinculados à nova temporada criada
                     if (temp.listaEpisodios && temp.listaEpisodios.length > 0) {
-                        const episodiosComFk = temp.listaEpisodios.map(ep => ({
-                            ...ep,
-                            temporadaId: novaTemp.id // Apenas a FK da temporada é necessária
+                        const episodiosFormatados = temp.listaEpisodios.map(ep => ({
+                            temporadaId: novaTemp.id,
+                            id_tmdb_episodio: ep.idTMDB || ep.id_tmdb_episodio,
+                            numero_epidosio: ep.numeroEpisodio || ep.numero_epidosio,
+                            assistido: ep.assistido ?? false,
+                            titulo_epidosio: ep.tituloEpisodio || ep.titulo_epidosio,
+                            sinopse: ep.sinopse,
+                            duracao: ep.duracao,
+                            estreia: ep.estreia ? new Date(ep.estreia) : null,
+                            votos: ep.votos
                         }));
-                        
-                        await Episodio.bulkCreate(episodiosComFk, { transaction });
+
+                        await Episodio.bulkCreate(episodiosFormatados, { transaction });
                     }
                 }
             }
 
             await transaction.commit();
             return await this.buscarPorId(id);
+
         } catch (error) {
             await transaction.rollback();
+            console.error("❌ Erro detalhado no backend ao atualizar catálogo:", error);
             throw error;
         }
     };
