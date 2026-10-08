@@ -40,7 +40,7 @@ class CatalogoServices extends Service {
     };
 
     // Sobrescreve o método criar para aceitar incluir as temporadas e episódios
-    async criarCompleto(data) {
+    async salvarTituloCompleto(data) {
         const transaction = await sequelize.transaction();
         try {
             const novoCatalogo = await this.model.create(data, {

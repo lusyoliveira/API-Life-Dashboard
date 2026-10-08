@@ -1,5 +1,6 @@
 import Controller from "./Controller.js";
 import CatalogoServices  from "../servicos/catalogoService.js";
+import { urlParaBuffer } from "../utils/utils.js";
 
 const catalogo = new CatalogoServices();
 
@@ -77,11 +78,34 @@ class CatalogoController extends Controller {
         }   
     };
 
-    // Sobrescreve o cadastrarRegistro do Controller base
+    // catalogoController.js - Função cadastrarRegistro
     cadastrarRegistro = async (req, res, next) => {
         try {
-            const novoRegistro = await this.entidadeservice.criarCompleto(req.body);
-            return res.status(201).json({ message: "Registro criado com sucesso", registro: novoRegistro });
+            const payload = req.body;
+
+            // Conversão do poster do título principal
+            if (payload.capa && payload.capa.startsWith('http')) {
+            payload.poster_path = await urlParaBuffer(payload.capa);
+            }
+
+            // CORREÇÃO AQUI: Percorrer a lista de temporadas (array)
+            if (payload.listaTemporadas && Array.isArray(payload.listaTemporadas)) {
+            for (const temp of payload.listaTemporadas) {
+                if (
+                temp.posterTemporada &&
+                typeof temp.posterTemporada === 'string' &&
+                temp.posterTemporada.startsWith('http')
+                ) {
+                temp.posterTemporada = await urlParaBuffer(temp.posterTemporada);
+                }
+            }
+            }
+
+            const novoRegistro =
+            await this.entidadeservice.salvarTituloCompleto(payload);
+            return res
+            .status(201)
+            .json({ message: 'Registro criado com sucesso', registro: novoRegistro });
         } catch (error) {
             console.error(error);
             next(error);
@@ -92,7 +116,26 @@ class CatalogoController extends Controller {
     atualizarRegistro = async (req, res, next) => {
         try {
             const { id } = req.params;
-            const registroAtualizado = await this.entidadeservice.atualizarCompleto(id, req.body);
+            const payload = req.body;
+
+            if (payload.capa) {
+                payload.poster_path = await urlParaBuffer(payload.capa);
+            }
+
+            if (payload.listaTemporadas && Array.isArray(payload.listaTemporadas)) {
+                for (const temporada of payload.listaTemporadas) {
+                    if (
+                    temporada.posterTemporada &&
+                    temporada.posterTemporada.startsWith('http')
+                    ) {
+                    temporada.posterTemporada = await urlParaBuffer(
+                        temporada.posterTemporada,
+                    );
+                    }
+                }
+            }
+
+            const registroAtualizado = await this.entidadeservice.atualizarCompleto(id, payload);
             if (registroAtualizado) {
                 return res.status(200).json({ message: "Registro atualizado com sucesso!", registro: registroAtualizado });
             } else {
