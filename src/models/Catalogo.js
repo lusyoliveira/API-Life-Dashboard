@@ -25,8 +25,6 @@ const Catalogo = sequelize.define("Catalogo", {
     original_name: { type: DataTypes.STRING, allowNull: true },
     overview: { type: DataTypes.TEXT, allowNull: true },
     poster_path: { type: DataTypes.BLOB, allowNull: true },
-    media_type: { type: DataTypes.STRING, allowNull: true },
-    genres_ids: { type: DataTypes.JSON, allowNull: true },
     popularity: { type: DataTypes.FLOAT, allowNull: true },
     first_air_date: { type: DataTypes.DATE, allowNull: true },
     year: { type: DataTypes.INTEGER, allowNull: true },

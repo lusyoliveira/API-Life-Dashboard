@@ -39,10 +39,35 @@ class CatalogoServices extends Service {
         return await this.atualizar(id, dadosAtualizados);
     };
 
-    // Sobrescreve o método criar para aceitar incluir as temporadas e episódios
+    // Método criar para aceitar incluir as temporadas e episódios
     async salvarTituloCompleto(data) {
         const transaction = await sequelize.transaction();
         try {
+            // Normaliza e mapeia o payload das temporadas e episódios para bater com os atributos do banco
+            if (data.listaTemporadas && Array.isArray(data.listaTemporadas)) {
+                data.listaTemporadas = data.listaTemporadas.map(temp => ({
+                    tituloId: data.id,
+                    id_tmdb_temporada: temp.id_tmdb_temporada || null,
+                    numero_temporada: Number(temp.numero_temporada || null),
+                    nome_temporada: temp.nome_temporada || null,
+                    sinopse: temp.sinopse || null,
+                    estreia: (temp.estreia && !isNaN(Date.parse(temp.estreia))) ? new Date(temp.estreia) : null,
+                    votos: Number(temp.votos || null),
+                    quantidade_episodios: Number(temp.quantidade_episodios || (temp.listaEpisodios ? temp.listaEpisodios.length : 0)) || null,
+                    poster: temp.poster || null,
+                    listaEpisodios: (temp.listaEpisodios || []).map(ep => ({
+                        id_tmdb_episodio: ep.id_tmdb_episodio || ep.idTMDB,
+                        numero_episodio: Number(ep.numero_episodio) || null,
+                        assistido: ep.assistido ?? false,
+                        titulo_episodio: ep.titulo_episodio || null,
+                        sinopse: ep.sinopse || null,
+                        duracao: Number(ep.duracao) || null,
+                        estreia: (ep.estreia && !isNaN(Date.parse(ep.estreia))) ? new Date(ep.estreia) : null,
+                        votos: Number(ep.votos) || null
+                    }))
+                }));
+            }
+
             const novoCatalogo = await this.model.create(data, {
                 include: [
                     {
@@ -63,11 +88,12 @@ class CatalogoServices extends Service {
             return novoCatalogo;
         } catch (error) {
             await transaction.rollback();
+            console.error("❌ Erro detalhado no backend ao salvar título completo:", error);
             throw error;
         }
     };
 
-    async atualizarCompleto(id, data) {
+    async atualizarTituloCompleto(id, data) {
         const transaction = await sequelize.transaction();
         try {
             // 1. Atualiza os dados principais do catálogo
@@ -86,7 +112,7 @@ class CatalogoServices extends Service {
                 const idsTemporadasAntigas = temporadasAntigas.map(t => t.id);
 
                 if (idsTemporadasAntigas.length > 0) {
-                    // PASSO CRUCIAL: Apaga primeiro os episódios vinculados a essas temporadas
+                    // Apaga primeiro os episódios vinculados a essas temporadas
                     await Episodio.destroy({
                         where: { temporadaId: idsTemporadasAntigas },
                         transaction
@@ -103,13 +129,13 @@ class CatalogoServices extends Service {
                 for (const temp of data.listaTemporadas) {
                     const payloadTemporada = {
                         tituloId: id,
-                        id_tmdb_temporada: temp.idTMDBTemporada || temp.id_tmdb_temporada,
-                        numero_temporada: temp.numeroTemporada || temp.numero_temporada,
-                        nome_temporada: temp.nomeTemporada || temp.nome_temporada,
+                        id_tmdb_temporada: temp.id_tmdb_temporada,
+                        numero_temporada: temp.numero_temporada,
+                        nome_temporada: temp.nome_temporada,
                         sinopse: temp.sinopse,
                         estreia: temp.estreia ? new Date(temp.estreia) : null,
-                        votos: temp.votosTemporada || temp.votos,
-                        quantidade_episodios: temp.quantidadeEpisodios || temp.quantidade_episodios
+                        votos: temp.votos,
+                        quantidade_episodios: temp.quantidade_episodios
                     };
 
                     const novaTemp = await Temporada.create(payloadTemporada, { transaction });
@@ -118,13 +144,14 @@ class CatalogoServices extends Service {
                     if (temp.listaEpisodios && temp.listaEpisodios.length > 0) {
                         const episodiosFormatados = temp.listaEpisodios.map(ep => ({
                             temporadaId: novaTemp.id,
-                            id_tmdb_episodio: ep.idTMDB || ep.id_tmdb_episodio,
-                            numero_epidosio: ep.numeroEpisodio || ep.numero_epidosio,
+                            id_tmdb_episodio: ep.id_tmdb_episodio,
+                            numero_episodio: ep.numero_episodio,
                             assistido: ep.assistido ?? false,
-                            titulo_epidosio: ep.tituloEpisodio || ep.titulo_epidosio,
+                            titulo_episodio: ep.titulo_episodio,
                             sinopse: ep.sinopse,
                             duracao: ep.duracao,
                             estreia: ep.estreia ? new Date(ep.estreia) : null,
+                            poster: ep.poster,
                             votos: ep.votos
                         }));
 

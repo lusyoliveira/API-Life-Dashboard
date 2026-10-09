@@ -90,15 +90,15 @@ class CatalogoController extends Controller {
 
             // CORREÇÃO AQUI: Percorrer a lista de temporadas (array)
             if (payload.listaTemporadas && Array.isArray(payload.listaTemporadas)) {
-            for (const temp of payload.listaTemporadas) {
-                if (
-                temp.posterTemporada &&
-                typeof temp.posterTemporada === 'string' &&
-                temp.posterTemporada.startsWith('http')
-                ) {
-                temp.posterTemporada = await urlParaBuffer(temp.posterTemporada);
+                for (const temp of payload.listaTemporadas) {
+                    if (
+                    temp.poster &&
+                    typeof temp.poster === 'string' &&
+                    temp.poster.startsWith('http')
+                    ) {
+                    temp.poster = await urlParaBuffer(temp.poster);
+                    }
                 }
-            }
             }
 
             const novoRegistro =
@@ -125,17 +125,17 @@ class CatalogoController extends Controller {
             if (payload.listaTemporadas && Array.isArray(payload.listaTemporadas)) {
                 for (const temporada of payload.listaTemporadas) {
                     if (
-                    temporada.posterTemporada &&
-                    temporada.posterTemporada.startsWith('http')
+                    temporada.poster &&
+                    temporada.poster.startsWith('http')
                     ) {
-                    temporada.posterTemporada = await urlParaBuffer(
-                        temporada.posterTemporada,
+                    temporada.poster = await urlParaBuffer(
+                        temporada.poster,
                     );
                     }
                 }
             }
 
-            const registroAtualizado = await this.entidadeservice.atualizarCompleto(id, payload);
+            const registroAtualizado = await this.entidadeservice.atualizarTituloCompleto(id, payload);
             if (registroAtualizado) {
                 return res.status(200).json({ message: "Registro atualizado com sucesso!", registro: registroAtualizado });
             } else {
