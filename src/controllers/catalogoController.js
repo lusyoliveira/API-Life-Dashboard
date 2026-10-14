@@ -1,6 +1,7 @@
 import Controller from "./Controller.js";
 import CatalogoServices  from "../servicos/catalogoService.js";
 import { urlParaBuffer } from "../utils/utils.js";
+import NaoEncontrado from "../erros/NaoEncontrado.js";
 
 const catalogo = new CatalogoServices();
 
@@ -44,8 +45,8 @@ class CatalogoController extends Controller {
             next(error);
         }
     };
-    
-    buscarPorTitulo = async (req, res, next) => {
+
+    listarCatalogoPorCampo = async (req, res, next) => {
         try {
             // Pegamos o termo de busca e as configurações de paginação da URL
             // Se o usuário não passar limite ou pagina, o padrão será 10 e 1
@@ -153,7 +154,8 @@ class CatalogoController extends Controller {
 
             // Validação rápida do corpo da requisição
             if (assistidos === undefined || assistidos === null) {
-                return res.status(400).json({ message: "O campo 'assistidos' é obrigatório no corpo da requisição." });
+                //return res.status(400).json({ message: "O campo 'assistidos' é obrigatório no corpo da requisição." });
+                next(new NaoEncontrado("O campo 'assistidos' é obrigatório no corpo da requisição."))
             }
 
             // Chama a regra de negócio que criamos no CatalogoServices
@@ -165,13 +167,15 @@ class CatalogoController extends Controller {
                     registro: registroAtualizado 
                 });
             } else {
-                res.status(404).json({ message: "Id do registro não encontrado." });
+                //res.status(404).json({ message: "Id do registro não encontrado." });
+                next(new NaoEncontrado("Id do registro não encontrado."))
             }
         } catch (error) {
             // Se cair na nossa validação de "assistidos > totalEpisodios", devolvemos erro 400
-            if (error.message.includes("não pode ser maior")) {
-                return res.status(400).json({ message: error.message });
-            }
+            //if (error.message.includes("não pode ser maior")) {
+                //return res.status(400).json({ message: error.message });
+                next(new NaoEncontrado("Episódios assistidos não pode ser maior que total de episódios."))
+            //}
             console.error(error);
             next(error);
         }
@@ -182,9 +186,10 @@ class CatalogoController extends Controller {
             const registroAtualizado = await this.entidadeservice.atualizarCatalogoTMDB();
 
             if (registroAtualizado) {
-                return res.status(200).json({ message: "Catalogo atualizado com sucesso!", registro: registroAtualizado });
+                res.status(200).json({ message: "Catalogo atualizado com sucesso!", registro: registroAtualizado });
             } else {
-                return res.status(404).json({ message: "Não foi possível atualizar o catalogo com os dados de TMDB." });
+                //return res.status(404).json({ message: "Não foi possível atualizar o catalogo com os dados de TMDB." });
+                next(new NaoEncontrado("Não foi possível atualizar o catalogo com os dados de TMDB."))
             }
         } catch (error) {
             console.error(error);

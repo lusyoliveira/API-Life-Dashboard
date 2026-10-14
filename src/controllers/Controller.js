@@ -27,7 +27,7 @@ class Controller {
             if (registro) {
                 res.status(200).json(registro);
             } else {
-                res.status(404).json({ message: "Registro não encontrado"});
+                next(new NaoEncontrado("Registro não encontrado"))
             }
         } catch (error) {
             console.error(error);
@@ -44,7 +44,7 @@ class Controller {
             if(registros) {
                 res.status(200).json(registros);
             } else {
-                res.status(404).json({ message: "Registro não encontrado"});
+                next(new NaoEncontrado("Registro não encontrado"))
             }
         } catch (error) {
             console.error(error);

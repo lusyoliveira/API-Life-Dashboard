@@ -3,7 +3,7 @@ import CatalogoController from "../controllers/catalogoController.js";
 
 const rotas = express.Router();
 
-rotas.get("/catalogo/busca", CatalogoController.buscarPorTitulo);
+rotas.get("/catalogo/busca", CatalogoController.listarCatalogoPorCampo);
 rotas.get("/catalogo", CatalogoController.listarTodosRegistros);
 rotas.get("/catalogo/:id", CatalogoController.listarRegistrosPorID);
 rotas.post("/catalogo", CatalogoController.cadastrarRegistro);

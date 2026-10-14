@@ -1,5 +1,6 @@
 import Controller from "./Controller.js";
 import EpisodioServices from "../servicos/episodioService.js";
+import NaoEncontrado from "../erros/NaoEncontrado.js";
 
 const episodioService = new EpisodioServices();
 
@@ -26,7 +27,8 @@ class EpisodioController extends Controller {
             const episodioAtualizado = await this.entidadeservice.atualizarAssistido(id, assistido);
             
             if (!episodioAtualizado) {
-                return res.status(404).json({ message: "Episódio não encontrado." });
+                //return res.status(404).json({ message: "Episódio não encontrado." });
+                next(new NaoEncontrado("Registro não encontrado"))
             }
 
             return res.status(200).json({
