@@ -24,24 +24,29 @@
               "example": {
                 "message": "Compromisso criado com sucesso",
                 "agenda": {
-                  "_id": "6957f43a65aa48c941df873d",
-                  "Titulo": "Dia da Pizza",
-                  "Status": {
-                    "_id": "6949929f857187924b64ab53",
-                    "descricao": "Indeterminado",
-                    "Tipo": "Geral"
+                  "id": 1,
+                  "titulo": "Dia da Pizza",
+                  "data": "2027-07-10T00:00:00.000Z",
+                  "categoriaId": 4,
+                  "statusId": 6,
+                  "tipoId": 1,
+                  "recorrente": true,
+                  "periodicidade": "Anual",
+                  "Tipo": {
+                    "id": 1,
+                    "descricao": "Evento",
+                    "tipo": "Agenda"
                   },
                   "Categoria": {
-                    "_id": "694a80737d901d9684f770ab",
-                    "descricao": "Casa",
-                    "Tipo": "Agenda"
+                    "id": 4,
+                    "descricao": "Importante",
+                    "tipo": "Agenda"
                   },
-                  "Tipo": {
-                    "_id": "694975074acedb0e9d601924",
-                    "descricao": "Evento",
-                    "Tipo": "Agenda"
-                  },
-                  "Data": "2026-01-22T12:00:00.000Z"
+                  "Status": {
+                    "id": 6,
+                    "descricao": "Indeterminado",
+                    "tipo": "Geral"
+                  }
                 }
               }
             }
@@ -199,6 +204,2564 @@
           }
         }
       }
+    },
+    "/areas": {
+      "post": {
+        "summary": "Cadastrar um novo area/categoria global.",
+        "tags": [
+          "Areas"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Area"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Area cadastrado com sucesso"
+          },
+          "400": {
+            "description": "Dados incorretos fornecidos"
+          },
+          "500": {
+            "description": "Erro interno do servidor"
+          }
+        }
+      },
+      "get": {
+        "summary": "Listar todos os areas cadastrados.",
+        "tags": [
+          "Areas"
+        ],
+        "responses": {
+          "200": {
+            "description": "Lista de areas retornada com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Area"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro interno do servidor"
+          }
+        }
+      }
+    },
+    "/areas/{id}": {
+      "get": {
+        "summary": "Buscar um area específico pelo ID.",
+        "tags": [
+          "Areas"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "ID do area"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Area encontrado com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Area"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Area não encontrado"
+          },
+          "500": {
+            "description": "Erro interno do servidor"
+          }
+        }
+      },
+      "put": {
+        "summary": "Atualizar um area completo por ID.",
+        "tags": [
+          "Areas"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Area"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Area atualizado com sucesso"
+          },
+          "400": {
+            "description": "Dados incorretos fornecidos"
+          },
+          "404": {
+            "description": "Area não encontrado"
+          },
+          "500": {
+            "description": "Erro interno do servidor"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Excluir um area por ID.",
+        "tags": [
+          "Areas"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Area excluído com sucesso"
+          },
+          "404": {
+            "description": "Area não encontrado"
+          },
+          "500": {
+            "description": "Erro interno do servidor"
+          }
+        }
+      }
+    },
+    "/catalogo": {
+      "post": {
+        "summary": "Cadastrar um novo registro no catálogo.",
+        "tags": [
+          "Catálogo"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Catalogo"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Registro criado com sucesso"
+          },
+          "400": {
+            "description": "Um ou mais dados estão incorretos"
+          },
+          "500": {
+            "description": "Erro interno do servidor"
+          }
+        }
+      },
+      "get": {
+        "summary": "Listar todos os registros do catálogo.",
+        "tags": [
+          "Catálogo"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Lista de registros retornada com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Catalogo"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro interno do servidor"
+          }
+        }
+      }
+    },
+    "/catalogo/busca": {
+      "get": {
+        "summary": "Buscar registros do catálogo por título.",
+        "tags": [
+          "Catálogo"
+        ],
+        "parameters": [
+          {
+            "name": "titulo",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Palavra-chave para buscar no título do catálogo"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Registros encontrados com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Catalogo"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Nenhum registro encontrado"
+          },
+          "500": {
+            "description": "Erro interno do servidor"
+          }
+        }
+      }
+    },
+    "/catalogo/{id}": {
+      "get": {
+        "summary": "Buscar um registro específico do catálogo pelo ID.",
+        "tags": [
+          "Catálogo"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Registro encontrado com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Catalogo"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Id do catálogo não encontrado"
+          },
+          "500": {
+            "description": "Erro interno do servidor"
+          }
+        }
+      },
+      "put": {
+        "summary": "Atualizar um registro completo no catálogo.",
+        "tags": [
+          "Catálogo"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Catalogo"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Registro atualizado com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Catalogo"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Id do catálogo não encontrado"
+          },
+          "400": {
+            "description": "Um ou mais dados estão incorretos"
+          },
+          "500": {
+            "description": "Erro interno do servidor"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Excluir um registro do catálogo.",
+        "tags": [
+          "Catálogo"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Registro excluído com sucesso"
+          },
+          "404": {
+            "description": "Id do catálogo não encontrado"
+          },
+          "500": {
+            "description": "Erro interno do servidor"
+          }
+        }
+      }
+    },
+    "/catalogo/{id}/progresso": {
+      "patch": {
+        "summary": "Atualizar parcialmente o progresso de um registro.",
+        "tags": [
+          "Catálogo"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "progresso": {
+                    "type": "integer",
+                    "description": "Nova métrica ou porcentagem de progresso"
+                  },
+                  "assistidos": {
+                    "type": "integer",
+                    "description": "Quantidade atualizada de episódios assistidos"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Progresso atualizado com sucesso"
+          },
+          "400": {
+            "description": "Dados de progresso inválidos"
+          },
+          "404": {
+            "description": "Id do catálogo não encontrado"
+          },
+          "500": {
+            "description": "Erro interno do servidor"
+          }
+        }
+      }
+    },
+    "/catalogo/temporadas/{temporadaId}/episodios": {
+      "get": {
+        "summary": "Listar todos os episódios de uma temporada específica.",
+        "tags": [
+          "Catálogo - Episódios"
+        ],
+        "parameters": [
+          {
+            "name": "temporadaId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "ID da temporada para buscar os episódios"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Lista de episódios retornada com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Episodio"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro interno do servidor"
+          }
+        }
+      },
+      "post": {
+        "summary": "Cadastrar um novo episódio em uma temporada.",
+        "tags": [
+          "Catálogo - Episódios"
+        ],
+        "parameters": [
+          {
+            "name": "temporadaId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "ID da temporada onde o episódio será inserido"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Episodio"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Episódio cadastrado com sucesso"
+          },
+          "400": {
+            "description": "Dados incorretos fornecidos"
+          },
+          "500": {
+            "description": "Erro interno do servidor"
+          }
+        }
+      }
+    },
+    "/catalogo/temporadas/episodios/{id}": {
+      "get": {
+        "summary": "Buscar um episódio específico pelo ID.",
+        "tags": [
+          "Catálogo - Episódios"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "ID único do episódio"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Episódio encontrado com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Episodio"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Episódio não encontrado"
+          },
+          "500": {
+            "description": "Erro interno do servidor"
+          }
+        }
+      },
+      "put": {
+        "summary": "Atualizar um episódio completo por ID.",
+        "tags": [
+          "Catálogo - Episódios"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Episodio"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Episódio atualizado com sucesso"
+          },
+          "400": {
+            "description": "Dados incorretos fornecidos"
+          },
+          "404": {
+            "description": "Episódio não encontrado"
+          },
+          "500": {
+            "description": "Erro interno do servidor"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Excluir um episódio por ID.",
+        "tags": [
+          "Catálogo - Episódios"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Episódio excluído com sucesso"
+          },
+          "404": {
+            "description": "Episódio não encontrado"
+          },
+          "500": {
+            "description": "Erro interno do servidor"
+          }
+        }
+      }
+    },
+    "/catalogo/temporadas/episodios/{id}/assistido": {
+      "patch": {
+        "summary": "Marcar ou desmarcar um episódio como assistido.",
+        "tags": [
+          "Catálogo - Episódios"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "assistido"
+                ],
+                "properties": {
+                  "assistido": {
+                    "type": "boolean",
+                    "description": "Status se o usuário assistiu ao episódio"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Status de visualização atualizado com sucesso"
+          },
+          "400": {
+            "description": "Dados inválidos fornecidos"
+          },
+          "404": {
+            "description": "Episódio não encontrado"
+          },
+          "500": {
+            "description": "Erro interno do servidor"
+          }
+        }
+      }
+    },
+    "/catalogo/{tituloId}/temporadas": {
+      "get": {
+        "summary": "Listar todas as temporadas de um título do catálogo.",
+        "tags": [
+          "Catálogo - Temporadas"
+        ],
+        "parameters": [
+          {
+            "name": "tituloId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "ID do título no catálogo para buscar as temporadas"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Lista de temporadas retornada com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Temporada"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro interno do servidor"
+          }
+        }
+      },
+      "post": {
+        "summary": "Cadastrar uma nova temporada para um título.",
+        "tags": [
+          "Catálogo - Temporadas"
+        ],
+        "parameters": [
+          {
+            "name": "tituloId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "ID do título no catálogo onde a temporada será adicionada"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Temporada"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Temporada cadastrada com sucesso"
+          },
+          "400": {
+            "description": "Dados incorretos fornecidos"
+          },
+          "500": {
+            "description": "Erro interno do servidor"
+          }
+        }
+      }
+    },
+    "/catalogo/temporadas/{id}": {
+      "get": {
+        "summary": "Buscar uma temporada específica pelo ID.",
+        "tags": [
+          "Catálogo - Temporadas"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "ID único da temporada"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Temporada encontrada com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Temporada"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Temporada não encontrada"
+          },
+          "500": {
+            "description": "Erro interno do servidor"
+          }
+        }
+      },
+      "put": {
+        "summary": "Atualizar uma temporada completa por ID.",
+        "tags": [
+          "Catálogo - Temporadas"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Temporada"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Temporada atualizada com sucesso"
+          },
+          "400": {
+            "description": "Dados incorretos fornecidos"
+          },
+          "404": {
+            "description": "Temporada não encontrada"
+          },
+          "500": {
+            "description": "Erro interno do servidor"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Excluir uma temporada por ID.",
+        "tags": [
+          "Catálogo - Temporadas"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Temporada excluída com sucesso"
+          },
+          "404": {
+            "description": "Temporada não encontrada"
+          },
+          "500": {
+            "description": "Erro interno do servidor"
+          }
+        }
+      }
+    },
+    "/categorias": {
+      "post": {
+        "summary": "Cadastrar um novo categoria/categoria global.",
+        "tags": [
+          "Categorias"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Categoria"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Categoria cadastrado com sucesso"
+          },
+          "400": {
+            "description": "Dados incorretos fornecidos"
+          },
+          "500": {
+            "description": "Erro interno do servidor"
+          }
+        }
+      },
+      "get": {
+        "summary": "Listar todos os categorias cadastrados.",
+        "tags": [
+          "Categorias"
+        ],
+        "responses": {
+          "200": {
+            "description": "Lista de categorias retornada com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Categoria"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro interno do servidor"
+          }
+        }
+      }
+    },
+    "/categorias/{id}": {
+      "get": {
+        "summary": "Buscar um categoria específico pelo ID.",
+        "tags": [
+          "Categorias"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "ID do categoria"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Categoria encontrado com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Categoria"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Categoria não encontrado"
+          },
+          "500": {
+            "description": "Erro interno do servidor"
+          }
+        }
+      },
+      "put": {
+        "summary": "Atualizar um categoria completo por ID.",
+        "tags": [
+          "Categorias"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Categoria"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Categoria atualizado com sucesso"
+          },
+          "400": {
+            "description": "Dados incorretos fornecidos"
+          },
+          "404": {
+            "description": "Categoria não encontrado"
+          },
+          "500": {
+            "description": "Erro interno do servidor"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Excluir um categoria por ID.",
+        "tags": [
+          "Categorias"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Categoria excluído com sucesso"
+          },
+          "404": {
+            "description": "Categoria não encontrado"
+          },
+          "500": {
+            "description": "Erro interno do servidor"
+          }
+        }
+      }
+    },
+    "/clima": {
+      "post": {
+        "summary": "Cadastrar um novo registro de clima/localização.",
+        "tags": [
+          "Clima"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Clima"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Registro de clima cadastrado com sucesso"
+          },
+          "400": {
+            "description": "Requisição inválida ou dados incorretos"
+          },
+          "500": {
+            "description": "Erro interno do servidor"
+          }
+        }
+      },
+      "get": {
+        "summary": "Listar todos os registros de clima salvos.",
+        "tags": [
+          "Clima"
+        ],
+        "responses": {
+          "200": {
+            "description": "Lista de climas retornada com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Clima"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro interno do servidor"
+          }
+        }
+      }
+    },
+    "/clima/{id}": {
+      "get": {
+        "summary": "Buscar dados de clima de um registro específico pelo ID.",
+        "tags": [
+          "Clima"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "ID do registro de clima"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Dados do clima retornados com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Clima"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Registro de clima não encontrado"
+          },
+          "500": {
+            "description": "Erro interno do servidor"
+          }
+        }
+      },
+      "put": {
+        "summary": "Atualizar um registro de clima completo por ID.",
+        "tags": [
+          "Clima"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Clima"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Registro de clima atualizado com sucesso"
+          },
+          "400": {
+            "description": "Dados incorretos fornecidos"
+          },
+          "404": {
+            "description": "Registro de clima não encontrado"
+          },
+          "500": {
+            "description": "Erro interno do servidor"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Excluir um registro de clima por ID.",
+        "tags": [
+          "Clima"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Registro de clima excluído com sucesso"
+          },
+          "404": {
+            "description": "Registro de clima não encontrado"
+          },
+          "500": {
+            "description": "Erro interno do servidor"
+          }
+        }
+      }
+    },
+    "/configuracoes": {
+      "post": {
+        "summary": "Cadastrar uma nova configuração.",
+        "tags": [
+          "Configurações"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Configuracao"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Configuração cadastrada com sucesso"
+          },
+          "400": {
+            "description": "Dados incorretos fornecidos"
+          },
+          "500": {
+            "description": "Erro interno do servidor"
+          }
+        }
+      },
+      "get": {
+        "summary": "Listar todas as configurações.",
+        "tags": [
+          "Configurações"
+        ],
+        "responses": {
+          "200": {
+            "description": "Lista de configurações retornada com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Configuracao"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro interno do servidor"
+          }
+        }
+      }
+    },
+    "/configuracoes/{id}": {
+      "get": {
+        "summary": "Buscar uma configuração específica pelo ID.",
+        "tags": [
+          "Configurações"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "ID da configuração"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Configuração encontrada com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Configuracao"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Configuração não encontrada"
+          },
+          "500": {
+            "description": "Erro interno do servidor"
+          }
+        }
+      },
+      "put": {
+        "summary": "Atualizar uma configuração completa por ID.",
+        "tags": [
+          "Configurações"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Configuracao"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Configuração atualizada com sucesso"
+          },
+          "400": {
+            "description": "Dados incorretos fornecidos"
+          },
+          "404": {
+            "description": "Configuração não encontrada"
+          },
+          "500": {
+            "description": "Erro interno do servidor"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Excluir uma configuração por ID.",
+        "tags": [
+          "Configurações"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Configuração excluída com sucesso"
+          },
+          "404": {
+            "description": "Configuração não encontrada"
+          },
+          "500": {
+            "description": "Erro interno do servidor"
+          }
+        }
+      }
+    },
+    "/contas": {
+      "post": {
+        "summary": "Cadastrar uma nova conta bancária.",
+        "tags": [
+          "Contas"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Conta"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Conta cadastrada com sucesso"
+          },
+          "400": {
+            "description": "Dados incorretos fornecidos"
+          },
+          "500": {
+            "description": "Erro interno do servidor"
+          }
+        }
+      },
+      "get": {
+        "summary": "Listar todas as contas bancárias.",
+        "tags": [
+          "Contas"
+        ],
+        "responses": {
+          "200": {
+            "description": "Lista de contas retornada com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Conta"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro interno do servidor"
+          }
+        }
+      }
+    },
+    "/contas/{id}": {
+      "get": {
+        "summary": "Buscar uma conta bancária específica pelo ID.",
+        "tags": [
+          "Contas"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "ID da conta"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Conta encontrada com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Conta"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Conta não encontrada"
+          },
+          "500": {
+            "description": "Erro interno do servidor"
+          }
+        }
+      },
+      "put": {
+        "summary": "Atualizar uma conta bancária completa por ID.",
+        "tags": [
+          "Contas"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Conta"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Conta atualizada com sucesso"
+          },
+          "400": {
+            "description": "Dados incorretos fornecidos"
+          },
+          "404": {
+            "description": "Conta não encontrada"
+          },
+          "500": {
+            "description": "Erro interno do servidor"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Excluir uma conta bancária por ID.",
+        "tags": [
+          "Contas"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Conta excluída com sucesso"
+          },
+          "404": {
+            "description": "Conta não encontrada"
+          },
+          "500": {
+            "description": "Erro interno do servidor"
+          }
+        }
+      }
+    },
+    "/cursos": {
+      "post": {
+        "summary": "Cadastrar um novo curso.",
+        "tags": [
+          "Cursos"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Curso"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Curso cadastrado com sucesso"
+          },
+          "400": {
+            "description": "Dados incorretos fornecidos"
+          },
+          "500": {
+            "description": "Erro interno do servidor"
+          }
+        }
+      },
+      "get": {
+        "summary": "Listar todos os cursos cadastrados.",
+        "tags": [
+          "Cursos"
+        ],
+        "responses": {
+          "200": {
+            "description": "Lista de cursos retornada com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Curso"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro interno do servidor"
+          }
+        }
+      }
+    },
+    "/cursos/{id}": {
+      "get": {
+        "summary": "Buscar um curso específico pelo ID.",
+        "tags": [
+          "Cursos"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "ID do curso"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Curso encontrado com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Curso"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Curso não encontrado"
+          },
+          "500": {
+            "description": "Erro interno do servidor"
+          }
+        }
+      },
+      "put": {
+        "summary": "Atualizar um curso completo por ID.",
+        "tags": [
+          "Cursos"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Curso"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Curso atualizado com sucesso"
+          },
+          "400": {
+            "description": "Dados incorretos fornecidos"
+          },
+          "404": {
+            "description": "Curso não encontrado"
+          },
+          "500": {
+            "description": "Erro interno do servidor"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Excluir um curso por ID.",
+        "tags": [
+          "Cursos"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Curso excluído com sucesso"
+          },
+          "404": {
+            "description": "Curso não encontrado"
+          },
+          "500": {
+            "description": "Erro interno do servidor"
+          }
+        }
+      }
+    },    
+    "/tarefas": {
+      "post": {
+        "summary": "Cadastrar uma nova tarefa.",
+        "tags": [
+          "Tarefas"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Tarefa"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Tarefa cadastrada com sucesso"
+          },
+          "400": {
+            "description": "Dados incorretos fornecidos"
+          },
+          "500": {
+            "description": "Erro interno do servidor"
+          }
+        }
+      },
+      "get": {
+        "summary": "Listar todas as tarefas cadastradas.",
+        "tags": [
+          "Tarefas"
+        ],
+        "responses": {
+          "200": {
+            "description": "Lista de tarefas retornada com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Tarefa"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro interno do servidor"
+          }
+        }
+      }
+    },
+    "/plataformas": {
+      "post": {
+        "summary": "Cadastrar um novo plataforma/categoria global.",
+        "tags": [
+          "Plataformas"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Plataforma"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Plataforma cadastrado com sucesso"
+          },
+          "400": {
+            "description": "Dados incorretos fornecidos"
+          },
+          "500": {
+            "description": "Erro interno do servidor"
+          }
+        }
+      },
+      "get": {
+        "summary": "Listar todos os plataformas cadastrados.",
+        "tags": [
+          "Plataformas"
+        ],
+        "responses": {
+          "200": {
+            "description": "Lista de plataformas retornada com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Plataforma"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro interno do servidor"
+          }
+        }
+      }
+    },
+    "/plataformas/{id}": {
+      "get": {
+        "summary": "Buscar um plataforma específico pelo ID.",
+        "tags": [
+          "Plataformas"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "ID do plataforma"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Plataforma encontrado com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Plataforma"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Plataforma não encontrado"
+          },
+          "500": {
+            "description": "Erro interno do servidor"
+          }
+        }
+      },
+      "put": {
+        "summary": "Atualizar um plataforma completo por ID.",
+        "tags": [
+          "Plataformas"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Plataforma"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Plataforma atualizado com sucesso"
+          },
+          "400": {
+            "description": "Dados incorretos fornecidos"
+          },
+          "404": {
+            "description": "Plataforma não encontrado"
+          },
+          "500": {
+            "description": "Erro interno do servidor"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Excluir um plataforma por ID.",
+        "tags": [
+          "Plataformas"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Plataforma excluído com sucesso"
+          },
+          "404": {
+            "description": "Plataforma não encontrado"
+          },
+          "500": {
+            "description": "Erro interno do servidor"
+          }
+        }
+      }
+    },
+    "/status": {
+      "post": {
+        "summary": "Cadastrar um novo status/categoria global.",
+        "tags": [
+          "Status"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Status"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Status cadastrado com sucesso"
+          },
+          "400": {
+            "description": "Dados incorretos fornecidos"
+          },
+          "500": {
+            "description": "Erro interno do servidor"
+          }
+        }
+      },
+      "get": {
+        "summary": "Listar todos os status cadastrados.",
+        "tags": [
+          "Status"
+        ],
+        "responses": {
+          "200": {
+            "description": "Lista de status retornada com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Status"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro interno do servidor"
+          }
+        }
+      }
+    },
+    "/status/{id}": {
+      "get": {
+        "summary": "Buscar um status específico pelo ID.",
+        "tags": [
+          "Status"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "ID do status"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Status encontrado com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Status"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Status não encontrado"
+          },
+          "500": {
+            "description": "Erro interno do servidor"
+          }
+        }
+      },
+      "put": {
+        "summary": "Atualizar um status completo por ID.",
+        "tags": [
+          "Status"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Status"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Status atualizado com sucesso"
+          },
+          "400": {
+            "description": "Dados incorretos fornecidos"
+          },
+          "404": {
+            "description": "Status não encontrado"
+          },
+          "500": {
+            "description": "Erro interno do servidor"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Excluir um status por ID.",
+        "tags": [
+          "Status"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Status excluído com sucesso"
+          },
+          "404": {
+            "description": "Status não encontrado"
+          },
+          "500": {
+            "description": "Erro interno do servidor"
+          }
+        }
+      }
+    },
+    "/tarefas/{id}": {
+      "get": {
+        "summary": "Buscar uma tarefa específica pelo ID.",
+        "tags": [
+          "Tarefas"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "ID da tarefa"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Tarefa encontrada com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Tarefa"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Tarefa não encontrada"
+          },
+          "500": {
+            "description": "Erro interno do servidor"
+          }
+        }
+      },
+      "put": {
+        "summary": "Atualizar uma tarefa completa por ID.",
+        "tags": [
+          "Tarefas"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Tarefa"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Tarefa atualizada com sucesso"
+          },
+          "400": {
+            "description": "Dados incorretos fornecidos"
+          },
+          "404": {
+            "description": "Tarefa não encontrada"
+          },
+          "500": {
+            "description": "Erro interno do servidor"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Excluir uma tarefa por ID.",
+        "tags": [
+          "Tarefas"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Tarefa excluída com sucesso"
+          },
+          "404": {
+            "description": "Tarefa não encontrada"
+          },
+          "500": {
+            "description": "Erro interno do servidor"
+          }
+        }
+      }
+    },
+    "/transacoes": {
+      "post": {
+        "summary": "Cadastrar uma nova transação financeira.",
+        "tags": [
+          "Transações"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Transacao"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Transação cadastrada com sucesso"
+          },
+          "400": {
+            "description": "Dados incorretos fornecidos"
+          },
+          "500": {
+            "description": "Erro interno do servidor"
+          }
+        }
+      },
+      "get": {
+        "summary": "Listar todas as transações financeiras.",
+        "tags": [
+          "Transações"
+        ],
+        "responses": {
+          "200": {
+            "description": "Lista de transações retornada com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Transacao"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro interno do servidor"
+          }
+        }
+      }
+    },
+    "/transacoes/{id}": {
+      "get": {
+        "summary": "Buscar uma transação específica pelo ID.",
+        "tags": [
+          "Transações"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "ID da transação"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Transação encontrada com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Transacao"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Transação não encontrada"
+          },
+          "500": {
+            "description": "Erro interno do servidor"
+          }
+        }
+      },
+      "put": {
+        "summary": "Atualizar uma transação completa por ID.",
+        "tags": [
+          "Transações"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Transacao"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Transação atualizada com sucesso"
+          },
+          "400": {
+            "description": "Dados incorretos fornecidos"
+          },
+          "404": {
+            "description": "Transação não encontrada"
+          },
+          "500": {
+            "description": "Erro interno do servidor"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Excluir uma transação por ID.",
+        "tags": [
+          "Transações"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Transação excluída com sucesso"
+          },
+          "404": {
+            "description": "Transação não encontrada"
+          },
+          "500": {
+            "description": "Erro interno do servidor"
+          }
+        }
+      }
+    },
+    "/usuarios": {
+      "post": {
+        "summary": "Cadastrar um novo usuário (Sign Up).",
+        "tags": [
+          "Usuários"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Usuario"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Usuário criado com sucesso"
+          },
+          "400": {
+            "description": "Dados fornecidos inválidos ou e-mail já cadastrado"
+          },
+          "500": {
+            "description": "Erro interno do servidor"
+          }
+        }
+      },
+      "get": {
+        "summary": "Listar todos os usuários (Apenas Administradores).",
+        "tags": [
+          "Usuários"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Lista de usuários retornada com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Usuario"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro interno do servidor"
+          }
+        }
+      }
+    },
+    "/usuarios/{id}": {
+      "get": {
+        "summary": "Buscar perfil de um usuário específico pelo ID.",
+        "tags": [
+          "Usuários"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "ID do usuário"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Usuário encontrado com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Usuario"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Usuário não encontrado"
+          },
+          "500": {
+            "description": "Erro interno do servidor"
+          }
+        }
+      },
+      "put": {
+        "summary": "Atualizar as informações completas de um usuário por ID.",
+        "tags": [
+          "Usuários"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Usuario"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Usuário atualizado com sucesso"
+          },
+          "400": {
+            "description": "Dados incorretos fornecidos"
+          },
+          "404": {
+            "description": "Usuário não encontrado"
+          },
+          "500": {
+            "description": "Erro interno do servidor"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Remover uma conta de usuário do sistema.",
+        "tags": [
+          "Usuários"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Usuário removido com sucesso"
+          },
+          "404": {
+            "description": "Usuário não encontrado"
+          },
+          "500": {
+            "description": "Erro interno do servidor"
+          }
+        }
+      }
+    },
+    "/tipos": {
+      "post": {
+        "summary": "Cadastrar um novo tipo/categoria global.",
+        "tags": [
+          "Tipos"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Tipo"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Tipo cadastrado com sucesso"
+          },
+          "400": {
+            "description": "Dados incorretos fornecidos"
+          },
+          "500": {
+            "description": "Erro interno do servidor"
+          }
+        }
+      },
+      "get": {
+        "summary": "Listar todos os tipos cadastrados.",
+        "tags": [
+          "Tipos"
+        ],
+        "responses": {
+          "200": {
+            "description": "Lista de tipos retornada com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Tipo"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro interno do servidor"
+          }
+        }
+      }
+    },
+    "/tipos/{id}": {
+      "get": {
+        "summary": "Buscar um tipo específico pelo ID.",
+        "tags": [
+          "Tipos"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "ID do tipo"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Tipo encontrado com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Tipo"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Tipo não encontrado"
+          },
+          "500": {
+            "description": "Erro interno do servidor"
+          }
+        }
+      },
+      "put": {
+        "summary": "Atualizar um tipo completo por ID.",
+        "tags": [
+          "Tipos"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Tipo"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Tipo atualizado com sucesso"
+          },
+          "400": {
+            "description": "Dados incorretos fornecidos"
+          },
+          "404": {
+            "description": "Tipo não encontrado"
+          },
+          "500": {
+            "description": "Erro interno do servidor"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Excluir um tipo por ID.",
+        "tags": [
+          "Tipos"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Tipo excluído com sucesso"
+          },
+          "404": {
+            "description": "Tipo não encontrado"
+          },
+          "500": {
+            "description": "Erro interno do servidor"
+          }
+        }
+      }
     }
   },
   "components": {
@@ -226,6 +2789,930 @@
           },
           "Data": {
             "type": "string"
+          }
+        }
+      },
+      "Area": {
+        "type": "object",
+        "required": [
+          "descricao",
+          "area"
+        ],
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "ID auto-incrementável do area"
+          },
+          "descricao": {
+            "type": "string",
+            "description": "Descrição do nome do area (ex: Tecnologia, Desenho, Aquarela)"
+          }
+        }
+      },
+      "Catalogo": {
+        "type": "object",
+        "required": [
+          "titulo",
+          "tipoId",
+          "statusId",
+          "plataformaId",
+          "episodios",
+          "temporadas",
+          "adicao"
+        ],
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "ID auto-incrementável do catálogo"
+          },
+          "titulo": {
+            "type": "string",
+            "description": "Título da obra ou item do catálogo"
+          },
+          "capa": {
+            "type": "string",
+            "nullable": true,
+            "description": "URL ou caminho da imagem de capa"
+          },
+          "tipoId": {
+            "type": "string",
+            "description": "ID ou referência do tipo do catálogo"
+          },
+          "statusId": {
+            "type": "string",
+            "description": "ID ou referência do status atual"
+          },
+          "plataformaId": {
+            "type": "string",
+            "description": "ID ou referência da plataforma onde está disponível"
+          },
+          "inicio": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "description": "Data de início do consumo do item"
+          },
+          "fim": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "description": "Data de conclusão do consumo"
+          },
+          "episodios": {
+            "type": "integer",
+            "description": "Quantidade total de episódios"
+          },
+          "assistidos": {
+            "type": "integer",
+            "nullable": true,
+            "description": "Quantidade de episódios já assistidos"
+          },
+          "temporadas": {
+            "type": "integer",
+            "description": "Quantidade total de temporadas"
+          },
+          "score": {
+            "type": "number",
+            "format": "float",
+            "nullable": true,
+            "description": "Nota ou avaliação pessoal dada ao item"
+          },
+          "vezes": {
+            "type": "integer",
+            "nullable": true,
+            "description": "Número de vezes que o item foi reassistido"
+          },
+          "adicao": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Data em que o item foi adicionado ao catálogo"
+          },
+          "dias": {
+            "type": "integer",
+            "nullable": true,
+            "description": "Quantidade de dias dedicados ou calculados"
+          },
+          "progresso": {
+            "type": "integer",
+            "nullable": true,
+            "description": "Porcentagem ou métrica de progresso atual"
+          },
+          "id_tmdb": {
+            "type": "integer",
+            "nullable": true,
+            "description": "ID de referência da API do The Movie Database (TMDB)"
+          },
+          "original_name": {
+            "type": "string",
+            "nullable": true,
+            "description": "Nome original da obra"
+          },
+          "overview": {
+            "type": "string",
+            "nullable": true,
+            "description": "Sinopse ou descrição detalhada da obra"
+          },
+          "poster_path": {
+            "type": "string",
+            "format": "binary",
+            "nullable": true,
+            "description": "Arquivo binário ou dados em BLOB do pôster"
+          },
+          "popularity": {
+            "type": "number",
+            "format": "float",
+            "nullable": true,
+            "description": "Índice de popularidade obtido da API externa"
+          },
+          "first_air_date": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "description": "Data de lançamento original da obra"
+          },
+          "year": {
+            "type": "integer",
+            "nullable": true,
+            "description": "Ano de lançamento"
+          },
+          "vote_average": {
+            "type": "number",
+            "format": "float",
+            "nullable": true,
+            "description": "Média de votos da obra em plataformas externas"
+          }
+        }
+      },
+      "Categoria": {
+        "type": "object",
+        "required": [
+          "descricao",
+          "categoria"
+        ],
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "ID auto-incrementável do categoria"
+          },
+          "descricao": {
+            "type": "string",
+            "description": "Descrição do nome do categoria (ex: Casa, Eduação, Pessoal)"
+          },
+          "tipo": {
+            "type": "string",
+            "description": "Agrupador ou contexto ao qual o categoria pertence (ex: Agenda, Geral)"
+          }
+        }
+      },
+      "Clima": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "name": {
+            "type": "string",
+            "description": "Nome da localidade/cidade"
+          },
+          "latitude": {
+            "type": "number",
+            "format": "float"
+          },
+          "longitude": {
+            "type": "number",
+            "format": "float"
+          },
+          "elevation": {
+            "type": "number",
+            "format": "float"
+          },
+          "feature_code": {
+            "type": "string"
+          },
+          "country_code": {
+            "type": "string"
+          },
+          "admin1_id": {
+            "type": "number"
+          },
+          "admin2_id": {
+            "type": "number"
+          },
+          "timezone": {
+            "type": "string"
+          },
+          "population": {
+            "type": "number"
+          },
+          "country_id": {
+            "type": "number"
+          },
+          "country": {
+            "type": "string"
+          },
+          "admin1": {
+            "type": "string"
+          },
+          "admin2": {
+            "type": "string"
+          },
+          "current": {
+            "$ref": "#/components/schemas/ClimaCurrent"
+          },
+          "current_units": {
+            "$ref": "#/components/schemas/ClimaCurrentUnits"
+          },
+          "daily": {
+            "$ref": "#/components/schemas/ClimaDaily"
+          },
+          "daily_units": {
+            "$ref": "#/components/schemas/ClimaDailyUnits"
+          }
+        }
+      },
+      "ClimaCurrent": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "climaId": {
+            "type": "integer"
+          },
+          "time": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "interval": {
+            "type": "integer"
+          },
+          "weather_code": {
+            "type": "integer"
+          },
+          "temperature_2m": {
+            "type": "number",
+            "format": "double"
+          },
+          "relative_humidity_2m": {
+            "type": "integer"
+          },
+          "apparent_temperature": {
+            "type": "number",
+            "format": "double"
+          },
+          "is_day": {
+            "type": "integer"
+          },
+          "wind_speed_10m": {
+            "type": "number",
+            "format": "double"
+          },
+          "wind_direction_10m": {
+            "type": "integer"
+          },
+          "wind_gusts_10m": {
+            "type": "number",
+            "format": "double"
+          },
+          "precipitation": {
+            "type": "integer"
+          },
+          "rain": {
+            "type": "integer"
+          },
+          "showers": {
+            "type": "integer"
+          },
+          "snowfall": {
+            "type": "integer"
+          },
+          "cloud_cover: ": {
+            "type": "integer"
+          },
+          "pressure_msl": {
+            "type": "number",
+            "format": "double"
+          },
+          "surface_pressure": {
+            "type": "number",
+            "format": "double"
+          }
+        }
+      },
+      "ClimaCurrentUnits": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "climaId": {
+            "type": "integer"
+          },
+          "time": {
+            "type": "string"
+          },
+          "interval": {
+            "type": "string"
+          },
+          "weather_code": {
+            "type": "string"
+          },
+          "temperature_2m": {
+            "type": "string"
+          },
+          "relative_humidity_2m": {
+            "type": "string"
+          },
+          "apparent_temperature": {
+            "type": "string"
+          },
+          "is_day": {
+            "type": "string"
+          },
+          "wind_speed_10m": {
+            "type": "string"
+          },
+          "wind_direction_10m": {
+            "type": "string"
+          },
+          "wind_gusts_10m": {
+            "type": "string"
+          },
+          "precipitation": {
+            "type": "string"
+          },
+          "rain": {
+            "type": "string"
+          },
+          "showers": {
+            "type": "string"
+          },
+          "snowfall": {
+            "type": "string"
+          },
+          "cloud_cover": {
+            "type": "string"
+          },
+          "pressure_msl": {
+            "type": "string"
+          },
+          "surface_pressure": {
+            "type": "string"
+          }
+        }
+      },
+      "ClimaDaily": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "climaId": {
+            "type": "integer"
+          },
+          "time": {
+            "type": "string",
+            "format": "date"
+          },
+          "weather_code": {
+            "type": "integer"
+          },
+          "temperature_2m_max": {
+            "type": "string"
+          },
+          "temperature_2m_min": {
+            "type": "string"
+          }
+        }
+      },
+      "ClimaDailyUnits": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "climaId": {
+            "type": "integer"
+          },
+          "time": {
+            "type": "string"
+          },
+          "weather_code": {
+            "type": "string"
+          },
+          "temperature_2m_max": {
+            "type": "string"
+          },
+          "temperature_2m_min": {
+            "type": "string"
+          }
+        }
+      },
+      "Configuracao": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "ID auto-incrementável da configuração"
+          },
+          "ativaMAL": {
+            "type": "boolean",
+            "description": "Define se a integração com MyAnimeList está ativa"
+          },
+          "ativaOutlook": {
+            "type": "boolean",
+            "description": "Define se a integração com Outlook está ativa"
+          },
+          "chaveOutlook": {
+            "type": "string",
+            "description": "Chave ou Token de acesso do Outlook"
+          },
+          "ativaGoogle": {
+            "type": "boolean",
+            "description": "Define se a integração com Google está ativa"
+          },
+          "chaveGoogle": {
+            "type": "string",
+            "description": "Chave ou Token de acesso do Google"
+          },
+          "cidade": {
+            "type": "string",
+            "description": "Nome da cidade configurada"
+          },
+          "latitude": {
+            "type": "string",
+            "description": "Coordenada de latitude da cidade"
+          },
+          "longitude": {
+            "type": "string",
+            "description": "Coordenada de longitude da cidade"
+          },
+          "ativaClima": {
+            "type": "boolean",
+            "description": "Define se o widget de clima está ativo"
+          },
+          "atualizaClima": {
+            "type": "number",
+            "description": "Intervalo ou tempo de atualização do clima"
+          },
+          "dataContagem": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Data alvo para contagem regressiva de eventos"
+          },
+          "descricaoContagem": {
+            "type": "string",
+            "description": "Descrição da contagem regressiva"
+          },
+          "ativaTMDB": {
+            "type": "boolean",
+            "description": "Define se a integração com TMDB está ativa"
+          },
+          "chaveTMDB": {
+            "type": "string",
+            "description": "Chave de API do TMDB"
+          }
+        }
+      },
+      "Conta": {
+        "type": "object",
+        "required": [
+          "agencia",
+          "conta",
+          "banco",
+          "tipo",
+          "saldo"
+        ],
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "ID auto-incrementável da conta bancária"
+          },
+          "agencia": {
+            "type": "number",
+            "description": "Número da agência bancária"
+          },
+          "conta": {
+            "type": "number",
+            "description": "Número da conta corrente ou poupança"
+          },
+          "banco": {
+            "type": "string",
+            "description": "Nome ou código da instituição bancária"
+          },
+          "descricao": {
+            "type": "string",
+            "description": "Descrição personalizada da conta (ex: Conta Principal, Poupança)"
+          },
+          "tipo": {
+            "type": "string",
+            "description": "Tipo de conta (ex: Corrente, Poupança, Investimento)"
+          },
+          "saldo": {
+            "type": "number",
+            "format": "float",
+            "description": "Saldo atualizado disponível na conta"
+          }
+        }
+      },
+      "Curso": {
+        "type": "object",
+        "required": [
+          "descricao",
+          "plataformaId",
+          "aulas",
+          "professor",
+          "areaId",
+          "valor",
+          "statusId"
+        ],
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "ID auto-incrementável do curso"
+          },
+          "capa": {
+            "type": "string",
+            "nullable": true,
+            "description": "URL ou caminho da imagem de capa do curso"
+          },
+          "descricao": {
+            "type": "string",
+            "description": "Nome ou descrição detalhada do curso"
+          },
+          "plataformaId": {
+            "type": "integer",
+            "description": "ID de referência da plataforma de ensino"
+          },
+          "aulas": {
+            "type": "number",
+            "description": "Quantidade total de aulas do curso"
+          },
+          "assistido": {
+            "type": "number",
+            "description": "Quantidade de aulas já assistidas"
+          },
+          "horas": {
+            "type": "number",
+            "description": "Carga horária total do curso"
+          },
+          "professor": {
+            "type": "string",
+            "description": "Nome do instrutor ou professor"
+          },
+          "areaId": {
+            "type": "integer",
+            "description": "ID de referência da área de conhecimento (ex: Tecnologia, Design)"
+          },
+          "comprado": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "description": "Data de aquisição do curso"
+          },
+          "valor": {
+            "type": "number",
+            "format": "float",
+            "description": "Preço pago pelo curso"
+          },
+          "statusId": {
+            "type": "integer",
+            "description": "ID de referência do status (ex: Não Iniciado, Em Andamento, Concluído)"
+          },
+          "certificado": {
+            "type": "boolean",
+            "description": "Indica se o curso emitiu certificado"
+          },
+          "progresso": {
+            "type": "number",
+            "description": "Porcentagem atual de conclusão do curso"
+          }
+        }
+      },
+      "Episodio": {
+        "type": "object",
+        "required": [
+          "temporadaId",
+          "assistido"
+        ],
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "ID auto-incrementável do episódio"
+          },
+          "temporadaId": {
+            "type": "integer",
+            "description": "ID de referência da tabela de temporadas"
+          },
+          "id_tmdb_episodio": {
+            "type": "integer",
+            "nullable": true,
+            "description": "ID de referência do episódio na API do TMDB"
+          },
+          "numero_episodio": {
+            "type": "integer",
+            "nullable": true,
+            "description": "Número correspondente do episódio na temporada"
+          },
+          "assistido": {
+            "type": "boolean",
+            "description": "Indica se o episódio já foi assistido"
+          },
+          "titulo_episodio": {
+            "type": "string",
+            "nullable": true,
+            "description": "Título oficial do episódio"
+          },
+          "sinopse": {
+            "type": "string",
+            "nullable": true,
+            "description": "Resumo ou sinopse do episódio"
+          },
+          "duracao": {
+            "type": "string",
+            "nullable": true,
+            "description": "Duração do episódio (ex: '45m' ou em minutos)"
+          },
+          "estreia": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "description": "Data de transmissão original do episódio"
+          },
+          "votos": {
+            "type": "number",
+            "format": "float",
+            "nullable": true,
+            "description": "Média de avaliação do episódio"
+          }
+        }
+      },
+      "Temporada": {
+        "type": "object",
+        "required": [
+          "tituloId"
+        ],
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "ID auto-incrementável da temporada"
+          },
+          "tituloId": {
+            "type": "integer",
+            "description": "ID de referência do título pertencente ao catálogo"
+          },
+          "id_tmdb_temporada": {
+            "type": "integer",
+            "nullable": true,
+            "description": "ID de referência da temporada na API do TMDB"
+          },
+          "numero_temporada": {
+            "type": "integer",
+            "nullable": true,
+            "description": "Número sequencial da temporada"
+          },
+          "nome_temporada": {
+            "type": "string",
+            "nullable": true,
+            "description": "Nome ou título dado à temporada"
+          },
+          "sinopse": {
+            "type": "string",
+            "nullable": true,
+            "description": "Sinopse ou descrição dos acontecimentos da temporada"
+          },
+          "estreia": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "description": "Data de estreia original da temporada"
+          },
+          "poster": {
+            "type": "string",
+            "format": "binary",
+            "nullable": true,
+            "description": "Arquivo de imagem ou dados BLOB do pôster da temporada"
+          },
+          "votos": {
+            "type": "number",
+            "format": "float",
+            "nullable": true,
+            "description": "Média de votos/avaliação da temporada"
+          },
+          "quantidade_episodios": {
+            "type": "integer",
+            "nullable": true,
+            "description": "Quantidade total de episódios que compõem a temporada"
+          }
+        }
+      },
+      "Status": {
+        "type": "object",
+        "required": [
+          "descricao",
+          "status"
+        ],
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "ID auto-incrementável do status"
+          },
+          "descricao": {
+            "type": "string",
+            "description": "Descrição do nome do status (ex: Completo,Assistindo, Cancelado)"
+          },
+          "tipo": {
+            "type": "string",
+            "description": "Agrupador ou contexto ao qual o status pertence (ex: Agenda, Catalogo)"
+          }
+        }
+      },
+      "Plataforma": {
+        "type": "object",
+        "required": [
+          "descricao",
+          "plataforma"
+        ],
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "ID auto-incrementável do plataforma"
+          },
+          "descricao": {
+            "type": "string",
+            "description": "Descrição do nome do plataforma (ex: Netflix, HBO, Alura)"
+          },
+          "tipo": {
+            "type": "string",
+            "description": "Agrupador ou contexto ao qual o plataforma pertence (ex: Agenda, Catálogo)"
+          }
+        }
+      },
+      "Tarefa": {
+        "type": "object",
+        "required": [
+          "tarefa",
+          "adicionado",
+          "feito"
+        ],
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "ID auto-incrementável da tarefa"
+          },
+          "tarefa": {
+            "type": "string",
+            "description": "Descrição ou nome da tarefa a ser realizada"
+          },
+          "adicionado": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Data e hora em que a tarefa foi criada"
+          },
+          "feito": {
+            "type": "boolean",
+            "description": "Indica se a tarefa foi concluída ou não"
+          }
+        }
+      },
+      "Transacao": {
+        "type": "object",
+        "required": [
+          "descricao",
+          "data",
+          "categoriaId",
+          "contaOrigemId",
+          "valor",
+          "tipo"
+        ],
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "ID auto-incrementável da transação"
+          },
+          "descricao": {
+            "type": "string",
+            "description": "Descrição ou nome identificador da movimentação"
+          },
+          "data": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Data de efetivação da transação"
+          },
+          "categoriaId": {
+            "type": "integer",
+            "description": "ID de referência da categoria financeira"
+          },
+          "contaOrigemId": {
+            "type": "integer",
+            "description": "ID da conta de onde sairá o valor"
+          },
+          "contaDestinoId": {
+            "type": "integer",
+            "nullable": true,
+            "description": "ID da conta destino (usado em caso de transferências entre contas)"
+          },
+          "valor": {
+            "type": "number",
+            "format": "float",
+            "description": "Valor monetário da transação"
+          },
+          "parcelaInicio": {
+            "type": "number",
+            "description": "Número da parcela inicial atual"
+          },
+          "parcelaFim": {
+            "type": "number",
+            "description": "Número total de parcelas planejadas"
+          },
+          "parcelamento": {
+            "type": "boolean",
+            "description": "Indica se o registro faz parte de uma transação parcelada"
+          },
+          "tipo": {
+            "type": "string",
+            "description": "Tipo da transação (ex: Receita, Despesa, Transferência)"
+          },
+          "recorrente": {
+            "type": "boolean",
+            "description": "Define se o lançamento se repete de forma contínua"
+          },
+          "periodicidade": {
+            "type": "string",
+            "nullable": true,
+            "description": "Frequência de repetição (ex: Mensal, Semanal, Anual)"
+          },
+          "recorrenciaInicio": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "description": "Data de início do ciclo de recorrência"
+          },
+          "recorrenciaFim": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "description": "Data limite estabelecida para o fim da recorrência"
+          },
+          "UltimaGeracao": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "description": "Registro de data do último lançamento automático gerado pelo sistema"
+          },
+          "recorrenciaId": {
+            "type": "integer",
+            "nullable": true,
+            "description": "ID identificador de agrupamento da regra de recorrência"
+          }
+        }
+      },
+      "Usuario": {
+        "type": "object",
+        "required": [
+          "nome",
+          "email",
+          "senha"
+        ],
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "ID auto-incrementável do usuário"
+          },
+          "nome": {
+            "type": "string",
+            "description": "Nome completo ou de exibição do usuário"
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "description": "Endereço eletrônico único usado para login"
+          },
+          "senha": {
+            "type": "string",
+            "format": "password",
+            "description": "Senha de acesso criptografada do usuário"
+          }
+        }
+      },
+      "Tipo": {
+        "type": "object",
+        "required": [
+          "descricao",
+          "tipo"
+        ],
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "ID auto-incrementável do tipo"
+          },
+          "descricao": {
+            "type": "string",
+            "description": "Descrição do nome do tipo (ex: Evento, Importante, Receita)"
+          },
+          "tipo": {
+            "type": "string",
+            "description": "Agrupador ou contexto ao qual o tipo pertence (ex: Agenda, Geral)"
           }
         }
       }
