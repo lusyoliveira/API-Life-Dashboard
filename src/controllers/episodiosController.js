@@ -23,7 +23,7 @@ class EpisodioController extends Controller {
             const { id } = req.params;
             const { assistido } = req.body; // boolean: true ou false
 
-            const episodioAtualizado = await this.entidadeservice.alternarAssistido(id, assistido);
+            const episodioAtualizado = await this.entidadeservice.atualizarAssistido(id, assistido);
             
             if (!episodioAtualizado) {
                 return res.status(404).json({ message: "Episódio não encontrado." });

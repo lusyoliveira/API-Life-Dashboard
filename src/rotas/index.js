@@ -1,17 +1,18 @@
-import tarefas from "./tarefasRotas.js";
 import agenda from "./agendaRotas.js";
-import tipos from "./tiposRotas.js";
-import status from "./statusRotas.js";
-import categoria from "./categoriaRotas.js";
-import cursos from "./cursosRotas.js";
 import areas from "./areasRotas.js";
+import catalogo from "./catalogoRotas.js";
+import cursos from "./cursosRotas.js";
 import contas from "./contasRotas.js";
 import configuracoes from "./configuracoesRotas.js";
-import catalogo from "./catalogoRotas.js";
+import categoria from "./categoriaRotas.js";
 import clima from "./climaRotas.js"
-import transacoes from "./transacoesRotas.js"
+import episodios from "./episodioRotas.js"
 import plataformas from "./plataformaRotas.js"
+import status from "./statusRotas.js";
+import tarefas from "./tarefasRotas.js";
 import temporada from "./temporadaRotas.js"
+import tipos from "./tiposRotas.js";
+import transacoes from "./transacoesRotas.js"
 import swaggerUi from "swagger-ui-express";
 import fs from "fs";
 const swaggerJson = JSON.parse(fs.readFileSync("./src/swagger.json", "utf8"));
@@ -29,6 +30,7 @@ const rotas = (app) => {
     app.use(contas);
     app.use(configuracoes);
     app.use(clima);
+    app.use(episodios);
     app.use(plataformas);
     app.use(status);
     app.use(tarefas);

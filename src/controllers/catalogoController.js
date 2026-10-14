@@ -101,8 +101,7 @@ class CatalogoController extends Controller {
                 }
             }
 
-            const novoRegistro =
-            await this.entidadeservice.salvarTituloCompleto(payload);
+            const novoRegistro = await this.entidadeservice.salvarTituloCompleto(payload);
             return res
             .status(201)
             .json({ message: 'Registro criado com sucesso', registro: novoRegistro });
@@ -177,6 +176,21 @@ class CatalogoController extends Controller {
             next(error);
         }
     };
+
+    atualizarCatalogoTMDB  = async (req, res, next) => {
+        try {
+            const registroAtualizado = await this.entidadeservice.atualizarCatalogoTMDB();
+
+            if (registroAtualizado) {
+                return res.status(200).json({ message: "Catalogo atualizado com sucesso!", registro: registroAtualizado });
+            } else {
+                return res.status(404).json({ message: "Não foi possível atualizar o catalogo com os dados de TMDB." });
+            }
+        } catch (error) {
+            console.error(error);
+            next(error);
+        }
+    }
 };
 
 export default new CatalogoController();

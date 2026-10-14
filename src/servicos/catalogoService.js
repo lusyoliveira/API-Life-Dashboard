@@ -1,9 +1,10 @@
-// Arquivo: servicos/catalogoService.js
 import Service from './Services.js';
-//import Catalogo from "../models/Catalogo.js";
 import { Catalogo, Temporada, Episodio } from "../models/associacoes.js";
-// Adicione a importação da conexão com o banco de dados aqui:
 import sequelize from "../config/dbConexao.js";
+import ConfiguracaoServices from './configuracoesService.js';
+
+const configuracaoService = new ConfiguracaoServices();
+
 
 class CatalogoServices extends Service {
     constructor() {
@@ -169,6 +170,118 @@ class CatalogoServices extends Service {
         // 4. Salva no banco reutilizando a lógica base
         return await this.atualizar(id, dadosAtualizados);
     };
+
+    // Atualiza todo catalogo do banco de dados com dados do TMDB
+    async atualizarCatalogoTMDB() {
+        const apikey =  await configuracaoService.buscarPorId(1);
+        //Necessário implementar login para obter o id do usuário e pesquisar as configurações do banco por este id
+
+        // Validação de segurança da chave
+        if (!apikey) {
+            console.error("🔴 Erro: Você esquecer de preencher a sua chave 'TMDB_API_KEY' no topo do arquivo!");
+            process.exit(1);
+        }
+    
+        try {
+            console.log("⏳ Buscando registros que possuem ID do TMDB preenchido...");
+    
+            const titulosComTMDB = await Catalogo.findAll({
+                where: {
+                    id_tmdb: {
+                        [Op.and]: [
+                            { [Op.ne]: null },
+                            { [Op.ne]: "" },
+                            { [Op.ne]: "null" }
+                        ]
+                    }
+                }
+            });
+    
+            if (titulosComTMDB.length === 0) {
+                console.log("✅ Nenhum título com ID TMDB encontrado no banco de dados.");
+                return;
+            }
+    
+            console.log(`🎬 Encontrados ${titulosComTMDB.length} títulos. Iniciando reconciliação...`);
+    
+            let atualizados = 0;
+            let erros = 0;
+    
+            for (const item of titulosComTMDB) {
+                // Identifica se é Filme ou Série com base no seu banco
+                const stringTipo = typeof item.tipoId === 'object' ? item.tipoId.descricao : item.tipoId;
+                const deparTipo = (item.media_type === 'movie' || stringTipo === 'Filme' || item.tipoId === 6) ? 'movie' : 'tv';
+                
+                // Tratamento do nome utilizando a nossa nova função Regex
+                const tituloLimpo = limparNomeSerie(item.titulo);
+                
+                // 💡 Se o item já tiver o ID numérico correto do TMDB salvo, nós buscamos diretamente pelo ID!
+                // Caso contrário, usamos a URL de busca por texto limpo
+                const usaBuscaPorId = !isNaN(item.id_tmdb);
+    
+                // O bloco de URL construído seguindo a exata estrutura do seu método funcional:
+                const urlFinal = usaBuscaPorId
+                    ? `https://api.themoviedb.org/3/${deparTipo}/${item.id_tmdb}?api_key=${apikey}&language=pt-BR`
+                    : `https://api.themoviedb.org/3/search${deparTipo}?api_key=${apikey}&query=${encodeURIComponent(tituloLimpo)}&language=pt-BR`;
+    
+                try {
+                    const resposta = await fetch(urlFinal);
+                    
+                    if (!resposta.ok) {
+                        throw new Error(`Resposta HTTP inválida: ${resposta.status}`);
+                    }
+                    
+                    const dadosJson = await resposta.json();
+                    
+                    // Se foi busca por texto, pegamos o primeiro resultado do array. Se foi por ID, pegamos o objeto direto.
+                    // Captura o objeto correto do primeiro resultado [0] se for uma pesquisa por texto
+                    const dadosMidia = usaBuscaPorId 
+                        ? dadosJson 
+                        : (dadosJson.results && dadosJson.results.length > 0 ? dadosJson.results[0] : null);
+    
+    
+                    if (dadosMidia && dadosMidia.poster_path) {
+                        const urlPosterOficial = `https://image.tmdb.org/t/p/w500${dadosMidia.poster_path}`;
+    
+                        // Faz o download binário do poster pelo backend
+                        const respostaImagem = await fetch(urlPosterOficial);
+                        if (!respostaImagem.ok) throw new Error(`Falha ao baixar imagem do poster: HTTP ${respostaImagem.status}`);
+                        
+                        const arrayBuffer = await respostaImagem.arrayBuffer();
+                        const bufferImagem = Buffer.from(arrayBuffer);
+    
+                        // Atualiza o registro no banco
+                        await Catalogo.update(
+                            { 
+                                poster_path: bufferImagem,
+                                capa: urlPosterOficial 
+                            },
+                            { where: { id: item.id } }
+                        );
+    
+                        console.log(`✅ [${++atualizados}] Sincronizado: "${item.titulo}" (Buscado como: "${tituloLimpo}")`);
+                    } else {
+                        console.log(`⚠️ Pôster não localizado no TMDB para: "${item.titulo}"`);
+                        erros++;
+                    }
+    
+                    // Pequena pausa para evitar bloqueios de taxa de requisição
+                    await new Promise(resolve => setTimeout(resolve, 200));
+    
+                } catch (err) {
+                    console.error(`❌ Erro no título ID ${item.id} ("${item.titulo}"):`, err.message);
+                    erros++;
+                }
+            }
+    
+            console.log(`\n🏁 Fim da execução! Sincronizados: ${atualizados} | Falhas: ${erros}`);
+    
+        } catch (error) {
+            console.error("🔴 Ocorreu um erro crítico no banco ou na leitura dos arquivos:", error);
+        } finally {
+            process.exit(0);
+        }
+    }
 }
 
 export default CatalogoServices;
