@@ -7,6 +7,7 @@ import manipulador404 from "./middlewares/manipulador404.js";
 import manipularErros from "./middlewares/manipuladorErros.js";
 
 const app = express();
+const path = require('path');
 
 async function conectarDB() {
     try {
@@ -32,6 +33,8 @@ app.use(cors({
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ limit: '50mb', extended: true }));
 
+// Libera a pasta 'assets' para ser acessível publicamente via URL
+app.use('/assets', express.static(path.join(__dirname, 'assets')));
 
 rotas(app);
 
