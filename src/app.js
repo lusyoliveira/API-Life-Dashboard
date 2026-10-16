@@ -5,9 +5,13 @@ import "./models/associacoes.js";
 import rotas from "./rotas/index.js";
 import manipulador404 from "./middlewares/manipulador404.js";
 import manipularErros from "./middlewares/manipuladorErros.js";
+import path from 'path';
+import { fileURLToPath } from 'url';
 
+// Define o equivalente ao __dirname para ES Modules
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 const app = express();
-const path = require('path');
 
 async function conectarDB() {
     try {
@@ -33,7 +37,7 @@ app.use(cors({
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ limit: '50mb', extended: true }));
 
-// Libera a pasta 'assets' para ser acessível publicamente via URL
+// Agora a linha do express.static vai funcionar perfeitamente:
 app.use('/assets', express.static(path.join(__dirname, 'assets')));
 
 rotas(app);

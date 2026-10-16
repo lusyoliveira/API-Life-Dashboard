@@ -1,5 +1,5 @@
-const fs = require('fs');
-const path = require('path');
+import fs from 'fs';
+import path from 'path';
 
 // Função para converter imagem dem base64
 export async function urlParaBuffer(urlImagem) {
@@ -34,7 +34,7 @@ export function limparNomeSerie(nomeBruto) {
 };
 
 // Função auxiliar para processar o download da imagem
-async function processarDownloadPosterBackend(urlCapa, tituloNome) {
+export async function processarDownloadPosterBackend(urlCapa, tituloNome) {
   // Se não houver capa ou se já for um caminho local salvo, retorna o que já está lá
   if (!urlCapa || !urlCapa.startsWith('http')) {
     return urlCapa;

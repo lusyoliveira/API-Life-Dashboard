@@ -11,6 +11,7 @@ const Configuracao = sequelize.define("Configuracao", {
         } 
     },
     ativaOutlook: { type: DataTypes.BOOLEAN,
+        allowNull: false,
         validate: {
             notNull: { msg: "Ativa outlook é obrigatório" },
             notEmpty: { msg: "Ativa outlook não pode ser enviado em branco" }
@@ -18,6 +19,7 @@ const Configuracao = sequelize.define("Configuracao", {
     },
     chaveOutlook: { type: DataTypes.STRING },
     ativaGoogle: { type: DataTypes.BOOLEAN,
+        allowNull: false,
         validate: {
             notNull: { msg: "Ativar google é obrigatório" },
             notEmpty: { msg: "Ativar google não pode ser enviado em branco" }
@@ -28,6 +30,7 @@ const Configuracao = sequelize.define("Configuracao", {
     latitude: { type: DataTypes.STRING },
     longitude: { type: DataTypes.STRING },
     ativaClima: { type: DataTypes.BOOLEAN,
+        allowNull: false,
         validate: {
             notNull: { msg: "Ativar clima é obrigatório" },
             notEmpty: { msg: "Ativar clima não pode ser enviado em branco" }
@@ -45,6 +48,13 @@ const Configuracao = sequelize.define("Configuracao", {
         }
     },
     chaveTMDB: { type: DataTypes.STRING },
+    ativaTMDB: { type: DataTypes.BOOLEAN,
+        allowNull: false,
+        validate: {
+            notNull: { msg: "Ativa TMDB é obrigatório" },
+            notEmpty: { msg: "Ativa TMDB não pode ser enviado em branco" }
+        } 
+    },
     salvarImagemCatalogo: {
         type: DataTypes.BOOLEAN,
         allowNull: false,

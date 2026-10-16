@@ -11,10 +11,3 @@ async function start() {
 }
 
 start();
-
-//subir servidor npm run dev
-//localhost:3000/usuarios
-//instalar extensão thunderclient
-//para servidor crtl+c
-//node --watch server.js reiniciar servidor
-//_id: { type: mongoose.Schema.Types.ObjectID },

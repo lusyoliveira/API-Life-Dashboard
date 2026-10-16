@@ -80,79 +80,166 @@ class CatalogoServices extends Service {
     async atualizarTituloCompleto(id, data) {
         const transaction = await sequelize.transaction();
         try {
-            // 1. Trata o pôster do título principal na atualização
+            // 1. Trata e atualiza o pôster do título principal apenas se necessário
             if (data.capa) {
                 data.poster_path = await this.verificarPoster(data.capa, data.titulo);
             }
 
-            // 1.1 Atualiza os dados principais do catálogo
+            // Atualiza os dados principais do catálogo
             await this.model.update(data, { where: { id }, transaction });
 
-            // 2. Se houver lista de temporadas atualizada no payload:
+            // 2. Se houver lista de temporadas no payload, fazemos o gerenciamento sem apagar tudo
             if (data.listaTemporadas && Array.isArray(data.listaTemporadas)) {
                 
-                // Busca os IDs de todas as temporadas existentes deste título
+                // Busca as temporadas que já existem no banco para este título
                 const temporadasAntigas = await Temporada.findAll({
                     where: { tituloId: id },
-                    attributes: ['id'],
+                    include: [{ model: Episodio, as: 'listaEpisodios' }],
                     transaction
                 });
 
-                const idsTemporadasAntigas = temporadasAntigas.map(t => t.id);
+                // Mapeia as temporadas antigas por ID ou Número/TMDB para facilitar a localização
+                const mapaTemporadasAntigas = new Map();
+                temporadasAntigas.forEach(t => {
+                    // Chave principal por ID, ou fallback por número da temporada
+                    if (t.id) mapaTemporadasAntigas.set(String(t.id), t);
+                    mapaTemporadasAntigas.set(`num_${t.numero_temporada}`, t);
+                });
 
-                if (idsTemporadasAntigas.length > 0) {
-                    // Apaga primeiro os episódios vinculados a essas temporadas
-                    await Episodio.destroy({
-                        where: { temporadaId: idsTemporadasAntigas },
-                        transaction
-                    });
+                const idsTemporadasRecebidas = new Set();
 
-                    // Agora apaga as temporadas antigas sem violar a Foreign Key
-                    await Temporada.destroy({
-                        where: { tituloId: id },
-                        transaction
-                    });
+                for (const temp of data.listaTemporadas) {
+                    // Tenta achar a temporada existente pelo ID enviado ou pelo número dela
+                    let temporadaExistente = null;
+                    if (temp.id && mapaTemporadasAntigas.has(String(temp.id))) {
+                        temporadaExistente = mapaTemporadasAntigas.get(String(temp.id));
+                    } else if (temp.numero_temporada && mapaTemporadasAntigas.has(`num_${temp.numero_temporada}`)) {
+                        temporadaExistente = mapaTemporadasAntigas.get(`num_${temp.numero_temporada}`);
+                    }
+
+                    let temporadaIdFinal;
+
+                    if (temporadaExistente) {
+                        //Mantém estritamente o pôster antigo que já estava no banco, ignorando qualquer alteração de pôster na temporada
+                         temporadaIdFinal = temporadaExistente.id;
+                        idsTemporadasRecebidas.add(temporadaIdFinal);
+
+                        await Temporada.update({
+                            tituloId: id,
+                            id_tmdb_temporada: temp.id_tmdb_temporada || temporadaExistente.id_tmdb_temporada,
+                            numero_temporada: temp.numero_temporada ?? temporadaExistente.numero_temporada,
+                            nome_temporada: temp.nome_temporada || temporadaExistente.nome_temporada,
+                            sinopse: temp.sinopse || temporadaExistente.sinopse,
+                            estreia: (temp.estreia && !isNaN(Date.parse(temp.estreia))) ? new Date(temp.estreia) : temporadaExistente.estreia,
+                            votos: temp.votos ?? temporadaExistente.votos,
+                            quantidade_episodios: temp.quantidade_episodios ?? temporadaExistente.quantidade_episodios,
+                            poster: temporadaExistente.poster 
+                        }, {
+                            where: { id: temporadaIdFinal },
+                            transaction
+                        });
+
+                    } else {
+                        // Se for uma temporada totalmente nova adicionada depois, criamos ela (com o pôster que veio, se houver)
+                        let posterNovoTemp = temp.poster;
+                        if (posterNovoTemp && typeof posterNovoTemp === 'string' && posterNovoTemp.startsWith('http')) {
+                            posterNovoTemp = await this.verificarPoster(posterNovoTemp, `${data.titulo} - Temp ${temp.numero_temporada}`);
+                        }
+
+                        const novaTemp = await Temporada.create({
+                            tituloId: id,
+                            id_tmdb_temporada: temp.id_tmdb_temporada || null,
+                            numero_temporada: Number(temp.numero_temporada) || null,
+                            nome_temporada: temp.nome_temporada || null,
+                            sinopse: temp.sinopse || null,
+                            estreia: (temp.estreia && !isNaN(Date.parse(temp.estreia))) ? new Date(temp.estreia) : null,
+                            votos: Number(temp.votos) || null,
+                            quantidade_episodios: Number(temp.quantidade_episodios) || null,
+                            poster: posterNovoTemp || null
+                        }, { transaction });
+
+                        temporadaIdFinal = novaTemp.id;
+                        idsTemporadasRecebidas.add(temporadaIdFinal);
+                    }
+
+                    // 3. Gerenciamento dos episódios da temporada
+                    if (temp.listaEpisodios && Array.isArray(temp.listaEpisodios)) {
+                        // Busca episódios já existentes dessa temporada no banco
+                        const episodiosAntigos = await Episodio.findAll({
+                            where: { temporadaId: temporadaIdFinal },
+                            transaction
+                        });
+
+                        const mapaEpisodiosAntigos = new Map();
+                        episodiosAntigos.forEach(ep => {
+                            if (ep.id) mapaEpisodiosAntigos.set(String(ep.id), ep);
+                            mapaEpisodiosAntigos.set(`num_${ep.numero_episodio}`, ep);
+                        });
+
+                        const idsEpisodiosRecebidos = new Set();
+
+                        for (const ep of temp.listaEpisodios) {
+                            let episodioExistente = null;
+                            if (ep.id && mapaEpisodiosAntigos.has(String(ep.id))) {
+                                episodioExistente = mapaEpisodiosAntigos.get(String(ep.id));
+                            } else if (ep.numero_episodio && mapaEpisodiosAntigos.has(`num_${ep.numero_episodio}`)) {
+                                episodioExistente = mapaEpisodiosAntigos.get(`num_${ep.numero_episodio}`);
+                            }
+
+                            if (episodioExistente) {
+                                idsEpisodiosRecebidos.add(episodioExistente.id);
+                                await Episodio.update({
+                                    id_tmdb_episodio: ep.id_tmdb_episodio || episodioExistente.id_tmdb_episodio,
+                                    numero_episodio: ep.numero_episodio ?? episodioExistente.numero_episodio,
+                                    assistido: ep.assistido ?? episodioExistente.assistido,
+                                    titulo_episodio: ep.titulo_episodio || episodioExistente.titulo_episodio,
+                                    sinopse: ep.sinopse || episodioExistente.sinopse,
+                                    duracao: ep.duracao ?? episodioExistente.duracao,
+                                    estreia: (ep.estreia && !isNaN(Date.parse(ep.estreia))) ? new Date(ep.estreia) : episodioExistente.estreia,
+                                    votos: ep.votos ?? episodioExistente.votos
+                                }, {
+                                    where: { id: episodioExistente.id },
+                                    transaction
+                                });
+                            } else {
+                                // Cria episódio novo se não existia
+                                const novoEp = await Episodio.create({
+                                    temporadaId: temporadaIdFinal,
+                                    id_tmdb_episodio: ep.id_tmdb_episodio || null,
+                                    numero_episodio: Number(ep.numero_episodio) || null,
+                                    assistido: ep.assistido ?? false,
+                                    titulo_episodio: ep.titulo_episodio || null,
+                                    sinopse: ep.sinopse || null,
+                                    duracao: Number(ep.duracao) || null,
+                                    estreia: (ep.estreia && !isNaN(Date.parse(ep.estreia))) ? new Date(ep.estreia) : null,
+                                    votos: Number(ep.votos) || null
+                                }, { transaction });
+                                idsEpisodiosRecebidos.add(novoEp.id);
+                            }
+                        }
+
+                        // Opcional: Remove apenas episódios que foram explicitamente removidos da lista
+                        const idsEpisodiosParaRemover = episodiosAntigos
+                            .map(e => e.id)
+                            .filter(dbId => !idsEpisodiosRecebidos.has(dbId));
+
+                        if (idsEpisodiosParaRemover.length > 0) {
+                            await Episodio.destroy({
+                                where: { id: idsEpisodiosParaRemover },
+                                transaction
+                            });
+                        }
+                    }
                 }
 
-                // 3. Re-insere a nova estrutura de temporadas e episódios
-                for (const temp of data.listaTemporadas) {
-                    // Trata o pôster da temporada se vier em URL
-                    let posterTratado = temp.poster;
-                    if (posterTratado && typeof posterTratado === 'string' && posterTratado.startsWith('http')) {
-                        posterTratado = await this.verificarPoster(posterTratado, `${data.titulo} - Temp ${temp.numero_temporada}`);
-                    }
+                //Remove temporadas antigas que deixaram de existir no payload
+                const idsTemporadasParaRemover = temporadasAntigas
+                    .map(t => t.id)
+                    .filter(dbId => !idsTemporadasRecebidas.has(dbId));
 
-                    const payloadTemporada = {
-                        tituloId: id,
-                        id_tmdb_temporada: temp.id_tmdb_temporada,
-                        numero_temporada: temp.numero_temporada,
-                        nome_temporada: temp.nome_temporada,
-                        sinopse: temp.sinopse,
-                        estreia: temp.estreia ? new Date(temp.estreia) : null,
-                        votos: temp.votos,
-                        quantidade_episodios: temp.quantidade_episodios,
-                        poster: posterTratado // Aplica o poster tratado
-                    };
-
-                    const novaTemp = await Temporada.create(payloadTemporada, { transaction });
-
-                    // Insere os episódios vinculados à nova temporada criada
-                    if (temp.listaEpisodios && temp.listaEpisodios.length > 0) {
-                        const episodiosFormatados = temp.listaEpisodios.map(ep => ({
-                            temporadaId: novaTemp.id,
-                            id_tmdb_episodio: ep.id_tmdb_episodio,
-                            numero_episodio: ep.numero_episodio,
-                            assistido: ep.assistido ?? false,
-                            titulo_episodio: ep.titulo_episodio,
-                            sinopse: ep.sinopse,
-                            duracao: ep.duracao,
-                            estreia: ep.estreia ? new Date(ep.estreia) : null,
-                            poster: ep.poster,
-                            votos: ep.votos
-                        }));
-
-                        await Episodio.bulkCreate(episodiosFormatados, { transaction });
-                    }
+                if (idsTemporadasParaRemover.length > 0) {
+                    await Episodio.destroy({ where: { temporadaId: idsTemporadasParaRemover }, transaction });
+                    await Temporada.destroy({ where: { id: idsTemporadasParaRemover }, transaction });
                 }
             }
 
