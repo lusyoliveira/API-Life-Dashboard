@@ -536,15 +536,20 @@ class CatalogoServices extends Service {
 
         try {
             const config = await configuracaoService.buscarPorId(1); 
-            const salvarNoBanco = config?.salvarImagemCatalogo ?? true;
+            const valorConfig = config?.salvarImagemCatalogo;
+            const salvarNoBanco = (valorConfig === 1 || valorConfig === true);
+
+            console.log(`⚙️ Configuração de imagem - Salvar no banco: ${salvarNoBanco} (Valor bruto: ${valorConfig})`);
 
             if (salvarNoBanco) {
+                // Salva o binário (Buffer) no banco de dados
                 return await urlParaBuffer(urlCapa); 
             } else {
-                return await processarDownloadPosterBackend(urlCapa, tituloNome); // E a função de download
+                // Faz o download físico na pasta local do backend e retorna o caminho relativo
+                return await processarDownloadPosterBackend(urlCapa, tituloNome); 
             }
         } catch (error) {
-            console.error("Erro ao tratar poster na configuração:", error);
+            console.error("❌ Erro ao tratar poster na configuração:", error);
             return urlCapa;
         }
     }
