@@ -531,25 +531,28 @@ class CatalogoServices extends Service {
     };
 
     // Método de regra de negócio para tratar o pôster
-    async verificarPoster(urlCapa, tituloNome) {
+   async verificarPoster(urlCapa, tituloNome) {
+        // Se a capa estiver vazia ou não for uma URL válida, retorna ela mesma
         if (!urlCapa || !urlCapa.startsWith('http')) return urlCapa;
 
         try {
             const config = await configuracaoService.buscarPorId(1); 
+            
+            // Tratamento robusto para aceitar 1, true, '1' como verdadeiro e 0, false, '0' como falso
             const valorConfig = config?.salvarImagemCatalogo;
-            const salvarNoBanco = (valorConfig === 1 || valorConfig === true);
+            const salvarNoBanco = valorConfig === 1 || valorConfig === true || valorConfig === '1';
 
-            console.log(`⚙️ Configuração de imagem - Salvar no banco: ${salvarNoBanco} (Valor bruto: ${valorConfig})`);
+            console.log(`⚙️ Configuração de imagem -> Salvar no banco? ${salvarNoBanco} (Valor no banco: ${valorConfig})`);
 
             if (salvarNoBanco) {
-                // Salva o binário (Buffer) no banco de dados
+                // Se configurado para salvar no banco, converte para Buffer
                 return await urlParaBuffer(urlCapa); 
             } else {
-                // Faz o download físico na pasta local do backend e retorna o caminho relativo
+                // Se configurado para 0 (desativado no banco), baixa na pasta local assets/img/catalogo/
                 return await processarDownloadPosterBackend(urlCapa, tituloNome); 
             }
         } catch (error) {
-            console.error("❌ Erro ao tratar poster na configuração:", error);
+            console.error("❌ Erro ao tratar o pôster na configuração:", error);
             return urlCapa;
         }
     }

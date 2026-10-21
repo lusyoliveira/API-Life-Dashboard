@@ -1,5 +1,10 @@
 import fs from 'fs';
 import path from 'path';
+import { fileURLToPath } from 'url';
+
+// Equivalente ao __dirname em ES Modules
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // Função para converter imagem dem base64
 export async function urlParaBuffer(urlImagem) {
