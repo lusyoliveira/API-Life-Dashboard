@@ -39,15 +39,6 @@ const Configuracao = sequelize.define("Configuracao", {
     atualizaClima: { type: DataTypes.NUMBER },
     dataContagem: { type: DataTypes.DATE },
     descricaoContagem: { type: DataTypes.STRING },
-    ativaTMDB: { 
-        type: DataTypes.BOOLEAN,
-        allowNull: false,
-        validate: {
-            notNull: { msg: "Salvar Imagem é obrigatório" },
-            notEmpty: { msg: "Salvar Imagem não pode ser enviado em branco" }
-        }
-    },
-    chaveTMDB: { type: DataTypes.STRING },
     ativaTMDB: { type: DataTypes.BOOLEAN,
         allowNull: false,
         validate: {
@@ -55,6 +46,7 @@ const Configuracao = sequelize.define("Configuracao", {
             notEmpty: { msg: "Ativa TMDB não pode ser enviado em branco" }
         } 
     },
+    chaveTMDB: { type: DataTypes.STRING },
     salvarImagemCatalogo: {
         type: DataTypes.BOOLEAN,
         allowNull: false,

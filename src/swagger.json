@@ -570,6 +570,45 @@
         }
       }
     },
+    "/catalogo/sincronizar": {
+      "put": {
+        "summary": "Atualizar dados do catálogo com dados da integraçaõ TMDB.",
+        "tags": [
+          "Catálogo"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Catalogo"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "2 registros atualizados com sucesso! Falhas: 4",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Catalogo"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Id do catálogo não encontrado"
+          },
+          "400": {
+            "description": "Um ou mais dados estão incorretos"
+          },
+          "500": {
+            "description": "Erro interno do servidor"
+          }
+        }
+      }
+    },
     "/catalogo/{id}/progresso": {
       "patch": {
         "summary": "Atualizar parcialmente o progresso de um registro.",
@@ -1815,7 +1854,7 @@
           }
         }
       }
-    },    
+    },
     "/tarefas": {
       "post": {
         "summary": "Cadastrar uma nova tarefa.",

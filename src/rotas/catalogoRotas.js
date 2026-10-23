@@ -8,6 +8,7 @@ rotas.get("/catalogo", CatalogoController.listarTodosRegistros);
 rotas.get("/catalogo/:id", CatalogoController.listarRegistrosPorID);
 rotas.post("/catalogo", CatalogoController.cadastrarRegistro);
 rotas.put("/catalogo/:id", CatalogoController.atualizarRegistro);
+rotas.put("/catalogo/sincronizar", CatalogoController.atualizarCatalogoTMDB);
 rotas.patch("/catalogo/:id/progresso", CatalogoController.atualizarProgresso);
 rotas.delete("/catalogo/:id", CatalogoController.excluirRegistro);
 

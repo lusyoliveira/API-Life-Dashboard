@@ -92,37 +92,6 @@ class CatalogoController extends Controller {
             next(error);
         }
     };
-    // cadastrarRegistro = async (req, res, next) => {
-    //     try {
-    //         const payload = req.body;
-
-    //         // Conversão do poster do título principal
-    //         if (payload.capa && payload.capa.startsWith('http')) {
-    //         payload.poster_path = await urlParaBuffer(payload.capa);
-    //         }
-
-    //         // CORREÇÃO AQUI: Percorrer a lista de temporadas (array)
-    //         if (payload.listaTemporadas && Array.isArray(payload.listaTemporadas)) {
-    //             for (const temp of payload.listaTemporadas) {
-    //                 if (
-    //                 temp.poster &&
-    //                 typeof temp.poster === 'string' &&
-    //                 temp.poster.startsWith('http')
-    //                 ) {
-    //                 temp.poster = await urlParaBuffer(temp.poster);
-    //                 }
-    //             }
-    //         }
-
-    //         const novoRegistro = await this.entidadeservice.salvarTituloCompleto(payload);
-    //         return res
-    //         .status(201)
-    //         .json({ message: 'Registro criado com sucesso', registro: novoRegistro });
-    //     } catch (error) {
-    //         console.error(error);
-    //         next(error);
-    //     }
-    // };
 
     atualizarRegistro = async (req, res, next) => {
         try {
@@ -140,47 +109,24 @@ class CatalogoController extends Controller {
             next(error);
         }
     };
-    // Sobrescreve o atualizarRegistro do Controller base
-    // atualizarRegistro = async (req, res, next) => {
-    //     try {
-    //         const { id } = req.params;
-    //         const payload = req.body;
 
-    //         //converte a imagem em base64
-    //         if (payload.capa) {
-    //             payload.poster_path = await urlParaBuffer(payload.capa);
-    //         }
+    atualizarCatalogoTMDB  = async (req, res, next) => {
+        try {
+            const resultado = await this.entidadeservice.atualizarCatalogoTMDB();
 
-    //          //salva imagem localmente
-    //         if (dadosTitulo.capa && (!dadosTitulo.poster_path || dadosTitulo.poster_path.startsWith('http'))) {
-    //             dadosTitulo.poster_path = await processarDownloadPosterBackend(dadosTitulo.capa, dadosTitulo.titulo);
-    //         }
-
-           
-    //         if (payload.listaTemporadas && Array.isArray(payload.listaTemporadas)) {
-    //             for (const temporada of payload.listaTemporadas) {
-    //                 if (
-    //                     temporada.poster &&
-    //                     temporada.poster.startsWith('http')
-    //                 ) {
-    //                     temporada.poster = await urlParaBuffer(
-    //                     temporada.poster,
-    //                 );
-    //                 }
-    //             }
-    //         }
-
-    //         const registroAtualizado = await this.entidadeservice.atualizarTituloCompleto(id, payload);
-    //         if (registroAtualizado) {
-    //             return res.status(200).json({ message: "Registro atualizado com sucesso!", registro: registroAtualizado });
-    //         } else {
-    //             return res.status(404).json({ message: "Id do registro não encontrado" });
-    //         }
-    //     } catch (error) {
-    //         console.error(error);
-    //         next(error);
-    //     }
-    // };
+            if (resultado) {
+                res.status(200).json({ 
+                message: `${resultado.atualizados} registros atualizados com sucesso! (Falhas: ${resultado.erros})`, 
+                detalhes: resultado 
+            });
+            } else {
+                next(new NaoEncontrado("Não foi possível atualizar o catalogo com os dados de TMDB."))
+            }
+        } catch (error) {
+            console.error(error);
+            next(error);
+        }
+    };
 
     atualizarProgresso = async (req, res, next) => {
         try {
@@ -216,21 +162,6 @@ class CatalogoController extends Controller {
         }
     };
 
-    atualizarCatalogoTMDB  = async (req, res, next) => {
-        try {
-            const registroAtualizado = await this.entidadeservice.atualizarCatalogoTMDB();
-
-            if (registroAtualizado) {
-                res.status(200).json({ message: "Catalogo atualizado com sucesso!", registro: registroAtualizado });
-            } else {
-                //return res.status(404).json({ message: "Não foi possível atualizar o catalogo com os dados de TMDB." });
-                next(new NaoEncontrado("Não foi possível atualizar o catalogo com os dados de TMDB."))
-            }
-        } catch (error) {
-            console.error(error);
-            next(error);
-        }
-    }
 };
 
 export default new CatalogoController();
